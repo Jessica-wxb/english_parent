@@ -1,0 +1,19 @@
+target/
+pom.xml.versionsBackup
+
+.idea/
+
+## File-based project format:
+*.iws
+*.iml
+*.ipr
+*.log
+
+## Plugin-specific files:
+
+# IntelliJ
+/out/
+
+# idea_modules_dev4
+.idea_modules/
+logs/
