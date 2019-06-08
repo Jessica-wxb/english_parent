@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.TcAllusersDao">
-	<!--根据TcAllusers钉钉id模糊查询TcAllusersEntity-->
-    <select id="queryLikeDingId" resultType="com.tfjybj.english.entity.TcAllusersEntity">
+    <!--根据TcAllusers钉钉id模糊查询TcAllusersEntity-->
+    <select id="queryLikeDingId" resultType="com.tfjybj.english.entity.AllusersEntity">
         SELECT
-			*
+        *
         FROM
-			tc_allusers f
+        tc_allusers f
         WHERE
-			f.is_delete = 0
+        f.is_delete = 0
         <if test="dingId !=''">
             <bind name="pattern" value="'%' + dingId + '%'"/>
             AND f.ding_id LIKE #{pattern}
