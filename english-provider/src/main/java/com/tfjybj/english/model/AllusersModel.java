@@ -13,7 +13,7 @@ import javax.persistence.Column;
  *
  * @author 马莹 
  * @version ${version}
- * @since ${version} 2019-06-08 14:52:28
+ * @since ${version} 2019-06-08 17:38:43
  */
 @ApiModel(value = "AllusersModel:用户表")
 @Data

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  *
  * @author 马莹
  * @version ${version}
- * @since ${version} 2019-06-08 14:52:28
+ * @since ${version} 2019-06-08 17:38:43
  */
 @Repository("allusersDao")
 public interface AllusersDao extends BaseMapper<AllusersEntity> {
