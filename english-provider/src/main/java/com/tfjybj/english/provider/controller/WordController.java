@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 
-
 /**
  * WordController
  * word表
@@ -44,28 +43,28 @@ public class WordController {
     @ApiOperation(value = "添加")
     @PostMapping(value = {"/create"})
     public ItooResult create(@RequestBody WordModel model) {
-		if (StringUtils.isEmpty(model.getWord())){
+        if (StringUtils.isEmpty(model.getWord())) {
             return ItooResult.build(ItooResult.FAIL, "word为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture1())){
+        if (StringUtils.isEmpty(model.getWordPicture1())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture1为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture2())){
+        if (StringUtils.isEmpty(model.getWordPicture2())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture2为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture3())){
+        if (StringUtils.isEmpty(model.getWordPicture3())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture3为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture4())){
+        if (StringUtils.isEmpty(model.getWordPicture4())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture4为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture5())){
+        if (StringUtils.isEmpty(model.getWordPicture5())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture5为空");
         }
-		if (StringUtils.isEmpty(model.getAudio())){
+        if (StringUtils.isEmpty(model.getAudio())) {
             return ItooResult.build(ItooResult.FAIL, "audio为空");
         }
-		if (StringUtils.isEmpty(model.getPhonefic())){
+        if (StringUtils.isEmpty(model.getPhonefic())) {
             return ItooResult.build(ItooResult.FAIL, "phonefic为空");
         }
         WordEntity wordEntity = new WordEntity();
@@ -78,7 +77,7 @@ public class WordController {
      * 删除
      *
      * @param id 主键id
-     * @return ItooResult 是否删除成功          
+     * @return ItooResult 是否删除成功
      * @author 马莹
      * @since ${version} 2019-06-08 14:26:23
      */
@@ -116,28 +115,28 @@ public class WordController {
     @ApiOperation(value = "根据id修改word")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody WordModel model) {
-		if (StringUtils.isEmpty(model.getWord())){
+        if (StringUtils.isEmpty(model.getWord())) {
             return ItooResult.build(ItooResult.FAIL, "word为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture1())){
+        if (StringUtils.isEmpty(model.getWordPicture1())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture1为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture2())){
+        if (StringUtils.isEmpty(model.getWordPicture2())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture2为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture3())){
+        if (StringUtils.isEmpty(model.getWordPicture3())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture3为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture4())){
+        if (StringUtils.isEmpty(model.getWordPicture4())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture4为空");
         }
-		if (StringUtils.isEmpty(model.getWordPicture5())){
+        if (StringUtils.isEmpty(model.getWordPicture5())) {
             return ItooResult.build(ItooResult.FAIL, "wordPicture5为空");
         }
-		if (StringUtils.isEmpty(model.getAudio())){
+        if (StringUtils.isEmpty(model.getAudio())) {
             return ItooResult.build(ItooResult.FAIL, "audio为空");
         }
-		if (StringUtils.isEmpty(model.getPhonefic())){
+        if (StringUtils.isEmpty(model.getPhonefic())) {
             return ItooResult.build(ItooResult.FAIL, "phonefic为空");
         }
         WordEntity wordEntity = new WordEntity();
@@ -172,15 +171,27 @@ public class WordController {
      */
     @ApiOperation(value = "分页查询所有Word")
     @GetMapping(value = {"/queryPageAll/{pageNo}/{pageSize}"})
-    public ItooResult queryPageAll(@ApiParam(name = "pageNo",value = "页码",required = true,example = "1")@PathVariable Integer pageNo, 
-								   @ApiParam(name = "pageSize",value = "页数",required = true,example = "10")@PathVariable Integer pageSize) {
+    public ItooResult queryPageAll(@ApiParam(name = "pageNo", value = "页码", required = true, example = "1") @PathVariable Integer pageNo,
+                                   @ApiParam(name = "pageSize", value = "页数", required = true, example = "10") @PathVariable Integer pageSize) {
         PageInfo<WordEntity> words = wordService.queryPageAll(pageNo, pageSize);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", words);
     }
-	
+
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
 
-   
+    /**
+     * 根据设定学习量查询数据条数
+     *
+     * @param setNumber 设定当天学习任务量
+     * @return 查询任务量条数
+     * @author 马莹
+     * @since 2019-6-9 19:41:00
+     */
+    @ApiOperation(value = "根据设定学习量查询数据条数")
+    @GetMapping(value = "/selDataNum/{setNumber}")
+    public ItooResult selDataNum(@PathVariable Integer setNumber) {
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selDataNum(setNumber) );
+    }
 }    

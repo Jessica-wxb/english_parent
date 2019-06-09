@@ -2,20 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.WordDao">
-	<!--根据Word单词模糊查询WordEntity-->
+    <!--根据Word单词模糊查询WordEntity-->
     <select id="queryLikeWord" resultType="com.tfjybj.english.entity.WordEntity">
         SELECT
-			*
+        *
         FROM
-			tn_word f
+        tn_word f
         WHERE
-			f.is_delete = 0
+        f.is_delete = 0
         <if test="word !=''">
             <bind name="pattern" value="'%' + word + '%'"/>
             AND f.word LIKE #{pattern}
         </if>
         ORDER BY
         f.create_time DESC
+    </select>
+    <!--根据设定学习量查询数据条数 -马莹-2019-6-9 19:41:00-->
+    <select id="selDataNum" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+            *
+        FROM
+            tn_word tw
+        WHERE
+            tw.is_delete = 0
+            LIMIT #{setNumber}
     </select>
 
 </mapper>

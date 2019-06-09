@@ -1,11 +1,16 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.WordEntity;
+import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.dao.WordDao;
 import com.tfjybj.english.provider.service.WordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import java.beans.Transient;
+import java.util.List;
 
 /**
  * WordService接口实现类
@@ -21,8 +26,13 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
 	//region 模板生成
     @Resource
     private WordDao wordDao;
-	
-	//endregion
+
+    @Override
+    public List<WordModel> selDataNum(Integer setNumber) {
+        return wordDao.selDataNum(setNumber);
+    }
+
+    //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
 }
