@@ -194,4 +194,17 @@ public class WordController {
     public ItooResult selDataNum(@PathVariable Integer setNumber) {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selDataNum(setNumber) );
     }
+    /**
+     * 查询所有Word
+     * @return 查询的单词总数
+     * @author 邢美玲
+     * @since ${version} 2019年6月9日14:52:28
+            */
+    @ApiOperation(value = "分页查询所有Word")
+    @GetMapping(value = {"/selectAll"})
+    public ItooResult queryPageAll() {
+        //int allwords;
+        Integer allwords = wordService.selectAll();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", allwords);
+    }
 }    

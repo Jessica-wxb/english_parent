@@ -163,6 +163,18 @@ public class UserRecordController {
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
-
-   
+    /**
+     * 查询所有Word
+     * *@param userid 用户id
+     * @return 查询的已经学习单词总数
+     * @author 邢美玲
+     * @since ${version} 2019年6月9日14:52:28
+     */
+    @ApiOperation(value = "根据id查询已学单词数")
+    @GetMapping(value = {"/findStudyWordById/{userid}"})
+    public ItooResult findById(@ApiParam(value = "用户id", required = true) @PathVariable int userid) {
+        int studywords;
+        studywords = userRecordService.findStudyWordById(userid);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", studywords);
+    }
 }    

@@ -35,4 +35,15 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+    /**
+     * 查所有单词数接口实现类
+     * word表
+     * @author 邢美玲
+     * @version 1.0
+     * @since ${version} 2019年6月9日15:47:16
+     */
+    @Override
+    public  Integer selectAll() {
+        return wordDao.selectAll();
+    }
 }
