@@ -33,8 +33,8 @@ public interface WordService extends BaseServicePlus<WordEntity> {
     //查询所有单词--邢美玲
     Integer selectAll();
 
+
     /**
-     *
      *
      * @param  Id 根据Id查找当前显示图片
      * @return Id 返回一个Id值
@@ -43,8 +43,6 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      */
 
     List<WordModel> selectPhoneficPictureById( Integer Id) ;
-
-
 
 
 
