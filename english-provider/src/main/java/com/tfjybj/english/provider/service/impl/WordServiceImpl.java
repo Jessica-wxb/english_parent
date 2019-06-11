@@ -44,13 +44,13 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     @Resource
     private UploadPictureUntil uploadPictureUntil;
 
-    // 所有音频格式
-    @Value("${AUDIO_FREQUENCY_FORMAT}")
-    private String AUDIO_FREQUENCY_FORMAT;
-
-    // 所有文件格式
-    @Value("${FILE_FORMAT}")
-    private String FILE_FORMAT;
+//    // 所有音频格式
+//    @Value("${AUDIO_FREQUENCY_FORMAT}")
+//    private String AUDIO_FREQUENCY_FORMAT;
+//
+//    // 所有文件格式
+//    @Value("${FILE_FORMAT}")
+//    private String FILE_FORMAT;
 
     @Override
     public List<WordModel> selDataNum(Integer setNumber) {
@@ -60,7 +60,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     @Override
     public Integer selectAll() {
         return wordDao.selectAll();
-}
+    }
 
     @Override
     public boolean batchInsert(String path) throws IOException {
@@ -92,7 +92,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                         log.error("文件上传失败!");
                         return false;
                     }
-                    if (FILE_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1))) {
+                    if (UploadPictureUntil.FILE_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1))) {
                         picNum++;
                         switch (picNum) {
                             case 1:
@@ -111,7 +111,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                                 wordEntity.setWordPicture5(picture);
                                 continue;
                         }
-                    } else if (AUDIO_FREQUENCY_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1))) {
+                    } else if (UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1))) {
                         wordEntity.setPhonefic(picture);
                     }
                 }
@@ -128,13 +128,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     //endregion
 
     /**
-     *
-     * @param  Id 根据Id查找当前显示图片
+     * @param Id 根据Id查找当前显示图片
      * @return Id 返回一个Id值
      * @author 任嘉颖
      * @since 2019年6月10日15:13:41
      */
 
     @Override
-    public List<WordModel> selectPhoneficPictureById( Integer Id) {return wordDao.selectPhoneficPictureById(Id);}
+    public List<WordModel> selectPhoneficPictureById(Integer Id) {
+        return wordDao.selectPhoneficPictureById(Id);
+    }
 }
