@@ -114,27 +114,27 @@ public class UserSetController {
     @ApiOperation(value = "根据id修改userSet")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody UserSetModel model) {
-		if (StringUtils.isEmpty(model.getUserId())){
-            return ItooResult.build(ItooResult.FAIL, "userId为空");
-        }
-		if (StringUtils.isEmpty(model.getPhoneficNumber())){
-            return ItooResult.build(ItooResult.FAIL, "phoneficNumber为空");
-        }
-		if (StringUtils.isEmpty(model.getWordNumber())){
-            return ItooResult.build(ItooResult.FAIL, "wordNumber为空");
-        }
-		if (StringUtils.isEmpty(model.getIsTurnAuto())){
-            return ItooResult.build(ItooResult.FAIL, "isTurnAuto为空");
-        }
-		if (StringUtils.isEmpty(model.getTurnDelayTime())){
-            return ItooResult.build(ItooResult.FAIL, "turnDelayTime为空");
-        }
-		if (StringUtils.isEmpty(model.getStudyNumber())){
-            return ItooResult.build(ItooResult.FAIL, "studyNumber为空");
-        }
-		if (StringUtils.isEmpty(model.getIsRandom())){
-            return ItooResult.build(ItooResult.FAIL, "isRandom为空");
-        }
+//		if (StringUtils.isEmpty(model.getUserId())){
+//            return ItooResult.build(ItooResult.FAIL, "userId为空");
+//        }
+//		if (StringUtils.isEmpty(model.getPhoneficNumber())){
+//            return ItooResult.build(ItooResult.FAIL, "phoneficNumber为空");
+//        }
+//		if (StringUtils.isEmpty(model.getWordNumber())){
+//            return ItooResult.build(ItooResult.FAIL, "wordNumber为空");
+//        }
+//		if (StringUtils.isEmpty(model.getIsTurnAuto())){
+//            return ItooResult.build(ItooResult.FAIL, "isTurnAuto为空");
+//        }
+//		if (StringUtils.isEmpty(model.getTurnDelayTime())){
+//            return ItooResult.build(ItooResult.FAIL, "turnDelayTime为空");
+//        }
+//		if (StringUtils.isEmpty(model.getStudyNumber())){
+//            return ItooResult.build(ItooResult.FAIL, "studyNumber为空");
+//        }
+//		if (StringUtils.isEmpty(model.getIsRandom())){
+//            return ItooResult.build(ItooResult.FAIL, "isRandom为空");
+//        }
         UserSetEntity userSetEntity = new UserSetEntity();
         BeanUtils.copyProperties(model, userSetEntity);
         userSetService.updateById(userSetEntity);
