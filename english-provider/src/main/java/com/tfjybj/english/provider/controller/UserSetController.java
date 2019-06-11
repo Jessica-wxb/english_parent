@@ -1,6 +1,7 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.UserSetEntity;
+import com.tfjybj.english.model.PhoneficTestModel;
 import com.tfjybj.english.model.UserSetModel;
 import com.tfjybj.english.provider.service.UserSetService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
@@ -176,5 +177,18 @@ public class UserSetController {
 
     /* **********************************以下为非模板生成的内容********************************* */
 
-   
+    /**
+     * 根据用户id查询用户设置
+     *
+     * @param userid 用户id
+     * @return 返回查询用户设置实体集合
+     * @author 白爱民
+     * @since 2019-6-11 17:04:31
+     */
+    @ApiOperation(value = "根据用户id，查询用户设置")
+    @GetMapping(value = "/selStudyNumber/{userid}")
+    public ItooResult selStudyNumber(@PathVariable Integer userid) {
+        List<UserSetModel> StudyNumberList = userSetService.getStudyNumberService(userid);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功！", StudyNumberList);
+    }
 }    

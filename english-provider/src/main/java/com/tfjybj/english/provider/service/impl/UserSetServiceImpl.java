@@ -1,11 +1,13 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.UserSetEntity;
+import com.tfjybj.english.model.UserSetModel;
 import com.tfjybj.english.provider.dao.UserSetDao;
 import com.tfjybj.english.provider.service.UserSetService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * UserSetService接口实现类
@@ -25,4 +27,10 @@ public class UserSetServiceImpl extends BaseServicePlusImpl<UserSetDao,UserSetEn
 	//endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+    // 根据用户id，查询用户设置——白爱民2019年6月11日18:13:01
+    @Override
+    public List<UserSetModel> getStudyNumberService(Integer userid){
+        return userSetDao.getStudyNumberService(userid);
+        
+    }
 }
