@@ -28,11 +28,4 @@ public interface WordDao extends BaseMapper<WordEntity> {
      * @since 2019-6-9 19:41:00
      */
     List<WordModel> selDataNum(@Param("setNumber") Integer setNumber);
-
-    /**
-     * //查询所有word_邢美玲
-     * @return :查询到的数
-     */
-    Integer selectAll();
-
 }

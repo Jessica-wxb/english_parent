@@ -194,17 +194,28 @@ public class WordController {
     public ItooResult selDataNum(@PathVariable Integer setNumber) {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selDataNum(setNumber) );
     }
+
     /**
-     * 查询所有Word
-     * @return 查询的单词总数
-     * @author 邢美玲
-     * @since ${version} 2019年6月9日14:52:28
-            */
-    @ApiOperation(value = "分页查询所有Word")
-    @GetMapping(value = {"/selectAll"})
-    public ItooResult queryPageAll() {
-        //int allwords;
-        Integer allwords = wordService.selectAll();
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", allwords);
+     * @param  Id 根据Id查找当前显示图片
+     * @return Id 返回一个Id值
+     * @author 任嘉颖
+     * @since 2019年6月10日15:13:41
+     */
+    @ApiOperation(value = "根据Id查找当前显示图片")
+    @GetMapping(value = "/selectPhoneficPictureById/{Id}")
+    public ItooResult selectPhoneficPictureById(@PathVariable Integer Id) {
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selectPhoneficPictureById(Id) );
     }
+
+    /**
+     * @param  Id 查询未学单词
+     * @return Id 返回一个Id值
+     * @author 任嘉颖
+     * @since 2019年6月10日15:13:41
+     */
+//    @ApiOperation(value = "根据Id查找当前显示图片")
+//    @GetMapping(value = "/selectPhoneficPictureById/{Id}")
+//    public ItooResult selectPhoneficPictureById(@PathVariable Integer Id) {
+//        return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selectPhoneficPictureById(Id) );
+//    }
 }    
