@@ -38,7 +38,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
 
     @Override
     public Integer selectAll() {
-        return null;
+        return wordDao.selectAll();
 }
 
 
