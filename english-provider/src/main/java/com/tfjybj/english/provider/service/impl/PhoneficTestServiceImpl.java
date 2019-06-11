@@ -1,11 +1,13 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.PhoneficTestEntity;
+import com.tfjybj.english.model.PhoneficTestModel;
 import com.tfjybj.english.provider.dao.PhoneficTestDao;
 import com.tfjybj.english.provider.service.PhoneficTestService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * PhoneficTestService接口实现类
@@ -21,6 +23,11 @@ public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
 	//region 模板生成
     @Resource
     private PhoneficTestDao phoneficTestDao;
+
+    @Override
+    public List<PhoneficTestModel>  getPhoneficTestByIdById(Integer phoneficid){
+        return phoneficTestDao.getPhoneficTestById(phoneficid);
+    }
 	
 	//endregion
 
