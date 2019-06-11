@@ -194,4 +194,28 @@ public class WordController {
     public ItooResult selDataNum(@PathVariable Integer setNumber) {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selDataNum(setNumber) );
     }
+
+    /**
+     * @param  Id 根据Id查找当前显示图片
+     * @return Id 返回一个Id值
+     * @author 任嘉颖
+     * @since 2019年6月10日15:13:41
+     */
+    @ApiOperation(value = "根据Id查找当前显示图片")
+    @GetMapping(value = "/selectPhoneficPictureById/{Id}")
+    public ItooResult selectPhoneficPictureById(@PathVariable Integer Id) {
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selectPhoneficPictureById(Id) );
+    }
+
+    /**
+     * @param  Id 查询未学单词
+     * @return Id 返回一个Id值
+     * @author 任嘉颖
+     * @since 2019年6月10日15:13:41
+     */
+//    @ApiOperation(value = "根据Id查找当前显示图片")
+//    @GetMapping(value = "/selectPhoneficPictureById/{Id}")
+//    public ItooResult selectPhoneficPictureById(@PathVariable Integer Id) {
+//        return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selectPhoneficPictureById(Id) );
+//    }
 }    

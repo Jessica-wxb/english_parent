@@ -27,5 +27,18 @@
             tw.is_delete = 0
             LIMIT #{setNumber}
     </select>
+    <select id="selectPhoneficPictureById" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+        *
+        FROM
+        tn_word f
+        WHERE
+        f.is_delete = 0
+        <if test="Id !=''">
+            AND f.id =#{Id}
+        </if>
+        ORDER BY
+        f.id ASC
+    </select>
 
 </mapper>

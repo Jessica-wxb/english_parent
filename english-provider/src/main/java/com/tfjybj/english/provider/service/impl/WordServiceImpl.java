@@ -27,12 +27,15 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
     @Resource
     private WordDao wordDao;
 
+
+    //endregion
+
+    /* **********************************以下为非模板生成的内容********************************* */
     @Override
     public List<WordModel> selDataNum(Integer setNumber) {
         return wordDao.selDataNum(setNumber);
     }
 
-    //endregion
-
-    /* **********************************以下为非模板生成的内容********************************* */
+    @Override
+    public List<WordModel> selectPhoneficPictureById( Integer Id) {return wordDao.selectPhoneficPictureById(Id);}
 }
