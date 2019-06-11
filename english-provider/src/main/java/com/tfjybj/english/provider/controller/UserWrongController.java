@@ -158,5 +158,32 @@ public class UserWrongController {
 
     /* **********************************以下为非模板生成的内容********************************* */
 
-   
+    /**
+     * 根据用户id查询错误单词
+     * @param userId 用户ID
+     * @return  该用户的错误单词
+     * @author 陈广晗
+     * @since 2019-06-11 16:30:24
+     */
+    @ApiImplicitParam(value = "根据用户id查询错误单词")
+    @GetMapping(value = "/queryWrongWordId/{userId}")
+   public ItooResult queryWrongWordId(@PathVariable Integer userId){
+       List<UserWrongModel> userWrongs = userWrongService.queryWrongWordId(userId);
+       return ItooResult.build(ItooResult.SUCCESS, "查询成功", userWrongs);
+   }
+
+
+
+    /**
+     * 根据用户id查询错误音标
+     * @return  该用户的错误音标
+     * @author 陈广晗
+     * @since 2019-06-11 16:30:24
+     */
+    @ApiImplicitParam(value = "根据用户id查询错误音标")
+    @GetMapping(value = "/queryWrongPhoneficId/{userId}")
+    public ItooResult queryWrongPhoneficId(@PathVariable Integer userId) {
+        List<UserWrongModel> userWrongs = userWrongService.queryWrongPhoneficId(userId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userWrongs);
+    }
 }    
