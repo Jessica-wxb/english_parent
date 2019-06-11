@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -47,4 +48,13 @@ public interface WordService extends BaseServicePlus<WordEntity> {
 
 
 
+    /**
+     * 根据目录结构插入数据
+     *
+     * @param path 文件路径
+     * @return true/false
+     * @author 马莹
+     * @since 2019-6-11 19:31:50
+     */
+    boolean batchInsert(String path) throws IOException;
 }

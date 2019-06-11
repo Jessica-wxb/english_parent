@@ -7,12 +7,27 @@ import com.github.pagehelper.PageInfo;
 import com.tfjybj.english.provider.service.AllusersService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.ws.rs.POST;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -139,12 +154,13 @@ public class AllusersController {
     @PostMapping(value = "/upLoad")
     public ItooResult upLoad(@RequestParam MultipartFile file) {
         try {
-
             return ItooResult.build("", allusersService.upLoadPicture(file));
         } catch (Exception e) {
             log.error("" + e);
             return ItooResult.build("", null);
         }
     }
+
+
 }
 

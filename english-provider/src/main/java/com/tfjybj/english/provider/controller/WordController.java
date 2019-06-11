@@ -6,6 +6,7 @@ import com.tfjybj.english.provider.service.WordService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.List;
  */
 @Api(tags = {"word表接口"})
 @RequestMapping(value = "/word")
+@Slf4j
 @RestController
 public class WordController {
 
@@ -192,14 +194,16 @@ public class WordController {
     @ApiOperation(value = "根据设定学习量查询数据条数")
     @GetMapping(value = "/selDataNum/{setNumber}")
     public ItooResult selDataNum(@PathVariable Integer setNumber) {
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selDataNum(setNumber) );
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.selDataNum(setNumber));
     }
+
     /**
      * 查询所有Word
+     *
      * @return 查询的单词总数
      * @author 邢美玲
      * @since ${version} 2019年6月9日14:52:28
-            */
+     */
     @ApiOperation(value = "分页查询所有Word")
     @GetMapping(value = {"/selectAll"})
     public ItooResult queryPageAll() {
@@ -209,7 +213,7 @@ public class WordController {
     }
 
     /**
-     * @param  Id 根据Id查找当前显示图片
+     * @param Id 根据Id查找当前显示图片
      * @return Id 返回一个Id值
      * @author 任嘉颖
      * @since 2019年6月10日15:13:41
@@ -217,9 +221,28 @@ public class WordController {
     @ApiOperation(value = "根据Id查找当前显示图片")
     @GetMapping(value = "/selectPhoneficPictureById/{Id}")
     public ItooResult selectPhoneficPictureById(@PathVariable Integer Id) {
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selectPhoneficPictureById(Id) );
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.selectPhoneficPictureById(Id));
     }
 
+    /**
+     * 根据目录结构插入数据
+     *
+     * @param path 文件路径
+     * @return true/false
+     * @author 马莹
+     * @since 2019-6-11 19:31:50
+     */
+    @ApiOperation(value = "根据目录结构插入数据")
+    @GetMapping(value = "/batchInsert/{path}")
+    public ItooResult batchInsertion(String path) {
+        try {
+            boolean flag = wordService.batchInsert(path);
+            return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
 
+        } catch (Exception e) {
+            log.error("错误" + e);
+            return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
+        }
+    }
 
 }
