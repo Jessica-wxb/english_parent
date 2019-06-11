@@ -1,11 +1,13 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.UserWrongEntity;
+import com.tfjybj.english.model.UserWrongModel;
 import com.tfjybj.english.provider.dao.UserWrongDao;
 import com.tfjybj.english.provider.service.UserWrongService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * UserWrongService接口实现类
@@ -25,4 +27,14 @@ public class UserWrongServiceImpl extends BaseServicePlusImpl<UserWrongDao,UserW
 	//endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+
+    @Override
+    public List<UserWrongModel> queryWrongWordId(Integer userId) {
+        return userWrongDao.queryWrongWordId(userId);
+    }
+
+    @Override
+    public List<UserWrongModel> queryWrongPhoneficId(Integer userId) {
+        return userWrongDao.queryWrongPhoneficId(userId);
+    }
 }

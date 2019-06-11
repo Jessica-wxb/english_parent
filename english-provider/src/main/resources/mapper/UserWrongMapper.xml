@@ -17,5 +17,28 @@
         ORDER BY
         f.create_time DESC
     </select>
+    <!--根据UserWrong用户id查询错误单词-->
+    <select id="queryWrongWordId" resultType="com.tfjybj.english.model.UserWrongModel">
+        SELECT
+            *
+        FROM
+            tn_user_wrong
+        WHERE
+            user_id = #{userId}
+            AND type = 1
+            AND is_delete =0
+    </select>
+
+    <!--根据UserWrong用户id查询错误音标-->
+    <select id="queryWrongPhoneficId" resultType="com.tfjybj.english.model.UserWrongModel">
+        SELECT
+            *
+        FROM
+            tn_user_wrong
+        WHERE
+            user_id = #{userId}
+            AND type = 2
+            AND is_delete =0
+    </select>
 
 </mapper>
