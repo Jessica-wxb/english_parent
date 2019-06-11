@@ -176,5 +176,23 @@ public class UserSetController {
 
     /* **********************************以下为非模板生成的内容********************************* */
 
-   
-}    
+    /**
+     * 修改是否为自动跳转
+     *
+     * @param model UserSetModel
+     * @return 修改后的结果
+     * @author 张伟杰
+     * @since 2019-6-11 15:34:58
+     */
+    @ApiOperation(value = "根据id修改是否自动跳转")
+    @PutMapping(value = {"/modifyIsTurnAuto"})
+    public ItooResult modifyIsTurnAuto(@RequestBody UserSetModel model){
+        if (StringUtils.isEmpty(model.getIsTurnAuto())){
+            return ItooResult.build(ItooResult.FAIL,"isTurnAuto为空");
+        }
+        UserSetEntity userSetEntity = new UserSetEntity();
+        BeanUtils.copyProperties(model,userSetEntity);
+        userSetService.updateById(userSetEntity);
+        return ItooResult.build(ItooResult.SUCCESS,"修改成功");
+    }
+}
