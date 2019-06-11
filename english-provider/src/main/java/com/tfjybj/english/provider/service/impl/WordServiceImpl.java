@@ -46,4 +46,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
     public  Integer selectAll() {
         return wordDao.selectAll();
     }
+
+    /**
+     *
+     * @param  Id 根据Id查找当前显示图片
+     * @return Id 返回一个Id值
+     * @author 任嘉颖
+     * @since 2019年6月10日15:13:41
+     */
+    @Override
+    public List<WordModel> selectPhoneficPictureById( Integer Id) {return wordDao.selectPhoneficPictureById(Id);}
 }

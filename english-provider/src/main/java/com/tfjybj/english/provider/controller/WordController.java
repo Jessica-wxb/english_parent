@@ -207,4 +207,19 @@ public class WordController {
         Integer allwords = wordService.selectAll();
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", allwords);
     }
+
+    /**
+     * @param  Id 根据Id查找当前显示图片
+     * @return Id 返回一个Id值
+     * @author 任嘉颖
+     * @since 2019年6月10日15:13:41
+     */
+    @ApiOperation(value = "根据Id查找当前显示图片")
+    @GetMapping(value = "/selectPhoneficPictureById/{Id}")
+    public ItooResult selectPhoneficPictureById(@PathVariable Integer Id) {
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功!",  wordService.selectPhoneficPictureById(Id) );
+    }
+
+
+
 }    

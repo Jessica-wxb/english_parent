@@ -36,4 +36,19 @@
         tn_word
     </select>
 
+<!--根据Id查询图片-任嘉颖-2019年6月11日09:16:06-->
+    <select id="selectPhoneficPictureById" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+        *
+        FROM
+        tn_word f
+        WHERE
+        f.is_delete = 0
+        <if test="Id !=''">
+            AND f.id =#{Id}
+        </if>
+        ORDER BY
+        f.id ASC
+    </select>
+
 </mapper>

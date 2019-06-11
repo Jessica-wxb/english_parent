@@ -35,4 +35,14 @@ public interface WordDao extends BaseMapper<WordEntity> {
      */
     Integer selectAll();
 
+
+    /**
+     *
+     * @param  Id 根据Id查找当前显示图片
+     * @return Id 返回一个Id值
+     * @author 任嘉颖
+     * @since 2019年6月10日15:13:41
+     */
+    List<WordModel> selectPhoneficPictureById(@Param("Id") Integer Id);
+
 }
