@@ -37,6 +37,10 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     @Resource
     private WordDao wordDao;
 
+
+    //endregion
+
+    /* **********************************以下为非模板生成的内容********************************* */
     @Resource
     private UploadPictureUntil uploadPictureUntil;
 
@@ -52,6 +56,11 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     public List<WordModel> selDataNum(Integer setNumber) {
         return wordDao.selDataNum(setNumber);
     }
+
+    @Override
+    public Integer selectAll() {
+        return wordDao.selectAll();
+}
 
     @Override
     public boolean batchInsert(String path) throws IOException {
@@ -118,5 +127,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
 
     //endregion
 
-    /* **********************************以下为非模板生成的内容********************************* */
+    /**
+     *
+     * @param  Id 根据Id查找当前显示图片
+     * @return Id 返回一个Id值
+     * @author 任嘉颖
+     * @since 2019年6月10日15:13:41
+     */
+
+    @Override
+    public List<WordModel> selectPhoneficPictureById( Integer Id) {return wordDao.selectPhoneficPictureById(Id);}
 }

@@ -28,4 +28,21 @@ public interface WordDao extends BaseMapper<WordEntity> {
      * @since 2019-6-9 19:41:00
      */
     List<WordModel> selDataNum(@Param("setNumber") Integer setNumber);
+
+    /**
+     * //查询所有word_邢美玲
+     * @return :查询到的数
+     */
+    Integer selectAll();
+
+
+    /**
+     *
+     * @param  Id 根据Id查找当前显示图片
+     * @return Id 返回一个Id值
+     * @author 任嘉颖
+     * @since 2019年6月11日11:14:02
+     */
+    List<WordModel> selectPhoneficPictureById(@Param("Id") Integer Id);
+
 }

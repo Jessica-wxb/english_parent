@@ -18,4 +18,15 @@
         f.create_time DESC
     </select>
 
+    <!--根据UserRecord用户id查询已学单词word_id的数量-邢美玲-->
+    <select id="findStudyWordById" resultType="java.lang.Integer">
+        SELECT
+        count( r.word_id )
+        FROM
+        tn_user_record r
+        Where
+        is_delete= 0
+        AND r.user_id = #{userid}
+    </select>
+
 </mapper>

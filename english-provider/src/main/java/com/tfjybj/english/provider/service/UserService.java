@@ -13,5 +13,6 @@ import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
  * @since ${version} 2019-06-08 14:26:23
  */
 public interface UserService extends BaseServicePlus<UserEntity> {
-	
+
+
 }
