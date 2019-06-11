@@ -18,5 +18,6 @@ import java.util.List;
 @Repository("phoneficTestDao")
 public interface PhoneficTestDao extends BaseMapper<PhoneficTestEntity> {
 
+     //音标练习(听)_根据音标id查询对应正确单词_邢美玲
      List<PhoneficTestModel> getPhoneficTestById(Integer phoneficid) ;
 }

@@ -24,6 +24,7 @@ public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
     @Resource
     private PhoneficTestDao phoneficTestDao;
 
+    //音标练习(听)_根据音标id查询对应正确单词_邢美玲
     @Override
     public List<PhoneficTestModel>  getPhoneficTestByIdById(Integer phoneficid){
         return phoneficTestDao.getPhoneficTestById(phoneficid);

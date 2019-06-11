@@ -159,11 +159,10 @@ public class PhoneficTestController {
     /* **********************************以下为非模板生成的内容********************************* */
     /**
      * 根据id查找PhoneficTest
-     *
-     * @param phoneficid 主键id
-     * @return 根据id查找的结果
-     * @author 马莹
-     * @since ${version} 2019-06-08 14:26:23
+     * @param phoneficid 音标id
+     * @return 音标练习(听)根据音标id查询对应正确单词
+     * @author 邢美玲
+     * @since ${version} 2019年6月11日14:39:46
      */
     @ApiOperation(value = "音标练习(听)根据音标id查询对应正确单词")
     @GetMapping(value = {"/findPhoneficById/{phoneficid}"})
