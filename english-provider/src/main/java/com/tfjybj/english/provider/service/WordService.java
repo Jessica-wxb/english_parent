@@ -4,6 +4,7 @@ import com.tfjybj.english.entity.WordEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 import com.tfjybj.english.model.WordModel;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -27,4 +28,13 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      */
     List<WordModel> selDataNum(Integer setNumber);
 
+    /**
+     * 根据目录结构插入数据
+     *
+     * @param path 文件路径
+     * @return true/false
+     * @author 马莹
+     * @since 2019-6-11 19:31:50
+     */
+    boolean batchInsert(String path) throws IOException;
 }
