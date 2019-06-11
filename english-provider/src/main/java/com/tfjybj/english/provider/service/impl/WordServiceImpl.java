@@ -27,25 +27,20 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
     @Resource
     private WordDao wordDao;
 
+
+    //endregion
+
+    /* **********************************以下为非模板生成的内容********************************* */
     @Override
     public List<WordModel> selDataNum(Integer setNumber) {
         return wordDao.selDataNum(setNumber);
     }
 
-    //endregion
-
-    /* **********************************以下为非模板生成的内容********************************* */
-    /**
-     * 查所有单词数接口实现类
-     * word表
-     * @author 邢美玲
-     * @version 1.0
-     * @since ${version} 2019年6月9日15:47:16
-     */
     @Override
-    public  Integer selectAll() {
-        return wordDao.selectAll();
-    }
+    public Integer selectAll() {
+        return null;
+}
+
 
     /**
      *
@@ -54,6 +49,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
      * @author 任嘉颖
      * @since 2019年6月10日15:13:41
      */
+
     @Override
     public List<WordModel> selectPhoneficPictureById( Integer Id) {return wordDao.selectPhoneficPictureById(Id);}
 }
