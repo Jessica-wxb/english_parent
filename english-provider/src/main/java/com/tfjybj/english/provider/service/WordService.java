@@ -30,6 +30,9 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      * @since 2019-6-9 19:41:00
      */
     List<WordModel> selDataNum(Integer setNumber);
+    //查询所有单词--邢美玲
+    Integer selectAll();
+
 
     /**
      * 根据设定学习量查询数据条数

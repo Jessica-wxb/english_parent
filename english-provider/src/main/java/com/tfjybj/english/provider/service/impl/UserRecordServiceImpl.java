@@ -25,4 +25,15 @@ public class UserRecordServiceImpl extends BaseServicePlusImpl<UserRecordDao,Use
 	//endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+    /**
+     * WordService根据userid查wordid数接口实现类
+     * ${base}表
+     * @author 邢美玲
+     * @version ${version}
+     * @since ${version} 2019年6月9日15:47:16
+     */
+    public int findStudyWordById(int userid){
+        return userRecordDao.findStudyWordById(userid);
+    }
+
 }

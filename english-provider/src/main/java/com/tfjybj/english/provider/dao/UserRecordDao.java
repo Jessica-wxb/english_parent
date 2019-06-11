@@ -14,5 +14,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("userRecordDao")
 public interface UserRecordDao extends BaseMapper<UserRecordEntity> {
-	
+    //查询该用户id的已学单词_邢美玲
+    int findStudyWordById(int userid);
 }

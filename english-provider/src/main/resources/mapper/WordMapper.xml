@@ -41,4 +41,12 @@
         f.id ASC
     </select>
 
+    <!--查询所有单词-邢美玲-->
+    <select id="selectAll" resultType="integer"  >
+        SELECT
+        COUNT(*)
+        FROM
+        tn_word
+    </select>
+
 </mapper>
