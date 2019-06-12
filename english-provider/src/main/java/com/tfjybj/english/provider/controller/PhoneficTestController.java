@@ -2,6 +2,7 @@ package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneficTestEntity;
 import com.tfjybj.english.model.PhoneficTestModel;
+import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.service.PhoneficTestService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
@@ -156,6 +157,20 @@ public class PhoneficTestController {
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+
+    /**
+     * 根据音标Id获取对应单词的单词Id、音频audio、单词图片picture
+     * @author 张凯超
+     * @param phoneficId 音标测试表音标Id
+     * @return 单词的单词Id、音频audio、单词图片picture
+     * @datetime 2019年6月12日10:04:17
+     */
+    @ApiOperation(value = "根据音标Id获取对应单词的单词Id、音频audio、单词图片picture")
+    @GetMapping(value = {"/queryWordIdAudioPicByPhoneficId/{phoneficId}"})
+    public ItooResult queryWordIdAudioPicByPhoneficId(@ApiParam(name = "phoneficId",value ="音标Id",required = true)  @PathVariable String phoneficId){
+        List<WordModel> wordModelList = phoneficTestService.queryWordIdAudioPicByPhoneficId(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordModelList);
+    }
 
 
 }    

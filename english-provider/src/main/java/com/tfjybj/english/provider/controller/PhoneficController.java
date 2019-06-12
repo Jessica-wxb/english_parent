@@ -164,4 +164,17 @@ public class PhoneficController {
     /* **********************************以下为非模板生成的内容********************************* */
 
 
+    /**
+     * 根据Id获取音标audio
+     * @author 张凯超
+     * @param Id 音标表 主键Id
+     * @return 音标对应音频
+     * @datetime 2019年6月12日09:31:37
+     */
+    @ApiOperation(value = "根据Id获取音标audio")
+    @GetMapping(value = {"/queryAudioById/{Id}"})
+    public ItooResult queryAudioById(@ApiParam(name = "Id",value = "主键Id",required = true)@PathVariable Integer Id){
+        PhoneficEntity phoneficEntity = phoneficService.queryAudioById(Id);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",phoneficEntity.getAudio());
+    }
 }    

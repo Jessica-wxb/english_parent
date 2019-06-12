@@ -17,5 +17,13 @@
         ORDER BY
         f.create_time DESC
     </select>
+    <select id="queryAudioById" resultType="com.tfjybj.english.entity.PhoneficEntity">
+        SELECT
+          audio
+        FROM
+          tn_phonefic
+          where
+          id = #{id}
+    </select>
 
 </mapper>

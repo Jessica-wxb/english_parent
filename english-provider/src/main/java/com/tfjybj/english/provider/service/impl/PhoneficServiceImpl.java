@@ -21,8 +21,21 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao,Phonefi
 	//region 模板生成
     @Resource
     private PhoneficDao phoneficDao;
-	
-	//endregion
+
+
+    //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+
+    /**
+     * 根据Id获取音标audio
+     * @author 张凯超
+     * @param id 音标表 主键Id
+     * @return 音标对应音频
+     * @datetime 2019年6月12日09:31:37
+     */
+    @Override
+    public PhoneficEntity queryAudioById(Integer id) {
+        return phoneficDao.queryAudioById(id);
+    }
 }

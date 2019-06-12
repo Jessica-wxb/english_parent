@@ -17,5 +17,20 @@
         ORDER BY
         f.create_time DESC
     </select>
+    <select id="queryWordIdAudioPicByPhoneficId" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+            tnw.id,
+            tnw.audio,
+            tnw.word_picture1,
+            tnw.word_picture2,
+            tnw.word_picture3,
+            tnw.word_picture4,
+            tnw.word_picture5
+        FROM
+            tn_word tnw
+        LEFT JOIN tn_phonefic_test tnp ON tnw.id = tnp.word_id
+        WHERE
+            tnp.phonefic_id = #{phoneficId}
+    </select>
 
 </mapper>
