@@ -165,18 +165,15 @@ public class WordController {
     /**
      * 分页查询所有Word
      *
-     * @param pageNo   页码
-     * @param pageSize 每页条数
-     * @return 分页查询的结果
+     * @return 查询word表中所有数据
      * @author 马莹
-     * @since ${version} 2019-06-08 14:26:23
+     * @since 2019-06-08 14:26:23
      */
     @ApiOperation(value = "分页查询所有Word")
-    @GetMapping(value = {"/queryPageAll/{pageNo}/{pageSize}"})
-    public ItooResult queryPageAll(@ApiParam(name = "pageNo", value = "页码", required = true, example = "1") @PathVariable Integer pageNo,
-                                   @ApiParam(name = "pageSize", value = "页数", required = true, example = "10") @PathVariable Integer pageSize) {
-        PageInfo<WordEntity> words = wordService.queryPageAll(pageNo, pageSize);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", words);
+    @GetMapping(value = "/queryWordAll")
+    public ItooResult queryWordAll() {
+        List<WordModel> wordList = wordService.queryWordAll();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordList);
     }
 
     //endregion
@@ -204,7 +201,7 @@ public class WordController {
      * @author 邢美玲
      * @since ${version} 2019年6月9日14:52:28
      */
-    @ApiOperation(value = "分页查询所有Word")
+    @ApiOperation(value = "分页查询所有Word数量")
     @GetMapping(value = {"/selectAll"})
     public ItooResult queryPageAll() {
         //int allwords;
@@ -258,7 +255,7 @@ public class WordController {
      */
     @ApiOperation(value = "根据单词拼写查找单词音频")
     @GetMapping(value = {"/queryStateByWord/{word}"})
-    public ItooResult queryStateByWord(@ApiParam(name = "word",value = "单词",required = true)@PathVariable String word) {
+    public ItooResult queryStateByWord(@ApiParam(name = "word", value = "单词", required = true) @PathVariable String word) {
         WordEntity wordEntity = wordService.queryStateByWord(word);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
     }
@@ -273,7 +270,7 @@ public class WordController {
      */
     @ApiOperation(value = "根据单词拼写查找单词对应图片")
     @GetMapping(value = {"/queryPictureByWord/{word}"})
-    public ItooResult queryPictureByWord(@ApiParam(name = "word",value = "单词",required = true)@PathVariable String word) {
+    public ItooResult queryPictureByWord(@ApiParam(name = "word", value = "单词", required = true) @PathVariable String word) {
         WordEntity wordEntity = wordService.queryPictureByWord(word);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
     }

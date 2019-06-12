@@ -30,9 +30,9 @@ import java.util.List;
  */
 @Service("wordService")
 @Slf4j
-public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> implements WordService {
+public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> implements WordService {
 
-	//region 模板生成
+    //region 模板生成
     @Resource
     private WordDao wordDao;
     @Resource
@@ -46,15 +46,17 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+
     /**
      * 查所有单词数接口实现类
      * word表
+     *
      * @author 邢美玲
      * @version 1.0
      * @since ${version} 2019年6月9日15:47:16
      */
     @Override
-    public  Integer selectAll() {
+    public Integer selectAll() {
         return wordDao.selectAll();
     }
 
@@ -108,7 +110,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
                                 continue;
                         }
                     } else if (UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1))) {
-                        wordEntity.setPhonefic(picture);
+                        wordEntity.setAudio(picture);
                     }
                 }
 
@@ -144,4 +146,11 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
     public WordEntity queryPictureByWord(String word) {
         return wordDao.queryPictureByWord(word);
     }
+
+    @Override
+    public List<WordModel> queryWordAll() {
+        return wordDao.queryWordAll();
+    }
+
+
 }

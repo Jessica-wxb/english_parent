@@ -31,6 +31,7 @@ public interface WordDao extends BaseMapper<WordEntity> {
 
     /**
      * //查询所有word_邢美玲
+     *
      * @return :查询到的数
      */
     Integer selectAll();
@@ -47,4 +48,13 @@ public interface WordDao extends BaseMapper<WordEntity> {
     WordEntity queryStateByWord(@Param("word") String word);
 
     WordEntity queryPictureByWord(String word);
+
+    /**
+     * 无参查询所有word表中的数据
+     *
+     * @return 所有word表中的实体集合
+     * @author 马莹
+     * @since 2019-6-12 20:30:00
+     */
+    List<WordModel> queryWordAll();
 }

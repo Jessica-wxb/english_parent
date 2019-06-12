@@ -29,7 +29,7 @@
     </select>
 
     <!--查询所有单词-邢美玲-->
-    <select id="selectAll" resultType="integer"  >
+    <select id="selectAll" resultType="integer">
         SELECT
         COUNT(*)
         FROM
@@ -52,6 +52,15 @@
     </select>
     <select id="queryPictureByWord" resultType="com.tfjybj.english.entity.WordEntity">
         select * from tn_word where word = #{word}
+    </select>
+    <!-- 无参查询word表中所有数据-2019-6-12 20:32:04-马莹-->
+    <select id="queryWordAll" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+            *
+        FROM
+            tn_word tw
+        WHERE
+            tw.is_delete = 0
     </select>
 
 </mapper>

@@ -59,4 +59,13 @@ public interface WordService extends BaseServicePlus<WordEntity> {
     WordEntity queryStateByWord(String word);
 
     WordEntity queryPictureByWord(String word);
+
+    /**
+     * 无参查询所有word表中的数据
+     *
+     * @return 所有word表中的实体集合
+     * @author 马莹
+     * @since 2019-6-12 20:30:00
+     */
+    List<WordModel> queryWordAll();
 }
