@@ -28,4 +28,7 @@ public interface UserSetDao extends BaseMapper<UserSetEntity> {
      */
     List<UserSetModel> getStudyNumberService(@Param("userid") Integer userid);
 
+    UserSetEntity selectByUserId(String userId);
+
+    UserSetEntity updateTimesById(@Param("userId") String userId, @Param("phoneficNumber") String phoneficNumber);
 }
