@@ -18,17 +18,4 @@
         f.create_time DESC
     </select>
 
-    <!--音标练习(听)_根据音标id查询对应正确单词_邢美玲-->
-    <select id="getPhoneficTestById" resultType="com.tfjybj.english.model.PhoneficTestModel">
-        SELECT
-	      *
-        FROM
-	       tn_phonefic_test tpt
-        WHERE
-	      tpt.is_delete = 0
-	    AND tpt.state = 0
-	    AND tpt.phonefic_id = #{phoneficid}
-    </select>
-
-
 </mapper>

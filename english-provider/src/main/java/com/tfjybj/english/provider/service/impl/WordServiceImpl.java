@@ -7,7 +7,6 @@ import com.tfjybj.english.provider.service.WordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import com.tfjybj.english.provider.until.UploadPictureUntil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,36 +28,33 @@ import java.util.List;
  * @version ${version}
  * @since ${version} 2019-06-08 14:26:23
  */
-@Slf4j
 @Service("wordService")
-public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> implements WordService {
+@Slf4j
+public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> implements WordService {
 
-    //region 模板生成
+	//region 模板生成
     @Resource
     private WordDao wordDao;
-
-
-    //endregion
-
-    /* **********************************以下为非模板生成的内容********************************* */
     @Resource
     private UploadPictureUntil uploadPictureUntil;
-
-//    // 所有音频格式
-//    @Value("${AUDIO_FREQUENCY_FORMAT}")
-//    private String AUDIO_FREQUENCY_FORMAT;
-//
-//    // 所有文件格式
-//    @Value("${FILE_FORMAT}")
-//    private String FILE_FORMAT;
 
     @Override
     public List<WordModel> selDataNum(Integer setNumber) {
         return wordDao.selDataNum(setNumber);
     }
 
+    //endregion
+
+    /* **********************************以下为非模板生成的内容********************************* */
+    /**
+     * 查所有单词数接口实现类
+     * word表
+     * @author 邢美玲
+     * @version 1.0
+     * @since ${version} 2019年6月9日15:47:16
+     */
     @Override
-    public Integer selectAll() {
+    public  Integer selectAll() {
         return wordDao.selectAll();
     }
 

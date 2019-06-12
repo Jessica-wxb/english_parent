@@ -7,20 +7,13 @@ import com.tfjybj.english.entity.AllusersEntity;
 import com.tfjybj.english.provider.dao.AllusersDao;
 import com.tfjybj.english.provider.service.AllusersService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
-import com.tfjybj.english.provider.until.UploadPictureUntil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * AllusersService接口实现类
@@ -39,18 +32,20 @@ public class AllusersServiceImpl extends BaseServicePlusImpl<AllusersDao, Alluse
     private AllusersDao allusersDao;
 
     @Resource
-    private UploadPictureUntil uploadPictureUntil;
-
+    private FastFileStorageClient fastFileStorageClient;
+    @Resource
+    private TrackerClient trackerClient;
     @Override
     public String upLoadPicture(MultipartFile file) throws IOException {
 
-        String uploadPicture = uploadPictureUntil.uploadPicture(file);
-        return uploadPicture;
+        StorePath storePath = fastFileStorageClient.uploadFile(file.getInputStream(), file.getSize(), FilenameUtils.getExtension(file.getOriginalFilename()), null);
+        String serverPath = trackerClient.getStoreStorage().getIp();
+        String imagePath = "http://" + serverPath + "/" + storePath.getFullPath();
+        log.info("图片上传成功，地址：" + imagePath);
+        return imagePath;
     }
 
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
-
-
 }

@@ -19,10 +19,8 @@ public interface AllusersService extends BaseServicePlus<AllusersEntity> {
 
     /**
      * 上传图片到fastdfs
-     *
      * @param file
      * @return
      */
     String upLoadPicture(MultipartFile file) throws IOException;
-
 }

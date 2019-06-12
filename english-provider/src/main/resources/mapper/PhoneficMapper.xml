@@ -18,16 +18,4 @@
         f.create_time DESC
     </select>
 
-    <!--音标练习(看)-根据id查询所有图片等-邢美玲-->
-    <select id="getPhoneficById" resultType="com.tfjybj.english.model.PhoneficModel">
-        SELECT
-          *
-	    FROM
-	       tn_phonefic tp
-	    WHERE
-	     tp. is_delete =0
-		And
-		tp.id =#{id}
-    </select>
-
 </mapper>

@@ -1,7 +1,6 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.UserSetEntity;
-import com.tfjybj.english.model.PhoneficTestModel;
 import com.tfjybj.english.model.UserSetModel;
 import com.tfjybj.english.provider.service.UserSetService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
@@ -114,27 +113,27 @@ public class UserSetController {
     @ApiOperation(value = "根据id修改userSet")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody UserSetModel model) {
-		if (StringUtils.isEmpty(model.getUserId())){
-            return ItooResult.build(ItooResult.FAIL, "userId为空");
-        }
-		if (StringUtils.isEmpty(model.getPhoneficNumber())){
-            return ItooResult.build(ItooResult.FAIL, "phoneficNumber为空");
-        }
-		if (StringUtils.isEmpty(model.getWordNumber())){
-            return ItooResult.build(ItooResult.FAIL, "wordNumber为空");
-        }
-		if (StringUtils.isEmpty(model.getIsTurnAuto())){
-            return ItooResult.build(ItooResult.FAIL, "isTurnAuto为空");
-        }
-		if (StringUtils.isEmpty(model.getTurnDelayTime())){
-            return ItooResult.build(ItooResult.FAIL, "turnDelayTime为空");
-        }
-		if (StringUtils.isEmpty(model.getStudyNumber())){
-            return ItooResult.build(ItooResult.FAIL, "studyNumber为空");
-        }
-		if (StringUtils.isEmpty(model.getIsRandom())){
-            return ItooResult.build(ItooResult.FAIL, "isRandom为空");
-        }
+//		if (StringUtils.isEmpty(model.getUserId())){
+//            return ItooResult.build(ItooResult.FAIL, "userId为空");
+//        }
+//		if (StringUtils.isEmpty(model.getPhoneficNumber())){
+//            return ItooResult.build(ItooResult.FAIL, "phoneficNumber为空");
+//        }
+//		if (StringUtils.isEmpty(model.getWordNumber())){
+//            return ItooResult.build(ItooResult.FAIL, "wordNumber为空");
+//        }
+//		if (StringUtils.isEmpty(model.getIsTurnAuto())){
+//            return ItooResult.build(ItooResult.FAIL, "isTurnAuto为空");
+//        }
+//		if (StringUtils.isEmpty(model.getTurnDelayTime())){
+//            return ItooResult.build(ItooResult.FAIL, "turnDelayTime为空");
+//        }
+//		if (StringUtils.isEmpty(model.getStudyNumber())){
+//            return ItooResult.build(ItooResult.FAIL, "studyNumber为空");
+//        }
+//		if (StringUtils.isEmpty(model.getIsRandom())){
+//            return ItooResult.build(ItooResult.FAIL, "isRandom为空");
+//        }
         UserSetEntity userSetEntity = new UserSetEntity();
         BeanUtils.copyProperties(model, userSetEntity);
         userSetService.updateById(userSetEntity);
@@ -178,6 +177,26 @@ public class UserSetController {
     /* **********************************以下为非模板生成的内容********************************* */
 
     /**
+     * 修改是否为自动跳转
+     *
+     * @param model UserSetModel
+     * @return 修改后的结果
+     * @author 张伟杰
+     * @since 2019-6-11 15:34:58
+     */
+    @ApiOperation(value = "根据id修改是否自动跳转")
+    @PutMapping(value = {"/modifyIsTurnAuto"})
+    public ItooResult modifyIsTurnAuto(@RequestBody UserSetModel model){
+        if (StringUtils.isEmpty(model.getIsTurnAuto())){
+            return ItooResult.build(ItooResult.FAIL,"isTurnAuto为空");
+        }
+        UserSetEntity userSetEntity = new UserSetEntity();
+        BeanUtils.copyProperties(model,userSetEntity);
+        userSetService.updateById(userSetEntity);
+        return ItooResult.build(ItooResult.SUCCESS,"修改成功");
+    }
+
+    /**
      * 根据用户id查询用户设置
      *
      * @param userid 用户id
@@ -191,4 +210,4 @@ public class UserSetController {
         List<UserSetModel> StudyNumberList = userSetService.getStudyNumberService(userid);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功！", StudyNumberList);
     }
-}    
+}
