@@ -63,15 +63,4 @@ public class PhoneficTestEntity extends BaseEntity implements Serializable {
 	@Column(name = "state")
 	private Integer state;
 
-	/**
-	 * 更新时间
-	 */
-	@JsonFormat(
-        pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8"
-    )
-	@ApiModelProperty(value = "更新时间",required = true)
-	@Column(name = "updte_time")
-	private Date updteTime;
-
-
 }
