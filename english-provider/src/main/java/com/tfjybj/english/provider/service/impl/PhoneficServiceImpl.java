@@ -21,8 +21,13 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao,Phonefi
 	//region 模板生成
     @Resource
     private PhoneficDao phoneficDao;
-	
-	//endregion
+
+
+    //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+    @Override
+    public PhoneficEntity selectAudioByPhonefic(String phonefic) {
+        return phoneficDao.selectAudioByPhonefic(phonefic);
+    }
 }

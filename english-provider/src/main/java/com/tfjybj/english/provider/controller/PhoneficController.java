@@ -164,4 +164,17 @@ public class PhoneficController {
     /* **********************************以下为非模板生成的内容********************************* */
 
 
+    /**
+     * 通过音标phonefic选择音频audio
+     * @param phonefic 音标
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月12日11:45:42
+     */
+    @ApiOperation(value = "通过音标phonefic选择音频audio")
+    @GetMapping(value = {"/selectAudioByPhonefic/{phonefic}"})
+    public ItooResult selectAudioByPhonefic(@ApiParam(name = "phonefic",value = "音标",required = true)@PathVariable String phonefic) {
+        PhoneficEntity phoneficEntity = phoneficService.selectAudioByPhonefic(phonefic);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功",phoneficEntity);
+    }
 }    

@@ -17,5 +17,7 @@
         ORDER BY
         f.create_time DESC
     </select>
-
+    <select id="selectAudioByPhonefic" resultType="com.tfjybj.english.entity.PhoneficEntity">
+        select * from tn_phonefic where phonefic = #{phonefic}
+    </select>
 </mapper>

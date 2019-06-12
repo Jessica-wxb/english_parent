@@ -14,5 +14,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("phoneficDao")
 public interface PhoneficDao extends BaseMapper<PhoneficEntity> {
-	
+
+    PhoneficEntity selectAudioByPhonefic(String phonefic);
 }
