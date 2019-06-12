@@ -134,4 +134,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
     public List<WordModel> selectPhoneficPictureById(Integer studSum) {
         return wordDao.selectPhoneficPictureById(studSum);
     }
+
+    @Override
+    public WordEntity queryStateByWord(String word) {
+        return wordDao.queryStateByWord(word);
+    }
+
+    @Override
+    public WordEntity queryPictureByWord(String word) {
+        return wordDao.queryPictureByWord(word);
+    }
 }

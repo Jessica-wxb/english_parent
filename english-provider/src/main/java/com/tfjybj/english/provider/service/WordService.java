@@ -55,4 +55,8 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      * @since 2019-6-11 19:31:50
      */
     boolean batchInsert(String path) throws IOException;
+
+    WordEntity queryStateByWord(String word);
+
+    WordEntity queryPictureByWord(String word);
 }

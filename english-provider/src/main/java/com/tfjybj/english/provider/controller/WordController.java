@@ -247,4 +247,34 @@ public class WordController {
         }
     }
 
+
+    /**
+     * 根据单词拼写查找状态
+     *
+     * @param word 单词拼写
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日19:11:05
+     */
+    @ApiOperation(value = "根据单词拼写查找单词音频")
+    @GetMapping(value = {"/queryStateByWord/{word}"})
+    public ItooResult queryStateByWord(@ApiParam(name = "word",value = "单词",required = true)@PathVariable String word) {
+        WordEntity wordEntity = wordService.queryStateByWord(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
+    }
+
+    /**
+     * 根据单词拼写查找对应图片
+     *
+     * @param word 单词拼写
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日19:11:05
+     */
+    @ApiOperation(value = "根据单词拼写查找单词对应图片")
+    @GetMapping(value = {"/queryPictureByWord/{word}"})
+    public ItooResult queryPictureByWord(@ApiParam(name = "word",value = "单词",required = true)@PathVariable String word) {
+        WordEntity wordEntity = wordService.queryPictureByWord(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
+    }
 }

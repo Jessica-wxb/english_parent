@@ -44,4 +44,7 @@ public interface WordDao extends BaseMapper<WordEntity> {
      */
     List<WordModel> selectPhoneficPictureById(@Param("studSum") Integer studSum);
 
+    WordEntity queryStateByWord(@Param("word") String word);
+
+    WordEntity queryPictureByWord(String word);
 }
