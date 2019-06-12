@@ -33,4 +33,24 @@
             tnp.phonefic_id = #{phoneficId}
     </select>
 
+    <select id="queryAudioByPhoneficId" resultType="com.tfjybj.english.model.PhoneficTestModel">
+        SELECT
+          p.audio,
+          COUNT(1)
+        FROM
+          tn_phonefic_test pt
+        Left JOIN
+          tn_phonefic p ON pt.phonefic_id = p.id
+    </select>
+    <select id="selectWordByPhoneficId" resultType="com.tfjybj.english.model.PhoneficTestModel">
+        SELECT
+          *
+        FROM
+          tn_phonefic_test
+        WHERE
+          phonefic_id = #{phoneficId}
+    </select>
+    <select id="queryStateByWord" resultType="com.tfjybj.english.entity.PhoneficTestEntity">
+        select * from tn_phonefic_test where word = #{word}
+    </select>
 </mapper>

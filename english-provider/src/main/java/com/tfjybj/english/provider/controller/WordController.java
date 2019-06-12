@@ -1,9 +1,7 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.WordEntity;
-import com.tfjybj.english.entity.WordTestEntity;
 import com.tfjybj.english.model.WordModel;
-import com.tfjybj.english.model.WordTestModel;
 import com.tfjybj.english.provider.service.WordService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
@@ -251,19 +249,33 @@ public class WordController {
 
 
     /**
-     * 根据单词ID查音标
-     * @param wordId 单词ID
-     * @return 音标
-     * @author 张凯超
-     * @datetime 2019年6月12日17:14:27
+     * 根据单词拼写查找状态
+     *
+     * @param word 单词拼写
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日19:11:05
      */
-    @ApiOperation(value = "根据单词ID查音标")
-    @GetMapping(value = {"/queryPhoneticByWordId/{wordId}"})
-    public ItooResult queryPhoneticByWordId(@PathVariable Integer wordId){
-        List<WordTestModel> wordTestModelList = wordService.queryPhoneticByWordId(wordId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordTestModelList);
+    @ApiOperation(value = "根据单词拼写查找单词音频")
+    @GetMapping(value = {"/queryStateByWord/{word}"})
+    public ItooResult queryStateByWord(@ApiParam(name = "word",value = "单词",required = true)@PathVariable String word) {
+        WordEntity wordEntity = wordService.queryStateByWord(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
     }
-    //TODO 根据音标 查音标 音频
-    //TODO 根据音标 查图片
+
+    /**
+     * 根据单词拼写查找对应图片
+     *
+     * @param word 单词拼写
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日19:11:05
+     */
+    @ApiOperation(value = "根据单词拼写查找单词对应图片")
+    @GetMapping(value = {"/queryPictureByWord/{word}"})
+    public ItooResult queryPictureByWord(@ApiParam(name = "word",value = "单词",required = true)@PathVariable String word) {
+        WordEntity wordEntity = wordService.queryPictureByWord(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
+    }
 
 }

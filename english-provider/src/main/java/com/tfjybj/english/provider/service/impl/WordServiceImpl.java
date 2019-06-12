@@ -2,7 +2,6 @@ package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.model.WordModel;
-import com.tfjybj.english.model.WordTestModel;
 import com.tfjybj.english.provider.dao.WordDao;
 import com.tfjybj.english.provider.service.WordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
@@ -13,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import java.beans.Transient;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -120,7 +121,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
 
     }
 
-
     //endregion
 
     /**
@@ -136,8 +136,12 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao,WordEntity> imp
     }
 
     @Override
-    public List<WordTestModel> queryPhoneticByWordId(Integer wordId) {
-        return wordDao.queryPhoneticByWordId(wordId);
+    public WordEntity queryStateByWord(String word) {
+        return wordDao.queryStateByWord(word);
     }
 
+    @Override
+    public WordEntity queryPictureByWord(String word) {
+        return wordDao.queryPictureByWord(word);
+    }
 }

@@ -2,6 +2,7 @@ package com.tfjybj.english.provider.service;
 
 import com.tfjybj.english.entity.PhoneficEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
+import com.tfjybj.english.model.PhoneficTestModel;
 
 
 /**
@@ -14,12 +15,13 @@ import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
  */
 public interface PhoneficService extends BaseServicePlus<PhoneficEntity> {
 
+    PhoneficEntity selectAudioByPhonefic(String phonefic);
+
     /**
-     * 根据Id获取音标audio
-     * @author 张凯超
-     * @param id 音标表 主键Id
-     * @return 音标对应音频
-     * @datetime 2019年6月12日09:31:37
+     * 通过音标拼写查找对应图片
+     * @Author 张凯超
+     * @param phonetic 音标
+     * @return 音标对应图片
      */
-    PhoneficEntity queryAudioById(Integer id);
+    PhoneficTestModel queryPictureByPhonetic(String phonetic);
 }

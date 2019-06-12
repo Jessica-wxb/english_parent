@@ -2,6 +2,7 @@ package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.model.PhoneficModel;
+import com.tfjybj.english.model.PhoneficTestModel;
 import com.tfjybj.english.provider.service.PhoneficService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
@@ -165,16 +166,31 @@ public class PhoneficController {
 
 
     /**
-     * 根据Id获取音标audio
-     * @author 张凯超
-     * @param Id 音标表 主键Id
-     * @return 音标对应音频
-     * @datetime 2019年6月12日09:31:37
+     * 通过音标phonefic选择音频audio
+     * @param phonefic 音标
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月12日11:45:42
      */
-    @ApiOperation(value = "根据Id获取音标audio")
-    @GetMapping(value = {"/queryAudioById/{Id}"})
-    public ItooResult queryAudioById(@ApiParam(name = "Id",value = "主键Id",required = true)@PathVariable Integer Id){
-        PhoneficEntity phoneficEntity = phoneficService.queryAudioById(Id);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",phoneficEntity.getAudio());
+    @ApiOperation(value = "通过音标phonefic选择音频audio")
+    @GetMapping(value = {"/selectAudioByPhonefic/{phonefic}"})
+    public ItooResult selectAudioByPhonefic(@ApiParam(name = "phonefic",value = "音标",required = true)@PathVariable String phonefic) {
+        PhoneficEntity phoneficEntity = phoneficService.selectAudioByPhonefic(phonefic);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功",phoneficEntity);
+    }
+
+
+    /**
+     * 通过音标拼写查找对应图片
+     * @Author 张凯超
+     * @param phonetic 音标
+     * @return 音标对应图片
+     *
+     */
+    @ApiOperation("通过音标拼写查找对应图片")
+    @GetMapping(value = {"/queryPictureByPhonetic/phonetic"})
+    public ItooResult queryPictureByPhonetic(@ApiParam(value = "音标",name ="phonetic",required = true) @PathVariable String phonetic){
+        PhoneficTestModel phoneficTestModel = phoneficService.queryPictureByPhonetic(phonetic);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",phonetic);
     }
 }    

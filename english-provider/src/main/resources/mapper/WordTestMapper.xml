@@ -17,5 +17,48 @@
         ORDER BY
         f.create_time DESC
     </select>
+    <!--     * 根据单词Id获取对应单词audio
+    * @param wordId 单词Id
+    * @return 单词audio
+    * @author 张凯超-->
+    <select id="queryAudioByWordId" resultType="com.tfjybj.english.entity.WordEntity">
+        SELECT
+          tn_word.audio
+        FROM
+          tn_word
+        WHERE
+          tn_word.id = #{wordId}
+
+    </select>
+    <!--    /**
+     * 根据单词Id获取对应音标
+     * @param wordId 单词Id
+     * @return 单词audio
+     * @author 张凯超
+     */-->
+    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.entity.WordTestEntity">
+        SELECT
+          tn_word_test.phonefic
+        FROM
+          tn_word_test
+        WHERE
+          tn_word_test.word_id = #{wordId}
+
+    </select>
+    <!-- /**
+     * 根据单词拼写查找状态
+     * @author
+     * @param word 单词
+     * @return state 0 正确 1 错误
+     */-->
+    <select id="queryWordStateByWord" resultType="com.tfjybj.english.model.WordTestModel">
+        SELECT
+          tn_word_test.state
+        FROM
+          tn_word_test
+        WHERE
+          tn_word_test.word = #{word}
+
+    </select>
 
 </mapper>

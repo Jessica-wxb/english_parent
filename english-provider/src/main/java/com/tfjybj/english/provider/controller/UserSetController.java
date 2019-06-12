@@ -210,4 +210,36 @@ public class UserSetController {
         List<UserSetModel> StudyNumberList = userSetService.getStudyNumberService(userid);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功！", StudyNumberList);
     }
+
+    /**
+     * 根据用户id查询联播次数
+     *
+     * @param userId 用户id
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月10日09:27:14
+     */
+    @ApiOperation(value = "根据用户id查询联播次数")
+    @GetMapping(value = {"/queryTimes/{userId}"})
+    public ItooResult queryTimes(@ApiParam(name = "userId",value = "用户id",required = true)@PathVariable String userId) {
+        UserSetEntity userSetEntity = userSetService.getByUserId(userId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userSetEntity);
+    }
+
+    /**
+     * 根据用户id更新联播次数
+     *
+     * @param userId 用户id
+     * @param phoneficNumber 联播次数
+     * @author 薛帅行
+     * @since 2019年6月10日18:00:38
+     */
+    @ApiOperation(value = "根据用户id更新联播次数")
+    @PutMapping(value = "/updateTimesById/{userId}/{phoneficNumber}")
+    public ItooResult updateTimesById(@ApiParam(name = "userId",value = "用户id",required = true)@PathVariable String userId,
+                                      @ApiParam(name = "phoneficNumber",value = "音标次数",required = true)@PathVariable String phoneficNumber){
+        UserSetEntity userSetEntity = new UserSetEntity();
+        userSetEntity = userSetService.updateTimesById(userId, phoneficNumber);
+        return ItooResult.build(ItooResult.SUCCESS, "修改成功");
+    }
 }

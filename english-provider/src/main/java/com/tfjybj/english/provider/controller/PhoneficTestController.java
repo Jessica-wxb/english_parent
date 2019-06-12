@@ -2,7 +2,6 @@ package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneficTestEntity;
 import com.tfjybj.english.model.PhoneficTestModel;
-import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.service.PhoneficTestService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
@@ -159,18 +158,48 @@ public class PhoneficTestController {
     /* **********************************以下为非模板生成的内容********************************* */
 
     /**
-     * 根据音标Id获取对应单词的单词Id、音频audio、单词图片picture
-     * @author 张凯超
-     * @param phoneficId 音标测试表音标Id
-     * @return 单词的单词Id、音频audio、单词图片picture
-     * @datetime 2019年6月12日10:04:17
+     * 根据音标id找到对应音频audio
+     *
+     * @param phoneficId 音标Id
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日10:29:26
      */
-    @ApiOperation(value = "根据音标Id获取对应单词的单词Id、音频audio、单词图片picture")
-    @GetMapping(value = {"/queryWordIdAudioPicByPhoneficId/{phoneficId}"})
-    public ItooResult queryWordIdAudioPicByPhoneficId(@ApiParam(name = "phoneficId",value ="音标Id",required = true)  @PathVariable String phoneficId){
-        List<WordModel> wordModelList = phoneficTestService.queryWordIdAudioPicByPhoneficId(phoneficId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordModelList);
+    @ApiOperation(value = "根据音标id找到对应音频audio")
+    @GetMapping(value = "queryAudioByPhoneficId/{phoneficId}")
+    public ItooResult queryAudioByPhoneficId(@ApiParam(name = "phoneficId",value = "音标Id",required = true)@PathVariable String phoneficId) {
+        List<PhoneficTestModel> phoneficTestModelList = phoneficTestService.queryAudioByPhoneficId(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestModelList);
     }
 
+    /**
+     * 根据音标id匹配对应两个单词word
+     *
+     * @param phoneficId
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日15:40:32
+     */
+    @ApiOperation(value = "根据音标id匹配对应两个单词word")
+    @GetMapping(value = "selectWordByPhoneficId/{phoneficId}")
+    public ItooResult selectWordByPhoneficId(@ApiParam(name = "phoneficId",value = "音标Id",required = true)@PathVariable String phoneficId) {
+        List<PhoneficTestModel> phoneficTestModelList = phoneficTestService.selectWordByPhoneficId(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestModelList);
+    }
+
+    /**
+     * 根据单词拼写查找状态
+     *
+     * @param word 单词拼写
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日19:11:05
+     */
+    @ApiOperation(value = "根据单词拼写查找单词音频")
+    @GetMapping(value = {"/queryStateByWord/{word}"})
+    public ItooResult queryStateByWord(@ApiParam(name = "word",value = "单词",required = true)@PathVariable String word) {
+        PhoneficTestEntity phoneficTestEntity = phoneficTestService.queryStateByWord(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestEntity);
+    }
 
 }    

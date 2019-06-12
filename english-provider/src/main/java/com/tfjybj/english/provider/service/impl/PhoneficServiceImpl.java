@@ -1,6 +1,7 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.PhoneficEntity;
+import com.tfjybj.english.model.PhoneficTestModel;
 import com.tfjybj.english.provider.dao.PhoneficDao;
 import com.tfjybj.english.provider.service.PhoneficService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
@@ -26,16 +27,19 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao,Phonefi
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+    @Override
+    public PhoneficEntity selectAudioByPhonefic(String phonefic) {
+        return phoneficDao.selectAudioByPhonefic(phonefic);
+    }
 
     /**
-     * 根据Id获取音标audio
-     * @author 张凯超
-     * @param id 音标表 主键Id
-     * @return 音标对应音频
-     * @datetime 2019年6月12日09:31:37
+     * 通过音标拼写查找对应图片
+     * @Author 张凯超
+     * @param phonetic 音标
+     * @return 音标对应图片
      */
     @Override
-    public PhoneficEntity queryAudioById(Integer id) {
-        return phoneficDao.queryAudioById(id);
+    public PhoneficTestModel queryPictureByPhonetic(String phonetic) {
+        return phoneficDao.queryPictureByPhonetic(phonetic);
     }
 }

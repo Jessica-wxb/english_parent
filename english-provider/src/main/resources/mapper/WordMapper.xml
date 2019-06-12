@@ -56,4 +56,11 @@
 
     </select>
 
+    <select id="queryStateByWord" resultType="com.tfjybj.english.entity.WordEntity">
+        select * from tn_word where word = #{word}
+    </select>
+    <select id="queryPictureByWord" resultType="com.tfjybj.english.entity.WordEntity">
+        select * from tn_word where word = #{word}
+    </select>
+
 </mapper>

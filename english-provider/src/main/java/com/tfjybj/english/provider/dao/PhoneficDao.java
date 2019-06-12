@@ -2,6 +2,7 @@ package com.tfjybj.english.provider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.PhoneficEntity;
+import com.tfjybj.english.model.PhoneficTestModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -16,12 +17,13 @@ import org.springframework.stereotype.Repository;
 @Repository("phoneficDao")
 public interface PhoneficDao extends BaseMapper<PhoneficEntity> {
 
+    PhoneficEntity selectAudioByPhonefic(String phonefic);
+
     /**
-     * 根据Id获取音标audio
-     * @author 张凯超
-     * @param id 音标表 主键Id
-     * @return 音标对应音频
-     * @datetime 2019年6月12日09:31:37
+     * 通过音标拼写查找对应图片
+     * @Author 张凯超
+     * @param phonetic 音标
+     * @return 音标对应图片
      */
-    PhoneficEntity queryAudioById(@Param("id") Integer id);
+    PhoneficTestModel queryPictureByPhonetic(@Param("phonetic") String phonetic);
 }

@@ -2,9 +2,7 @@ package com.tfjybj.english.provider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.WordEntity;
-import com.tfjybj.english.entity.WordTestEntity;
 import com.tfjybj.english.model.WordModel;
-import com.tfjybj.english.model.WordTestModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -46,12 +44,7 @@ public interface WordDao extends BaseMapper<WordEntity> {
      */
     List<WordModel> selectPhoneficPictureById(@Param("studSum") Integer studSum);
 
-    /**
-     * 根据单词ID查音标
-     * @param wordId 单词ID
-     * @return 音标
-     * @author 张凯超
-     * @datetime 2019年6月12日17:14:27
-     */
-    List<WordTestModel> queryPhoneticByWordId(@Param("wordId") Integer wordId);
+    WordEntity queryStateByWord(@Param("word") String word);
+
+    WordEntity queryPictureByWord(String word);
 }

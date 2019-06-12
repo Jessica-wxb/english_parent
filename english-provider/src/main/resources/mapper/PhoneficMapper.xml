@@ -17,13 +17,21 @@
         ORDER BY
         f.create_time DESC
     </select>
-    <select id="queryAudioById" resultType="com.tfjybj.english.entity.PhoneficEntity">
+    <select id="selectAudioByPhonefic" resultType="com.tfjybj.english.entity.PhoneficEntity">
+        select * from tn_phonefic where phonefic = #{phonefic}
+    </select>
+    <!--
+         * 通过音标拼写查找对应图片
+     * @Author 张凯超
+     * @param phonetic 音标
+     * @return 音标对应图片-->
+    <select id="queryPictureByPhonetic" resultType="com.tfjybj.english.model.PhoneficTestModel">
         SELECT
-          audio
+          tn_phonefic.phonefic_picture
         FROM
           tn_phonefic
-          where
-          id = #{id}
-    </select>
+        WHERE
+          tn_phonefic.phonefic = #{phonetic}
 
+    </select>
 </mapper>

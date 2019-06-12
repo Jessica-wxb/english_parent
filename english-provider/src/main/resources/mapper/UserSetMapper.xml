@@ -30,4 +30,22 @@
             update_time DESC
     </select>
 
+    <!--根据UserSet用户id查询UserSetEntity-->
+    <select id="selectByUserId" resultType="com.tfjybj.english.entity.UserSetEntity">
+        SELECT
+          *
+        FROM
+          tn_user_set
+        WHERE
+          user_id = #{userId}
+    </select>
+    <!--根据用户id更新联播次数-->
+    <select id="updateTimesById" resultType="com.tfjybj.english.entity.UserSetEntity">
+        UPDATE
+          tn_user_set
+        SET
+          phonefic_number = #{phoneficNumber}
+        WHERE
+          user_id = #{userId}
+    </select>
 </mapper>
