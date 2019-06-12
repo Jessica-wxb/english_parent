@@ -68,4 +68,31 @@ public class UserWrongModel implements Serializable {
     //endregion
 
      /* *****************************以下是非模板生成的内容************************************ */
+	//region  添加的字段
+	/**
+	 * 错误图片
+	 */
+	@ApiModelProperty(value = "错误图片" )
+	private String picture1;
+
+	/**
+	 * 错误图片
+	 */
+	@ApiModelProperty(value = "错误图片" )
+	private String picture2;
+
+	/**
+	 * 错误图片
+	 */
+	@ApiModelProperty(value = "错误图片" )
+	private String picture3;
+
+	/**
+	 * 错误图片
+	 */
+	@ApiModelProperty(value = "错误图片" )
+	private String picture4;
+
+	//endregion
+
 }

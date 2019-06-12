@@ -68,5 +68,33 @@ public class UserWrongEntity extends BaseEntity implements Serializable {
 	@Column(name = "type")
 	private Integer type;
 
+	/**
+	 * 错误图片
+	 */
+	@ApiModelProperty(value = "错误图片")
+	@Column(name = "picture1")
+	private String picture1;
+
+	/**
+	 * 错误图片
+	 */
+	@ApiModelProperty(value = "错误图片")
+	@Column(name = "picture2")
+	private String picture2;
+
+	/**
+	 * 错误图片
+	 */
+	@ApiModelProperty(value = "错误图片")
+	@Column(name = "picture3")
+	private String picture3;
+
+	/**
+	 * 错误图片
+	 */
+	@ApiModelProperty(value = "错误图片")
+	@Column(name = "picture4")
+	private String picture4;
+
 
 }
