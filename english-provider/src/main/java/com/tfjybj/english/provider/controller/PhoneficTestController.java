@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 
-
 /**
  * PhoneficTestController
  * phoneficTest表
@@ -44,16 +43,16 @@ public class PhoneficTestController {
     @ApiOperation(value = "添加")
     @PostMapping(value = {"/create"})
     public ItooResult create(@RequestBody PhoneficTestModel model) {
-		if (StringUtils.isEmpty(model.getPhoneficId())){
+        if (StringUtils.isEmpty(model.getPhoneficId())) {
             return ItooResult.build(ItooResult.FAIL, "phoneficId为空");
         }
-		if (StringUtils.isEmpty(model.getWordId())){
+        if (StringUtils.isEmpty(model.getWordId())) {
             return ItooResult.build(ItooResult.FAIL, "wordId为空");
         }
-		if (StringUtils.isEmpty(model.getState())){
+        if (StringUtils.isEmpty(model.getState())) {
             return ItooResult.build(ItooResult.FAIL, "state为空");
         }
-		if (StringUtils.isEmpty(model.getUpdteTime())){
+        if (StringUtils.isEmpty(model.getUpdteTime())) {
             return ItooResult.build(ItooResult.FAIL, "updteTime为空");
         }
         PhoneficTestEntity phoneficTestEntity = new PhoneficTestEntity();
@@ -66,7 +65,7 @@ public class PhoneficTestController {
      * 删除
      *
      * @param id 主键id
-     * @return ItooResult 是否删除成功          
+     * @return ItooResult 是否删除成功
      * @author 马莹
      * @since ${version} 2019-06-08 14:26:23
      */
@@ -104,16 +103,16 @@ public class PhoneficTestController {
     @ApiOperation(value = "根据id修改phoneficTest")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody PhoneficTestModel model) {
-		if (StringUtils.isEmpty(model.getPhoneficId())){
+        if (StringUtils.isEmpty(model.getPhoneficId())) {
             return ItooResult.build(ItooResult.FAIL, "phoneficId为空");
         }
-		if (StringUtils.isEmpty(model.getWordId())){
+        if (StringUtils.isEmpty(model.getWordId())) {
             return ItooResult.build(ItooResult.FAIL, "wordId为空");
         }
-		if (StringUtils.isEmpty(model.getState())){
+        if (StringUtils.isEmpty(model.getState())) {
             return ItooResult.build(ItooResult.FAIL, "state为空");
         }
-		if (StringUtils.isEmpty(model.getUpdteTime())){
+        if (StringUtils.isEmpty(model.getUpdteTime())) {
             return ItooResult.build(ItooResult.FAIL, "updteTime为空");
         }
         PhoneficTestEntity phoneficTestEntity = new PhoneficTestEntity();
@@ -148,15 +147,15 @@ public class PhoneficTestController {
      */
     @ApiOperation(value = "分页查询所有PhoneficTest")
     @GetMapping(value = {"/queryPageAll/{pageNo}/{pageSize}"})
-    public ItooResult queryPageAll(@ApiParam(name = "pageNo",value = "页码",required = true,example = "1")@PathVariable Integer pageNo, 
-								   @ApiParam(name = "pageSize",value = "页数",required = true,example = "10")@PathVariable Integer pageSize) {
+    public ItooResult queryPageAll(@ApiParam(name = "pageNo", value = "页码", required = true, example = "1") @PathVariable Integer pageNo,
+                                   @ApiParam(name = "pageSize", value = "页数", required = true, example = "10") @PathVariable Integer pageSize) {
         PageInfo<PhoneficTestEntity> phoneficTests = phoneficTestService.queryPageAll(pageNo, pageSize);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTests);
     }
-	
+
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
 
-   
+
 }    

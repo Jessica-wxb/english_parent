@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 
-
 /**
  * PhoneficController
  * phonefic表
@@ -44,19 +43,19 @@ public class PhoneficController {
     @ApiOperation(value = "添加")
     @PostMapping(value = {"/create"})
     public ItooResult create(@RequestBody PhoneficModel model) {
-		if (StringUtils.isEmpty(model.getPhonefic())){
+        if (StringUtils.isEmpty(model.getPhonefic())) {
             return ItooResult.build(ItooResult.FAIL, "phonefic为空");
         }
-		if (StringUtils.isEmpty(model.getPhoneficPicture())){
+        if (StringUtils.isEmpty(model.getPhoneficPicture())) {
             return ItooResult.build(ItooResult.FAIL, "phoneficPicture为空");
         }
-		if (StringUtils.isEmpty(model.getKnackPicture())){
+        if (StringUtils.isEmpty(model.getKnackPicture())) {
             return ItooResult.build(ItooResult.FAIL, "knackPicture为空");
         }
-		if (StringUtils.isEmpty(model.getAudio())){
+        if (StringUtils.isEmpty(model.getAudio())) {
             return ItooResult.build(ItooResult.FAIL, "audio为空");
         }
-		if (StringUtils.isEmpty(model.getVideo())){
+        if (StringUtils.isEmpty(model.getVideo())) {
             return ItooResult.build(ItooResult.FAIL, "video为空");
         }
         PhoneficEntity phoneficEntity = new PhoneficEntity();
@@ -69,7 +68,7 @@ public class PhoneficController {
      * 删除
      *
      * @param id 主键id
-     * @return ItooResult 是否删除成功          
+     * @return ItooResult 是否删除成功
      * @author 马莹
      * @since ${version} 2019-06-08 14:26:23
      */
@@ -107,19 +106,19 @@ public class PhoneficController {
     @ApiOperation(value = "根据id修改phonefic")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody PhoneficModel model) {
-		if (StringUtils.isEmpty(model.getPhonefic())){
+        if (StringUtils.isEmpty(model.getPhonefic())) {
             return ItooResult.build(ItooResult.FAIL, "phonefic为空");
         }
-		if (StringUtils.isEmpty(model.getPhoneficPicture())){
+        if (StringUtils.isEmpty(model.getPhoneficPicture())) {
             return ItooResult.build(ItooResult.FAIL, "phoneficPicture为空");
         }
-		if (StringUtils.isEmpty(model.getKnackPicture())){
+        if (StringUtils.isEmpty(model.getKnackPicture())) {
             return ItooResult.build(ItooResult.FAIL, "knackPicture为空");
         }
-		if (StringUtils.isEmpty(model.getAudio())){
+        if (StringUtils.isEmpty(model.getAudio())) {
             return ItooResult.build(ItooResult.FAIL, "audio为空");
         }
-		if (StringUtils.isEmpty(model.getVideo())){
+        if (StringUtils.isEmpty(model.getVideo())) {
             return ItooResult.build(ItooResult.FAIL, "video为空");
         }
         PhoneficEntity phoneficEntity = new PhoneficEntity();
@@ -154,15 +153,15 @@ public class PhoneficController {
      */
     @ApiOperation(value = "分页查询所有Phonefic")
     @GetMapping(value = {"/queryPageAll/{pageNo}/{pageSize}"})
-    public ItooResult queryPageAll(@ApiParam(name = "pageNo",value = "页码",required = true,example = "1")@PathVariable Integer pageNo, 
-								   @ApiParam(name = "pageSize",value = "页数",required = true,example = "10")@PathVariable Integer pageSize) {
+    public ItooResult queryPageAll(@ApiParam(name = "pageNo", value = "页码", required = true, example = "1") @PathVariable Integer pageNo,
+                                   @ApiParam(name = "pageSize", value = "页数", required = true, example = "10") @PathVariable Integer pageSize) {
         PageInfo<PhoneficEntity> phonefics = phoneficService.queryPageAll(pageNo, pageSize);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phonefics);
     }
-	
+
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
 
-   
+
 }    
