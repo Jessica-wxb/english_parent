@@ -1,7 +1,9 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.WordEntity;
+import com.tfjybj.english.entity.WordTestEntity;
 import com.tfjybj.english.model.WordModel;
+import com.tfjybj.english.model.WordTestModel;
 import com.tfjybj.english.provider.service.WordService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
@@ -246,5 +248,22 @@ public class WordController {
             return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
         }
     }
+
+
+    /**
+     * 根据单词ID查音标
+     * @param wordId 单词ID
+     * @return 音标
+     * @author 张凯超
+     * @datetime 2019年6月12日17:14:27
+     */
+    @ApiOperation(value = "根据单词ID查音标")
+    @GetMapping(value = {"/queryPhoneticByWordId/{wordId}"})
+    public ItooResult queryPhoneticByWordId(@PathVariable Integer wordId){
+        List<WordTestModel> wordTestModelList = wordService.queryPhoneticByWordId(wordId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordTestModelList);
+    }
+    //TODO 根据音标 查音标 音频
+    //TODO 根据音标 查图片
 
 }

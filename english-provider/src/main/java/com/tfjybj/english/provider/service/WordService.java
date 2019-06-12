@@ -1,12 +1,9 @@
 package com.tfjybj.english.provider.service;
 
-import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.tfjybj.english.entity.WordEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 import com.tfjybj.english.model.WordModel;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import com.tfjybj.english.model.WordTestModel;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,4 +52,13 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      * @since 2019-6-11 19:31:50
      */
     boolean batchInsert(String path) throws IOException;
+
+    /**
+     * 根据单词ID查音标
+     * @param wordId 单词ID
+     * @return 音标
+     * @author 张凯超
+     * @datetime 2019年6月12日17:14:27
+     */
+    List<WordTestModel> queryPhoneticByWordId(Integer wordId);
 }
