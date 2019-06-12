@@ -37,15 +37,13 @@ public interface WordService extends BaseServicePlus<WordEntity> {
 
 
     /**
-     *
-     * @param  Id 根据Id查找当前显示图片
+     * @param studSum 当天的学习任务量
      * @return Id 返回一个Id值
      * @author 任嘉颖
      * @since 2019年6月10日15:13:41
      */
 
-    List<WordModel> selectPhoneficPictureById( Integer Id) ;
-
+    List<WordModel> selectPhoneficPictureById(Integer studSum);
 
 
     /**

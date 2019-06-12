@@ -213,15 +213,17 @@ public class WordController {
     }
 
     /**
-     * @param Id 根据Id查找当前显示图片
+     * 根据当天学习任务量查询
+     *
+     * @param studSum 当天学习任务量
      * @return Id 返回一个Id值
      * @author 任嘉颖
      * @since 2019年6月10日15:13:41
      */
-    @ApiOperation(value = "根据Id查找当前显示图片")
-    @GetMapping(value = "/selectPhoneficPictureById/{Id}")
-    public ItooResult selectPhoneficPictureById(@PathVariable Integer Id) {
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.selectPhoneficPictureById(Id));
+    @ApiOperation(value = "根据当天学习任务量查询")
+    @GetMapping(value = "/selectPhoneficPictureById/{studSum}")
+    public ItooResult selectPhoneficPictureById(@PathVariable Integer studSum) {
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.selectPhoneficPictureById(studSum));
     }
 
     /**
