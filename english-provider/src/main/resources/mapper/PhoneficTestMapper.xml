@@ -17,5 +17,53 @@
         ORDER BY
         f.create_time DESC
     </select>
+    <select id="queryWordIdAudioPicByPhoneficId" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+            tnw.id,
+            tnw.audio,
+            tnw.word_picture1,
+            tnw.word_picture2,
+            tnw.word_picture3,
+            tnw.word_picture4,
+            tnw.word_picture5
+        FROM
+            tn_word tnw
+        LEFT JOIN tn_phonefic_test tnp ON tnw.id = tnp.word_id
+        WHERE
+            tnp.phonefic_id = #{phoneficId}
+    </select>
 
+    <select id="queryAudioByPhoneficId" resultType="com.tfjybj.english.model.PhoneficTestModel">
+        SELECT
+          p.audio,
+          COUNT(1)
+        FROM
+          tn_phonefic_test pt
+        Left JOIN
+          tn_phonefic p ON pt.phonefic_id = p.id
+    </select>
+    <select id="selectWordByPhoneficId" resultType="com.tfjybj.english.model.PhoneficTestModel">
+        SELECT
+          *
+        FROM
+          tn_phonefic_test
+        WHERE
+          phonefic_id = #{phoneficId}
+    </select>
+    <select id="queryStateByWord" resultType="com.tfjybj.english.entity.PhoneficTestEntity">
+        select * from tn_phonefic_test where word = #{word}
+    </select>
+
+    <!--音标练习(听)_根据音标id查询对应正确单词_邢美玲-->
+    <select id="getPhoneficTestById" resultType="com.tfjybj.english.model.PhoneficTestModel">
+        SELECT
+	w.audio,
+	pt.word
+FROM
+	tn_phonefic_test pt
+	INNER JOIN tn_word w ON pt.word_id = w.id
+	AND pt.is_delete = 0
+	AND pt.state = 0
+	AND pt.phonefic_id = #{phoneficId}
+    </select>
 </mapper>

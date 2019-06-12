@@ -17,5 +17,34 @@
         ORDER BY
         f.create_time DESC
     </select>
+    <select id="selectAudioByPhonefic" resultType="com.tfjybj.english.entity.PhoneficEntity">
+        select * from tn_phonefic where phonefic = #{phonefic}
+    </select>
+    <!--
+         * 通过音标拼写查找对应图片
+     * @Author 张凯超
+     * @param phonetic 音标
+     * @return 音标对应图片-->
+    <select id="queryPictureByPhonetic" resultType="com.tfjybj.english.model.PhoneficTestModel">
+        SELECT
+          tn_phonefic.phonefic_picture
+        FROM
+          tn_phonefic
+        WHERE
+          tn_phonefic.phonefic = #{phonetic}
+
+    </select>
+
+    <!--音标练习(看)-根据id查询所有图片等-邢美玲-->
+    <select id="getPhoneficById" resultType="com.tfjybj.english.model.PhoneficModel">
+        SELECT
+        *
+        FROM
+        tn_phonefic tp
+        WHERE
+        tp. is_delete =0
+        And
+        tp.id =#{id}
+    </select>
 
 </mapper>

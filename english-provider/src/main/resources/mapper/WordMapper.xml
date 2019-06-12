@@ -46,5 +46,21 @@
         f.is_delete = 0
         LIMIT #{studSum}
     </select>
+    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.model.WordTestModel">
+      SELECT
+        tn_word_test.phonefic
+      FROM
+        tn_word_test
+      WHERE
+        tn_word_test.word_id = #{wordId}
+
+    </select>
+
+    <select id="queryStateByWord" resultType="com.tfjybj.english.entity.WordEntity">
+        select * from tn_word where word = #{word}
+    </select>
+    <select id="queryPictureByWord" resultType="com.tfjybj.english.entity.WordEntity">
+        select * from tn_word where word = #{word}
+    </select>
 
 </mapper>

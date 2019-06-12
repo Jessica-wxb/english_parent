@@ -25,6 +25,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class PhoneficTestModel implements Serializable {
 
     //region 模板逆向生产来自PhoneficTestEntity的属性
+
+	/**
+	 * word表id_邢美玲
+	 */
+	@ApiModelProperty(value = "音频audio")
+	@Column(name = "audio")
+	private String audio;
 	/**
 	 * id
 	 */

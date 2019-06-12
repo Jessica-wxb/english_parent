@@ -33,4 +33,14 @@ public class UserSetServiceImpl extends BaseServicePlusImpl<UserSetDao, UserSetE
         return userSetDao.getStudyNumberService(userid);
 
     }
+
+    @Override
+    public UserSetEntity getByUserId(String userId) {
+        return userSetDao.selectByUserId(userId);
+    }
+
+    @Override
+    public UserSetEntity updateTimesById(String userId, String phoneficNumber) {
+        return userSetDao.updateTimesById(userId, phoneficNumber);
+    }
 }

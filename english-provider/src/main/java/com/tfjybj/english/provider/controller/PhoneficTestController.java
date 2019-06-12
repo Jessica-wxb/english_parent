@@ -157,5 +157,63 @@ public class PhoneficTestController {
 
     /* **********************************以下为非模板生成的内容********************************* */
 
+    /**
+     * 根据音标id找到对应音频audio
+     *
+     * @param phoneficId 音标Id
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日10:29:26
+     */
+    @ApiOperation(value = "根据音标id找到对应音频audio")
+    @GetMapping(value = "queryAudioByPhoneficId/{phoneficId}")
+    public ItooResult queryAudioByPhoneficId(@ApiParam(name = "phoneficId",value = "音标Id",required = true)@PathVariable String phoneficId) {
+        List<PhoneficTestModel> phoneficTestModelList = phoneficTestService.queryAudioByPhoneficId(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestModelList);
+    }
+
+    /**
+     * 根据音标id匹配对应两个单词word
+     *
+     * @param phoneficId
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日15:40:32
+     */
+    @ApiOperation(value = "根据音标id匹配对应两个单词word")
+    @GetMapping(value = "selectWordByPhoneficId/{phoneficId}")
+    public ItooResult selectWordByPhoneficId(@ApiParam(name = "phoneficId",value = "音标Id",required = true)@PathVariable String phoneficId) {
+        List<PhoneficTestModel> phoneficTestModelList = phoneficTestService.selectWordByPhoneficId(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestModelList);
+    }
+
+    /**
+     * 根据单词拼写查找状态
+     *
+     * @param word 单词拼写
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日19:11:05
+     */
+    @ApiOperation(value = "根据单词拼写查找单词音频")
+    @GetMapping(value = {"/queryStateByWord/{word}"})
+    public ItooResult queryStateByWord(@ApiParam(name = "word",value = "单词",required = true)@PathVariable String word) {
+        PhoneficTestEntity phoneficTestEntity = phoneficTestService.queryStateByWord(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestEntity);
+    }
+    /**
+     * 根据id查找PhoneficTest
+     * @param phoneficid 音标id
+     * @return 音标练习(听)根据音标id查询对应正确单词
+     * @author 邢美玲
+     * @since ${version} 2019年6月11日14:39:46
+     */
+    @ApiOperation(value = "音标练习(听)根据音标id查询对应正确单词")
+    @GetMapping(value = {"/findPhoneficById/{phoneficid}"})
+    public ItooResult findPhoneficTestById(@ApiParam(value = "音标id", required = true) @PathVariable Integer phoneficid) {
+        List<PhoneficTestModel> phoneficTestList = phoneficTestService.getPhoneficTestByIdById(phoneficid);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestList);
+    }
+
 
 }    
