@@ -28,11 +28,24 @@ public class UserWrongServiceImpl extends BaseServicePlusImpl<UserWrongDao,UserW
 
     /* **********************************以下为非模板生成的内容********************************* */
 
+    /**
+     * 根据用户id查询错误的单词
+     * @author 陈广晗
+     * @since 2019-06-12 21:42:10
+     * @param userId  该用户的id
+     * @return 用户错题表的信息
+     */
     @Override
     public List<UserWrongModel> queryWrongWordId(Integer userId) {
         return userWrongDao.queryWrongWordId(userId);
     }
-
+    /**
+     * 根据用户id查询错误的音标
+     * @author 陈广晗
+     * @since 2019-06-12 21:42:10
+     * @param userId  该用户的id
+     * @return 用户错题表的信息
+     */
     @Override
     public List<UserWrongModel> queryWrongPhoneficId(Integer userId) {
         return userWrongDao.queryWrongPhoneficId(userId);

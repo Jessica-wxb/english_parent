@@ -2,6 +2,10 @@ package com.tfjybj.english.provider.service;
 
 import com.tfjybj.english.entity.PhoneficEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
+import com.tfjybj.english.model.PhoneficModel;
+import com.tfjybj.english.model.PhoneficTestModel;
+
+import java.util.List;
 
 
 /**
@@ -15,4 +19,14 @@ import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 public interface PhoneficService extends BaseServicePlus<PhoneficEntity> {
 
     PhoneficEntity selectAudioByPhonefic(String phonefic);
+
+    /**
+     * 通过音标拼写查找对应图片
+     * @Author 张凯超
+     * @param phonetic 音标
+     * @return 音标对应图片
+     */
+    PhoneficTestModel queryPictureByPhonetic(String phonetic);
+    // 音标练习(看)-查询 的所有图片等_xml
+    List<PhoneficModel> getPhoneficById(Integer id);
 }

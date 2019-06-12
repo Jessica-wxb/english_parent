@@ -1,16 +1,19 @@
 package com.tfjybj.english.provider.controller;
 
+import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordTestEntity;
 import com.tfjybj.english.model.WordTestModel;
 import com.tfjybj.english.provider.service.WordTestService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.ejb.PostActivate;
 import java.util.List;
 
 
@@ -158,5 +161,42 @@ public class WordTestController {
 
     /* **********************************以下为非模板生成的内容********************************* */
 
-   
-}    
+
+    /**
+     * 根据单词Id获取对应单词audio
+     * @param wordId 单词Id
+     * @return 单词audio
+     * @author 张凯超
+     */
+    @ApiOperation(value ="根据单词Id获取对应单词audio" )
+    @GetMapping(value = {"/queryAudioByWordId/{wordId}"})
+    public ItooResult queryAudioByWordId(@ApiParam(value = "单词Id",name = "wordId") @PathVariable String wordId){
+       WordEntity wordEntity = wordTestService.queryAudioByWordId(wordId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordEntity.getAudio());
+    }
+
+    /**
+     *根据单词id匹配对应两个音标
+     * @param wordId 单词Id
+     * @return 单词Id对应音标
+     * @author 张凯超
+     */
+    @ApiOperation(value = "根据单词id匹配对应两个音标")
+    @GetMapping(value = {"/queryPhoneticByWordId/{wordId}"})
+    public ItooResult queryPhoneticByWordId(@ApiParam(value = "单词Id",name = "wordId",required = true) @PathVariable String wordId){
+        List<WordTestEntity> wordTestEntityList = wordTestService.queryPhoneticByWordId(wordId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordTestEntityList);
+    }
+
+    /**
+     * 根据单词拼写查找状态
+     * @author
+     * @param word 单词
+     * @return state 0 正确 1 错误
+     */
+    public ItooResult queryWordStateByWord(@ApiParam(value = "word",name = "单词",required = true)@PathVariable String word){
+        WordTestModel wordTestModel = wordTestService.queryWordStateByWord(word);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordTestModel);
+    }
+
+}

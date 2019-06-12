@@ -22,4 +22,7 @@ public interface PhoneficTestService extends BaseServicePlus<PhoneficTestEntity>
     List<PhoneficTestModel> selectWordByPhoneficId(String phoneficId);
 
     PhoneficTestEntity queryStateByWord(String word);
+
+    //音标练习(听)_根据音标id查询对应正确单词_邢美玲
+    List<PhoneficTestModel> getPhoneficTestByIdById(Integer phoneficid);
 }

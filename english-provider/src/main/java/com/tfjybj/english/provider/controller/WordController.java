@@ -274,4 +274,5 @@ public class WordController {
         WordEntity wordEntity = wordService.queryPictureByWord(word);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
     }
+
 }
