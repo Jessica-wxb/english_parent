@@ -201,5 +201,19 @@ public class PhoneficTestController {
         PhoneficTestEntity phoneficTestEntity = phoneficTestService.queryStateByWord(word);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestEntity);
     }
+    /**
+     * 根据id查找PhoneficTest
+     * @param phoneficid 音标id
+     * @return 音标练习(听)根据音标id查询对应正确单词
+     * @author 邢美玲
+     * @since ${version} 2019年6月11日14:39:46
+     */
+    @ApiOperation(value = "音标练习(听)根据音标id查询对应正确单词")
+    @GetMapping(value = {"/findPhoneficById/{phoneficid}"})
+    public ItooResult findPhoneficTestById(@ApiParam(value = "音标id", required = true) @PathVariable Integer phoneficid) {
+        List<PhoneficTestModel> phoneficTestList = phoneficTestService.getPhoneficTestByIdById(phoneficid);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestList);
+    }
+
 
 }    

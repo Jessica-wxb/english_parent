@@ -2,6 +2,9 @@ package com.tfjybj.english.provider.service;
 
 import com.tfjybj.english.entity.PhoneficEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
+import com.tfjybj.english.model.PhoneficModel;
+
+import java.util.List;
 
 
 /**
@@ -15,4 +18,6 @@ import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 public interface PhoneficService extends BaseServicePlus<PhoneficEntity> {
 
     PhoneficEntity selectAudioByPhonefic(String phonefic);
+    // 音标练习(看)-查询 的所有图片等_xml
+    List<PhoneficModel> getPhoneficById(Integer id);
 }
