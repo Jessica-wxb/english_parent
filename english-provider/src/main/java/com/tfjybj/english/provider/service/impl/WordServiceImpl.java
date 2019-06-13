@@ -1,5 +1,6 @@
 package com.tfjybj.english.provider.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.dao.WordDao;

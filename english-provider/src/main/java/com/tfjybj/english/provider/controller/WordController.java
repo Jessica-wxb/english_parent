@@ -1,5 +1,6 @@
 package com.tfjybj.english.provider.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.service.WordService;
@@ -274,5 +275,4 @@ public class WordController {
         WordEntity wordEntity = wordService.queryPictureByWord(word);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
     }
-
 }
