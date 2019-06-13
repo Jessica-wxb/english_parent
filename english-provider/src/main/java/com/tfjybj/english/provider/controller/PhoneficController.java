@@ -1,6 +1,7 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneficEntity;
+import com.tfjybj.english.entity.PhoneficTestEntity;
 import com.tfjybj.english.model.PhoneficModel;
 import com.tfjybj.english.model.PhoneficTestModel;
 import com.tfjybj.english.provider.service.PhoneficService;
@@ -181,17 +182,17 @@ public class PhoneficController {
 
 
     /**
-     * 通过音标拼写查找对应图片
+     * 通过音标Id查找对应图片
      * @Author 张凯超
-     * @param phonetic 音标
+     * @param phoneficId 音标ID
      * @return 音标对应图片
      *
      */
-    @ApiOperation("通过音标拼写查找对应图片")
-    @GetMapping(value = {"/queryPictureByPhonetic/phonetic"})
-    public ItooResult queryPictureByPhonetic(@ApiParam(value = "音标",name ="phonetic",required = true) @PathVariable String phonetic){
-        PhoneficTestModel phoneficTestModel = phoneficService.queryPictureByPhonetic(phonetic);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",phonetic);
+    @ApiOperation("通过音标Id查找对应图片")
+    @GetMapping(value = {"/queryPictureByPhonetic/{phoneficId}"})
+    public ItooResult queryPictureByPhoneficId(@ApiParam(value = "音标",name ="phoneficId",required = true) @PathVariable String phoneficId){
+        List<PhoneficEntity> phoneficEntityList = phoneficService.queryPictureByPhonefic(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",phoneficEntityList);
     }
     /**
      * 根据id查找Phonefic
