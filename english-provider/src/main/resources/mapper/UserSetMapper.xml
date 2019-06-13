@@ -25,7 +25,7 @@
             tn_user_set
         WHERE
             is_delete = 0
-            AND user_id = #{userid}
+            AND user_id = #{userId}
         ORDER BY
             update_time DESC
     </select>

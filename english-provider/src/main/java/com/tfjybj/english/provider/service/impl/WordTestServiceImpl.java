@@ -2,7 +2,6 @@ package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordTestEntity;
-import com.tfjybj.english.model.WordTestModel;
 import com.tfjybj.english.provider.dao.WordTestDao;
 import com.tfjybj.english.provider.service.WordTestService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
@@ -53,13 +52,13 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordTestDao,WordTes
     }
 
     /**
-     * 根据单词拼写查找状态
+     * 根据音标Id拼写查找状态
      * @author
-     * @param word 单词
+     * @param phoneficId 单词
      * @return state 0 正确 1 错误
      */
     @Override
-    public WordTestModel queryWordStateByWord(String word) {
-        return wordTestDao.queryWordStateByWord(word);
+    public WordTestEntity queryWordStateByphoneficId(String phoneficId) {
+        return wordTestDao.queryWordStateByphoneficId(phoneficId);
     }
 }

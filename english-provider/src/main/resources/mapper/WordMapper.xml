@@ -71,5 +71,13 @@
         WHERE
             tw.is_delete = 0
     </select>
+    <select id="queryAudioBywordId" resultType="com.tfjybj.english.model.WordModel">
+        select
+          audio
+        from
+          tn_word
+        where
+          id = #{wordId}
+    </select>
 
 </mapper>
