@@ -1,5 +1,6 @@
 package com.tfjybj.english.provider.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.dao.WordDao;
@@ -81,7 +82,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                 File[] tepmWord = tempList[i].listFiles();
                 int picNum = 0;
                 for (int j = 0; j < tepmWord.length; j++) {
-                    // 通过路径转换成文件流
+                    // 通过路径转换成文件流picture
                     FileInputStream wordStrm = new FileInputStream(tepmWord[j]);
                     MultipartFile multipartFile = new MockMultipartFile(tepmWord[j].getName(), tepmWord[j].getName(), "text/plain", wordStrm);
                     String picture = uploadPictureUntil.uploadPicture(multipartFile);
@@ -90,7 +91,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                         log.error("文件上传失败!");
                         return false;
                     }
-                    if (UploadPictureUntil.FILE_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1))) {
+                    if (UploadPictureUntil.FILE_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1).toUpperCase())) {
                         picNum++;
                         switch (picNum) {
                             case 1:
@@ -109,7 +110,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                                 wordEntity.setWordPicture5(picture);
                                 continue;
                         }
-                    } else if (UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1))) {
+                    } else if (UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1).toUpperCase())) {
                         wordEntity.setAudio(picture);
                     }
                 }
@@ -154,9 +155,10 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
 
     /**
      * 根据单词Id查询单词音频
-     * @author 张凯超
+     *
      * @param wordId 单词Id
      * @return 单词音频
+     * @author 张凯超
      */
     @Override
     public WordModel queryAudioBywordId(String wordId) {

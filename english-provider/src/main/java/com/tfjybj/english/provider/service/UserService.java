@@ -2,6 +2,7 @@ package com.tfjybj.english.provider.service;
 
 import com.tfjybj.english.entity.UserEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
+import com.tfjybj.english.model.UserModel;
 
 
 /**
@@ -14,5 +15,6 @@ import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
  */
 public interface UserService extends BaseServicePlus<UserEntity> {
 
-
+    //根据用户id查询用户-张伟杰-2019-6-13 11:58:12
+    UserModel queryUserByUserId(String userId);
 }

@@ -29,8 +29,8 @@ public class UserSetServiceImpl extends BaseServicePlusImpl<UserSetDao, UserSetE
 
     /* **********************************以下为非模板生成的内容********************************* */
     @Override
-    public List<UserSetModel> getStudyNumberService(Integer userid) {
-        return userSetDao.getStudyNumberService(userid);
+    public List<UserSetModel> getStudyNumberService(String userId) {
+        return userSetDao.getStudyNumberService(userId);
 
     }
 

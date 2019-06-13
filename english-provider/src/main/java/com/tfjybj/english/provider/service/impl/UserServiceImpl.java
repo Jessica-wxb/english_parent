@@ -1,6 +1,7 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.UserEntity;
+import com.tfjybj.english.model.UserModel;
 import com.tfjybj.english.provider.dao.UserDao;
 import com.tfjybj.english.provider.service.UserService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
@@ -21,8 +22,13 @@ public class UserServiceImpl extends BaseServicePlusImpl<UserDao,UserEntity> imp
 	//region 模板生成
     @Resource
     private UserDao userDao;
-	
-	//endregion
+
+
+    //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+    @Override
+    public UserModel queryUserByUserId(String userId) {
+        return userDao.queryUserByUserId(userId);
+    }
 }

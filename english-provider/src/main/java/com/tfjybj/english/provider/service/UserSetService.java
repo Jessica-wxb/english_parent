@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface UserSetService extends BaseServicePlus<UserSetEntity> {
     // 根据用户id，查询用户设置——白爱民2019年6月11日18:13:01
-    List<UserSetModel> getStudyNumberService(Integer userid);
+    List<UserSetModel> getStudyNumberService(String userId);
 
     UserSetEntity getByUserId(String userId);
 
