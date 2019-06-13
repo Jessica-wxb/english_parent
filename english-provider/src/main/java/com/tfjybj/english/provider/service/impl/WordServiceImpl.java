@@ -152,5 +152,17 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         return wordDao.queryWordAll();
     }
 
+    /**
+     * 根据单词Id查询单词音频
+     * @author 张凯超
+     * @param wordId 单词Id
+     * @return 单词音频
+     */
+    @Override
+    public WordModel queryAudioBywordId(String wordId) {
+        return wordDao.queryAudioBywordId(wordId);
+
+    }
+
 
 }

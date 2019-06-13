@@ -275,4 +275,19 @@ public class WordController {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
     }
 
+
+    /**
+     * 根据单词Id查询单词音频
+     * @author 张凯超
+     * @param wordId 单词Id
+     * @return 单词音频
+     *
+     */
+    @ApiOperation(value = "根据单词Id查询单词音频")
+    @GetMapping(value = "{/queryAudioBywordId/{wordId}}")
+    public ItooResult queryAudioBywordId(@ApiParam(name = "wordId",value = "单词Id",required = true) @PathVariable String wordId){
+        WordModel wordModel = wordService.queryAudioBywordId(wordId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordModel.getAudio());
+    }
+
 }
