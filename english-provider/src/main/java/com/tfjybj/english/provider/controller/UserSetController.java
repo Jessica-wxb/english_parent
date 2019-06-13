@@ -199,15 +199,15 @@ public class UserSetController {
     /**
      * 根据用户id查询用户设置
      *
-     * @param userid 用户id
+     * @param userId 用户id
      * @return 返回查询用户设置实体集合
      * @author 白爱民
      * @since 2019-6-11 17:04:31
      */
     @ApiOperation(value = "根据用户id，查询用户设置")
-    @GetMapping(value = "/selStudyNumber/{userid}")
-    public ItooResult selStudyNumber(@PathVariable Integer userid) {
-        List<UserSetModel> StudyNumberList = userSetService.getStudyNumberService(userid);
+    @GetMapping(value = "/selStudyNumber/{userId}")
+    public ItooResult selStudyNumber(@PathVariable String userId) {
+        List<UserSetModel> StudyNumberList = userSetService.getStudyNumberService(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功！", StudyNumberList);
     }
 

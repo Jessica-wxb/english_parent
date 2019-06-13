@@ -17,5 +17,17 @@
         ORDER BY
         f.create_time DESC
     </select>
+    <!--根据userId查询用户-张伟杰-2019年6月13日12:08:48-->
+    <select id="queryUserByUserId" resultType="com.tfjybj.english.model.UserModel">
+        SELECT
+            *
+        FROM
+            tn_user
+        WHERE
+            is_delete = 0
+            AND user_id = #{userId}
+        ORDER BY
+            update_time DESC
+    </select>
 
 </mapper>
