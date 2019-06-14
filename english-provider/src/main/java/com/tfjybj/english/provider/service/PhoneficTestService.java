@@ -34,4 +34,13 @@ public interface PhoneficTestService extends BaseServicePlus<PhoneficTestEntity>
      * @since  2019年6月13日22:31:07
      */
     List<PhoneficEntity> queryAudioByUserId(String userId);
+
+    /**
+     * 根据音标ID在音标测试表获取音标
+     * @author 张凯超
+     * @param phoneficId 音标Id
+     * @return 音标Id对应两个音标
+     * @since 2019年6月14日09:37:26
+     */
+    List<PhoneficTestModel> queryPhoneficByPhoneficId(String phoneficId);
 }

@@ -1,9 +1,7 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneficEntity;
-import com.tfjybj.english.entity.PhoneficTestEntity;
 import com.tfjybj.english.model.PhoneficModel;
-import com.tfjybj.english.model.PhoneficTestModel;
 import com.tfjybj.english.provider.service.PhoneficService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
@@ -190,8 +188,22 @@ public class PhoneficController {
      */
     @ApiOperation("通过音标Id查找对应图片")
     @GetMapping(value = {"/queryPictureByPhonetic/{phoneficId}"})
-    public ItooResult queryPictureByPhoneficId(@ApiParam(value = "音标",name ="phoneficId",required = true) @PathVariable String phoneficId){
-        List<PhoneficEntity> phoneficEntityList = phoneficService.queryPictureByPhonefic(phoneficId);
+    public ItooResult queryPictureByPhoneficId(@ApiParam(value = "音标Id",name ="phoneficId",required = true) @PathVariable String phoneficId){
+        List<PhoneficEntity> phoneficEntityList = phoneficService.queryPictureByPhoneficId(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",phoneficEntityList);
+    }
+
+    /**
+     * 通过音标查找对应图片
+     * @param phonefic 音标
+     * @return 音标对应图片
+     * @author 张凯超
+     * @since 2019年6月14日09:55:30
+     */
+    @ApiOperation("通过音标查找对应图片")
+    @GetMapping(value = {"/queryPictureByPhonefic/{phonefic}"})
+    public ItooResult queryPictureByPhonefic(@ApiParam(value = "音标",name = "phonefic",required = true) @PathVariable String phonefic){
+        List<PhoneficEntity> phoneficEntityList = phoneficService.queryPictureByPhonefic(phonefic);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",phoneficEntityList);
     }
     /**

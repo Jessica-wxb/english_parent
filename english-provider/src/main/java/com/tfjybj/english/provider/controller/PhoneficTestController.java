@@ -229,4 +229,18 @@ public class PhoneficTestController {
         List<PhoneficEntity> phoneficTestEntityList = phoneficTestService.queryAudioByUserId(userId);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",phoneficTestEntityList);
     }
+
+    /**
+     * 根据音标ID在音标测试表获取音标
+     * @author 张凯超
+     * @param phoneficId 音标Id
+     * @return 音标Id对应两个音标
+     * @since 2019年6月14日09:37:26
+     */
+    @ApiOperation(value = "根据音标ID在音标测试表获取音标")
+    @GetMapping(value = {"/queryPhoneficByPhoneficId/{phoneficId}"})
+    public ItooResult queryPhoneficByPhoneficId(@ApiParam(value = "音标Id",name = "phoneficId",required = true) @PathVariable String phoneficId){
+        List<PhoneficTestModel> phoneficTestModellist = phoneficTestService.queryPhoneficByPhoneficId(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",phoneficTestModellist);
+    }
 }    
