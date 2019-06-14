@@ -3,7 +3,6 @@ package com.tfjybj.english.provider.service;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordTestEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
-import com.tfjybj.english.model.WordTestModel;
 
 import java.util.List;
 
@@ -35,10 +34,10 @@ public interface WordTestService extends BaseServicePlus<WordTestEntity> {
     List<WordTestEntity> queryPhoneticByWordId(String wordId);
 
     /**
-     * 根据单词拼写查找状态
+     * 根据音标Id拼写查找状态
      * @author
-     * @param word 单词
+     * @param phoneficId 音标Id
      * @return state 0 正确 1 错误
      */
-    WordTestModel queryWordStateByWord(String word);
+    WordTestEntity queryWordStateByphoneficId(String phoneficId);
 }

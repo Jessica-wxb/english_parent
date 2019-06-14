@@ -152,4 +152,19 @@ public class UserController {
 
     /* **********************************以下为非模板生成的内容********************************* */
 
+    /**
+     * 根据用户id查询用户
+     * @param userId 用户id
+     * @return 用户信息
+     * @author 张伟杰
+     * @since 2019-6-13 11:54:09
+     */
+    @ApiOperation(value = "根据用户id查询用户")
+    @GetMapping(value = {"/queryUserByUserId/{userId}"})
+    public ItooResult queryUserByUserId(
+        @ApiParam(name = "userId",value = "用户id",required = true)@PathVariable String userId
+    ){
+        UserModel userModel = userService.queryUserByUserId(userId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",userModel);
+    }
 }    

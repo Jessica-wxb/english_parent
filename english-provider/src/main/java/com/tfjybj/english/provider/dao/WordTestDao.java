@@ -37,10 +37,11 @@ public interface WordTestDao extends BaseMapper<WordTestEntity> {
     List<WordTestEntity> queryPhoneticByWordId(@Param("wordId") String wordId);
 
     /**
-     * 根据单词拼写查找状态
+     * 根据音标Id拼写查找状态
      * @author
-     * @param word 单词
+     * @param phoneficId 单词
      * @return state 0 正确 1 错误
      */
-    WordTestModel queryWordStateByWord (@Param("word") String word);
+    WordTestEntity queryWordStateByphoneficId (@Param("phoneficId") String phoneficId);
+
 }

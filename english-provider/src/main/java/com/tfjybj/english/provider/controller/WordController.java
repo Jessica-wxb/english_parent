@@ -236,7 +236,7 @@ public class WordController {
     public ItooResult batchInsertion(String path) {
         try {
             boolean flag = wordService.batchInsert(path);
-            return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
+          return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
 
         } catch (Exception e) {
             log.error("错误" + e);
@@ -273,6 +273,21 @@ public class WordController {
     public ItooResult queryPictureByWord(@ApiParam(name = "word", value = "单词", required = true) @PathVariable String word) {
         WordEntity wordEntity = wordService.queryPictureByWord(word);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
+    }
+
+
+    /**
+     * 根据单词Id查询单词音频
+     *
+     * @param wordId 单词Id
+     * @return 单词音频
+     * @author 张凯超
+     */
+    @ApiOperation(value = "根据单词Id查询单词音频")
+    @GetMapping(value = "{/queryAudioBywordId/{wordId}}")
+    public ItooResult queryAudioBywordId(@ApiParam(name = "wordId", value = "单词Id", required = true) @PathVariable String wordId) {
+        WordModel wordModel = wordService.queryAudioBywordId(wordId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel.getAudio());
     }
 
 }

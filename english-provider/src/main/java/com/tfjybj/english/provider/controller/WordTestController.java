@@ -189,14 +189,17 @@ public class WordTestController {
     }
 
     /**
-     * 根据单词拼写查找状态
-     * @author
-     * @param word 单词
+     * 根据音标Id查找状态
+     * @author 张凯超
+     * @param phoneficId  音标Id
      * @return state 0 正确 1 错误
+     *
      */
-    public ItooResult queryWordStateByWord(@ApiParam(value = "word",name = "单词",required = true)@PathVariable String word){
-        WordTestModel wordTestModel = wordTestService.queryWordStateByWord(word);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordTestModel);
+    @ApiOperation(value = "根据音标Id拼写查找状态")
+    @GetMapping(value = {"/queryWordStateByphoneficId/{phoneficId}"})
+    public ItooResult queryWordStateByphoneficId(@ApiParam(value = "phoneficId",name = "音标Id",required = true)@PathVariable String phoneficId){
+        WordTestEntity wordTestEntity = wordTestService.queryWordStateByphoneficId(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordTestEntity);
     }
 
 }
