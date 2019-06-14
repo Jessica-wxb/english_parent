@@ -26,12 +26,13 @@
      * @param phonetic 音标
      * @return 音标对应图片-->
     <select id="queryPictureByPhonefic" resultType="com.tfjybj.english.entity.PhoneficEntity">
-        SELECT
-          *
+
+                  SELECT
+          phonefic_picture
         FROM
           tn_phonefic
         WHERE
-          id = #{phoneficId}
+          phonefic = #{phonefic}
     </select>
 
     <!--音标练习(看)-根据id查询所有图片等-邢美玲-->
@@ -44,6 +45,14 @@
         tp. is_delete =0
         And
         tp.id =#{id}
+    </select>
+    <select id="queryPictureByPhoneficId" resultType="com.tfjybj.english.entity.PhoneficEntity">
+             SELECT
+          *
+        FROM
+          tn_phonefic
+        WHERE
+          id = #{phoneficId}
     </select>
 
 </mapper>

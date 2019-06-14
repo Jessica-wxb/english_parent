@@ -20,12 +20,20 @@ public interface PhoneficService extends BaseServicePlus<PhoneficEntity> {
     PhoneficEntity selectAudioByPhonefic(String phonefic);
 
     /**
+     * 通过音标查找对应图片
+     * @Author 张凯超
+     * @param phonefic 音标
+     * @return 音标对应图片
+     */
+    List<PhoneficEntity> queryPictureByPhonefic(String phonefic);
+    // 音标练习(看)-查询 的所有图片等_xml
+    List<PhoneficModel> getPhoneficById(Integer id);
+
+    /**
      * 通过音标Id查找对应图片
      * @Author 张凯超
      * @param phoneficId 音标
      * @return 音标对应图片
      */
-    List<PhoneficEntity> queryPictureByPhonefic(String phoneficId);
-    // 音标练习(看)-查询 的所有图片等_xml
-    List<PhoneficModel> getPhoneficById(Integer id);
+    List<PhoneficEntity> queryPictureByPhoneficId(String phoneficId);
 }

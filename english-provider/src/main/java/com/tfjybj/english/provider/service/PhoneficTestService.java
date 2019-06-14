@@ -1,5 +1,6 @@
 package com.tfjybj.english.provider.service;
 
+import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.entity.PhoneficTestEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 import com.tfjybj.english.model.PhoneficTestModel;
@@ -25,4 +26,21 @@ public interface PhoneficTestService extends BaseServicePlus<PhoneficTestEntity>
 
     //音标练习(听)_根据音标id查询对应正确单词_邢美玲
     List<PhoneficTestModel> getPhoneficTestByIdById(Integer phoneficid);
+
+    /**
+     * 根据用户Id查询音标Id、音频
+     * @param userId 用户Id
+     * @return 音标Id、音频
+     * @since  2019年6月13日22:31:07
+     */
+    List<PhoneficEntity> queryAudioByUserId(String userId);
+
+    /**
+     * 根据音标ID在音标测试表获取音标
+     * @author 张凯超
+     * @param phoneficId 音标Id
+     * @return 音标Id对应两个音标
+     * @since 2019年6月14日09:37:26
+     */
+    List<PhoneficTestModel> queryPhoneficByPhoneficId(String phoneficId);
 }

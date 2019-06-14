@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.PhoneficTestDao">
-	<!--根据PhoneficTest音标id模糊查询PhoneficTestEntity-->
+    <!--根据PhoneficTest音标id模糊查询PhoneficTestEntity-->
     <select id="queryLikePhoneficId" resultType="com.tfjybj.english.entity.PhoneficTestEntity">
         SELECT
-			*
+        *
         FROM
-			tn_phonefic_test f
+        tn_phonefic_test f
         WHERE
-			f.is_delete = 0
+        f.is_delete = 0
         <if test="phoneficId !=''">
             <bind name="pattern" value="'%' + phoneficId + '%'"/>
             AND f.phonefic_id LIKE #{pattern}
@@ -65,5 +65,23 @@ FROM
 	AND pt.is_delete = 0
 	AND pt.state = 0
 	AND pt.phonefic_id = #{phoneficId}
+    </select>
+    <select id="queryAudioByUserId" resultType="com.tfjybj.english.entity.PhoneficEntity">
+        SELECT
+	tnp.id,
+	tnp.audio
+FROM
+	tn_user_record tur
+LEFT JOIN tn_phonefic tnp ON tnp.id = tur.phonefic_id
+WHERE
+	tur.user_id = #{userId}
+    </select>
+    <select id="queryPhoneficByPhoneficId" resultType="com.tfjybj.english.model.PhoneficTestModel">
+            SELECT
+    tn_phonefic_test.phonefic
+    FROM
+    tn_phonefic_test
+    WHERE
+    tn_phonefic_test.phonefic_id = #{phoneficId}
     </select>
 </mapper>

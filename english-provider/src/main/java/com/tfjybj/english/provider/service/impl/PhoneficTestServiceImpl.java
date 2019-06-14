@@ -1,5 +1,6 @@
 package com.tfjybj.english.provider.service.impl;
 
+import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.entity.PhoneficTestEntity;
 import com.tfjybj.english.model.PhoneficTestModel;
 import com.tfjybj.english.provider.dao.PhoneficTestDao;
@@ -49,6 +50,29 @@ public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
     @Override
     public List<PhoneficTestModel>  getPhoneficTestByIdById(Integer phoneficid){
         return phoneficTestDao.getPhoneficTestById(phoneficid);
+    }
+
+    /**
+     * 根据用户Id查询音标Id、音频
+     * @param userId 用户Id
+     * @return 音标Id、音频
+     * @since  2019年6月13日22:31:07
+     */
+    @Override
+    public List<PhoneficEntity> queryAudioByUserId(String userId) {
+        return phoneficTestDao.queryAudioByUserId(userId);
+    }
+
+    /**
+     * 根据音标ID在音标测试表获取音标
+     * @author 张凯超
+     * @param phoneficId 音标Id
+     * @return 音标Id对应两个音标
+     * @since 2019年6月14日09:37:26
+     */
+    @Override
+    public List<PhoneficTestModel> queryPhoneficByPhoneficId(String phoneficId) {
+        return phoneficTestDao.queryPhoneficByPhoneficId(phoneficId);
     }
 
 

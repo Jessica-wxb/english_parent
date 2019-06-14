@@ -290,4 +290,18 @@ public class WordController {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel.getAudio());
     }
 
+
+    /**
+     *  根据音标id查询图片
+     * @author 张凯超
+     * @param phoneficId 音标Id
+     * @since 2019年6月13日22:39:16
+     * @return 图片
+     */
+    @ApiOperation("根据音标id查询图片")
+    @GetMapping(value = {"/queryPictureByPhoneficId/{phoneficId}"})
+    public ItooResult queryPictureByPhoneficId(@ApiParam(name = "phoneficId",value = "音标Id",required = true) @PathVariable String phoneficId){
+        List<WordModel> wordModelList = wordService.queryPictureByPhoneficId(phoneficId);
+        return  ItooResult.build(ItooResult.SUCCESS,"查询成功",wordModelList);
+    }
 }

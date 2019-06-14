@@ -65,4 +65,13 @@ public interface WordDao extends BaseMapper<WordEntity> {
      * @return 单词音频
      */
     WordModel queryAudioBywordId( @Param("wordId") String wordId);
+
+    /**
+     *  根据音标id查询图片
+     * @author 张凯超
+     * @param phoneficId 音标Id
+     * @since 2019年6月13日22:39:16
+     * @return 图片
+     */
+    List<WordModel> queryPictureByPhoneficId(@Param("phoneficId") String phoneficId);
 }

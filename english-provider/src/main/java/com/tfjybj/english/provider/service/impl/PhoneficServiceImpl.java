@@ -36,12 +36,12 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao,Phonefi
     /**
      * 通过音标Id查找对应图片
      * @Author 张凯超
-     * @param phoneficId 音标
+     * @param phonefic 音标
      * @return 音标对应图片
      */
     @Override
-    public List<PhoneficEntity> queryPictureByPhonefic(String phoneficId) {
-        return phoneficDao.queryPictureByPhonefic(phoneficId);
+    public List<PhoneficEntity> queryPictureByPhonefic(String phonefic) {
+        return phoneficDao.queryPictureByPhonefic(phonefic);
     }
 
     // 音标练习(看)-根据id查询所有图片等_xml
@@ -49,5 +49,16 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao,Phonefi
     public List<PhoneficModel> getPhoneficById(Integer id) {
 
         return phoneficDao.getPhoneficById(id);
+    }
+
+    /**
+     * 通过音标Id查找对应图片
+     * @Author 张凯超
+     * @param phoneficId 音标ID
+     * @return 音标对应图片
+     */
+    @Override
+    public List<PhoneficEntity> queryPictureByPhoneficId(String phoneficId) {
+        return phoneficDao.queryPictureByPhoneficId(phoneficId);
     }
 }
