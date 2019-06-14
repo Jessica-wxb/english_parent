@@ -88,5 +88,21 @@
     WHERE tpt.phonefic_id = #{phoneficId}
     LIMIT 2
     </select>
+    <select id="queryWordAboutByUserId" resultType="com.tfjybj.english.model.WordModel">
+            SELECT
+        tnw.id ,
+        tnw.audio ,
+        tur.create_time
+    FROM
+    tn_user_record tur
+    LEFT JOIN
+    tn_word tnw  ON tnw.id = tur.word_id
+    WHERE
+    tur.user_id= #{userId}
+    ORDER BY
+        tur.create_time
+        DESC
+        LIMIT 1
+    </select>
 
 </mapper>

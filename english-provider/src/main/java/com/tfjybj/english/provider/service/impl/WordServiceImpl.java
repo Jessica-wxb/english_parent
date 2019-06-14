@@ -167,16 +167,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     }
 
     /**
-     *  根据音标id查询图片
-     * @author 张凯超
-     * @param phoneficId 音标Id
-     * @since 2019年6月13日22:39:16
-     * @return 图片
+     * 根据用户ID获取用户记录中单词、单词Id
+     * @param userId 用户Id
+     * @return 单词、单词Id
+     * @since  2019年6月14日21:25:14
      */
     @Override
-    public List<WordModel> queryPictureByPhoneficId(String phoneficId) {
-        return wordDao.queryPictureByPhoneficId(phoneficId);
+    public List<WordModel> queryWordAboutByUserId(String userId) {
+        return wordDao.queryWordAboutByUserId(userId);
     }
-
 
 }

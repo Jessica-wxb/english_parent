@@ -174,19 +174,4 @@ public class WordTestController {
        WordEntity wordEntity = wordTestService.queryAudioByWordId(wordId);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordEntity.getAudio());
     }
-
-    /**
-     *根据单词id匹配对应两个音标
-     * @param wordId 单词Id
-     * @return 单词Id对应音标
-     * @author 张凯超
-     */
-    @ApiOperation(value = "根据单词id匹配对应两个音标")
-    @GetMapping(value = {"/queryPhoneticByWordId/{wordId}"})
-    public ItooResult queryPhoneticByWordId(@ApiParam(value = "单词Id",name = "wordId",required = true) @PathVariable String wordId){
-        List<WordTestEntity> wordTestEntityList = wordTestService.queryPhoneticByWordId(wordId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordTestEntityList);
-    }
-
-
 }

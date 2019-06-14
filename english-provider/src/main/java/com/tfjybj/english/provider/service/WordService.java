@@ -77,4 +77,11 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      */
     WordModel queryAudioBywordId(String wordId);
 
+    /**
+     * 根据用户ID获取用户记录中单词、单词Id
+     * @param userId 用户Id
+     * @return 单词、单词Id
+     * @since 2019年6月14日21:24:13
+     */
+    List<WordModel> queryWordAboutByUserId(String userId);
 }

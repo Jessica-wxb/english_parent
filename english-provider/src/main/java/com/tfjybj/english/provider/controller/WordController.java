@@ -284,9 +284,22 @@ public class WordController {
      * @author 张凯超
      */
     @ApiOperation(value = "根据单词Id查询单词音频")
-    @GetMapping(value = "{/queryAudioBywordId/{wordId}}")
+    @GetMapping(value = {"/queryAudioBywordId/{wordId}"})
     public ItooResult queryAudioBywordId(@ApiParam(name = "wordId", value = "单词Id", required = true) @PathVariable String wordId) {
         WordModel wordModel = wordService.queryAudioBywordId(wordId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel.getAudio());
+    }
+
+    /**
+     * 根据用户ID获取用户记录中单词、单词Id
+     * @param userId 用户Id
+     * @return 单词、单词Id
+     * @since 2019年6月14日21:24:13
+     */
+    @ApiOperation(value = "根据用户ID获取用户记录中单词、单词Id")
+    @GetMapping({"/queryWordAboutByUserId/{userId}"})
+    public ItooResult queryWordAboutByUserId(@ApiParam(value = "用户Id",name = "userId",required = true) @PathVariable String userId ){
+        List<WordModel> wordModel = wordService.queryWordAboutByUserId(userId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordModel);
     }
 }
