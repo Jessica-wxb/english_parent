@@ -1,8 +1,8 @@
 package com.tfjybj.english.provider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tfjybj.english.entity.PhoneficTestEntity;
-import com.tfjybj.english.model.PhoneficTestModel;
+import com.tfjybj.english.entity.PhoneficWordEntity;
+import com.tfjybj.english.model.PhoneficWordModel;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -16,14 +16,14 @@ import java.util.List;
  * @since ${version} 2019-06-08 14:26:23
  */
 @Repository("phoneficTestDao")
-public interface PhoneficTestDao extends BaseMapper<PhoneficTestEntity> {
+public interface PhoneficTestDao extends BaseMapper<PhoneficWordEntity> {
 
-    List<PhoneficTestModel> queryAudioByPhoneficId(String phoneficId);
+    List<PhoneficWordModel> queryAudioByPhoneficId(String phoneficId);
 
-    List<PhoneficTestModel> selectWordByPhoneficId(String phoneficId);
+    List<PhoneficWordModel> selectWordByPhoneficId(String phoneficId);
 
-    PhoneficTestEntity queryStateByWord(String word);
+    PhoneficWordEntity queryStateByWord(String word);
 
     //音标练习(听)_根据音标id查询对应正确单词_邢美玲
-    List<PhoneficTestModel> getPhoneficTestById(Integer phoneficid);
+    List<PhoneficWordModel> getPhoneficTestById(Integer phoneficid);
 }

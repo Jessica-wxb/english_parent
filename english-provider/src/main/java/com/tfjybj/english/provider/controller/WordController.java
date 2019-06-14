@@ -224,19 +224,19 @@ public class WordController {
     }
 
     /**
-     * 根据目录结构插入数据
+     * 根据目录结构插入单词
      *
      * @param path 文件路径
      * @return true/false
      * @author 马莹
      * @since 2019-6-11 19:31:50
      */
-    @ApiOperation(value = "根据目录结构插入数据")
-    @GetMapping(value = "/batchInsert/{path}")
-    public ItooResult batchInsertion(String path) {
+    @ApiOperation(value = "根据目录结构插入单词")
+    @GetMapping(value = "/batchInsert")
+    public ItooResult batchInsertion(@RequestParam String path) {
         try {
             boolean flag = wordService.batchInsert(path);
-          return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
+            return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
 
         } catch (Exception e) {
             log.error("错误" + e);

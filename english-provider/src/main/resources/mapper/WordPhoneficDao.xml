@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.tfjybj.english.provider.dao.WordTestDao">
-	<!--根据WordTest单词id模糊查询WordTestEntity-->
-    <select id="queryLikeWordId" resultType="com.tfjybj.english.entity.WordTestEntity">
+<mapper namespace="com.tfjybj.english.provider.dao.WordPhoneficDao">
+	<!--根据WordTest单词id模糊查询WordPhoneficEntity-->
+    <select id="queryLikeWordId" resultType="com.tfjybj.english.entity.WordPhoneficEntity">
         SELECT
 			*
         FROM
@@ -36,7 +36,7 @@
      * @return 单词audio
      * @author 张凯超
      */-->
-    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.entity.WordTestEntity">
+    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.entity.WordPhoneficEntity">
         SELECT
           tn_word_test.phonefic
         FROM
@@ -51,7 +51,7 @@
  * @param word 单词
  * @return state 0 正确 1 错误
  */-->
-    <select id="queryWordStateByphoneficId" resultType="com.tfjybj.english.entity.WordTestEntity">
+    <select id="queryWordStateByphoneficId" resultType="com.tfjybj.english.entity.WordPhoneficEntity">
                 SELECT
           tn_word_test.state
         FROM

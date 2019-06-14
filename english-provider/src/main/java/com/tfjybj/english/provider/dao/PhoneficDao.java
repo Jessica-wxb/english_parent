@@ -3,7 +3,7 @@ package com.tfjybj.english.provider.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.model.PhoneficModel;
-import com.tfjybj.english.model.PhoneficTestModel;
+import com.tfjybj.english.model.PhoneficWordModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

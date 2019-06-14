@@ -5,10 +5,13 @@ import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.github.tobato.fastdfs.service.TrackerClient;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileInputStream;
 
 @Slf4j
 @Component
@@ -24,9 +27,15 @@ public class UploadPictureUntil {
     // 所有文件格式
     public static String FILE_FORMAT = "WEBP、BMP、PCX、TIF、GIF、JPEG、TGA、EXIF、FPX、SVG、PSD、CDR、PCD、DXF、UFO、EPS、AI、PNG、HDRI、RAW、WMF、FLIC、EMF、ICO、JPG、JPEG、PNG、GIF";
 
-    public String uploadPicture(MultipartFile file) {
+    // 目前视频播放支持的格式为wev
+    public static String VIDEO_FORMAT = "WEV";
+
+    public String uploadPicture(File file) {
         try {
-            StorePath storePath = fastFileStorageClient.uploadFile(file.getInputStream(), file.getSize(), FilenameUtils.getExtension(file.getOriginalFilename()), null);
+            // 通过路径转换成文件流picture
+            FileInputStream wordStrm = new FileInputStream(file);
+            MultipartFile multipartFile = new MockMultipartFile(file.getName(), file.getName(), "text/plain", wordStrm);
+            StorePath storePath = fastFileStorageClient.uploadFile(multipartFile.getInputStream(), multipartFile.getSize(), FilenameUtils.getExtension(multipartFile.getOriginalFilename()), null);
             String serverPath = trackerClient.getStoreStorage().getIp();
             String imagePath = "http://" + serverPath + "/" + storePath.getFullPath();
             log.info("图片上传成功，地址：" + imagePath);

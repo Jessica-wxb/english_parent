@@ -1,7 +1,7 @@
 package com.tfjybj.english.provider.service.impl;
 
-import com.tfjybj.english.entity.PhoneficTestEntity;
-import com.tfjybj.english.model.PhoneficTestModel;
+import com.tfjybj.english.entity.PhoneficWordEntity;
+import com.tfjybj.english.model.PhoneficWordModel;
 import com.tfjybj.english.provider.dao.PhoneficTestDao;
 import com.tfjybj.english.provider.service.PhoneficTestService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
@@ -18,14 +18,14 @@ import java.util.List;
  * @since ${version} 2019-06-08 14:26:23
  */
 @Service("phoneficTestService")
-public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao,PhoneficTestEntity> implements PhoneficTestService {
+public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao,PhoneficWordEntity> implements PhoneficTestService {
 	
 	//region 模板生成
     @Resource
     private PhoneficTestDao phoneficTestDao;
 
     @Override
-    public List<PhoneficTestModel> queryAudioByPhoneficId(String phoneficId) {
+    public List<PhoneficWordModel> queryAudioByPhoneficId(String phoneficId) {
 
         return phoneficTestDao.queryAudioByPhoneficId(phoneficId);
     }
@@ -36,18 +36,18 @@ public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
 
     // 根据音标id匹配对应两个单词word-薛帅行-2019年6月11日15:47:59
     @Override
-    public List<PhoneficTestModel> selectWordByPhoneficId(String phoneficId) {
+    public List<PhoneficWordModel> selectWordByPhoneficId(String phoneficId) {
         return phoneficTestDao.selectWordByPhoneficId(phoneficId);
     }
 
     @Override
-    public PhoneficTestEntity queryStateByWord(String word) {
+    public PhoneficWordEntity queryStateByWord(String word) {
         return phoneficTestDao.queryStateByWord(word);
     }
 
     //音标练习(听)_根据音标id查询对应正确单词_邢美玲
     @Override
-    public List<PhoneficTestModel>  getPhoneficTestByIdById(Integer phoneficid){
+    public List<PhoneficWordModel>  getPhoneficTestByIdById(Integer phoneficid){
         return phoneficTestDao.getPhoneficTestById(phoneficid);
     }
 
