@@ -2,6 +2,7 @@ package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneficWordEntity;
 import com.tfjybj.english.model.PhoneficWordModel;
+import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.provider.service.PhoneficTestService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
@@ -155,7 +156,7 @@ public class PhoneficTestController {
      */
     @ApiOperation(value = "根据音标id找到对应音频audio")
     @GetMapping(value = "queryAudioByPhoneficId/{phoneficId}")
-    public ItooResult queryAudioByPhoneficId(@ApiParam(name = "phoneficId",value = "音标Id",required = true)@PathVariable String phoneficId) {
+    public ItooResult queryAudioByPhoneficId(@ApiParam(name = "phoneficId", value = "音标Id", required = true) @PathVariable String phoneficId) {
         List<PhoneficWordModel> phoneficWordModelList = phoneficTestService.queryAudioByPhoneficId(phoneficId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordModelList);
     }
@@ -170,7 +171,7 @@ public class PhoneficTestController {
      */
     @ApiOperation(value = "根据音标id匹配对应两个单词word")
     @GetMapping(value = "selectWordByPhoneficId/{phoneficId}")
-    public ItooResult selectWordByPhoneficId(@ApiParam(name = "phoneficId",value = "音标Id",required = true)@PathVariable String phoneficId) {
+    public ItooResult selectWordByPhoneficId(@ApiParam(name = "phoneficId", value = "音标Id", required = true) @PathVariable String phoneficId) {
         List<PhoneficWordModel> phoneficWordModelList = phoneficTestService.selectWordByPhoneficId(phoneficId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordModelList);
     }
@@ -185,12 +186,14 @@ public class PhoneficTestController {
      */
     @ApiOperation(value = "根据单词拼写查找单词音频")
     @GetMapping(value = {"/queryStateByWord/{word}"})
-    public ItooResult queryStateByWord(@ApiParam(name = "word",value = "单词",required = true)@PathVariable String word) {
+    public ItooResult queryStateByWord(@ApiParam(name = "word", value = "单词", required = true) @PathVariable String word) {
         PhoneficWordEntity phoneficWordEntity = phoneficTestService.queryStateByWord(word);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordEntity);
     }
+
     /**
      * 根据id查找PhoneficTest
+     *
      * @param phoneficid 音标id
      * @return 音标练习(听)根据音标id查询对应正确单词
      * @author 邢美玲
@@ -204,4 +207,18 @@ public class PhoneficTestController {
     }
 
 
-}    
+    /**
+     * 根据用户Id查询音标Id、音频
+     *
+     * @param userId 用户Id
+     * @return 音标Id、音频
+     * @since 2019年6月13日22:31:07
+     */
+    @ApiOperation(value = "根据用户Id查询音标Id、音频")
+    @GetMapping(value = {"/queryAudioByUserId/{userId}"})
+    public ItooResult queryAudioByUserId(@ApiParam(value = "用户Id", name = "userId", required = true) @PathVariable String userId) {
+        List<PhoneficEntity> phoneficTestEntityList = phoneficTestService.queryAudioByUserId(userId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestEntityList);
+    }
+
+}

@@ -76,4 +76,5 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      * @return 单词音频
      */
     WordModel queryAudioBywordId(String wordId);
+
 }

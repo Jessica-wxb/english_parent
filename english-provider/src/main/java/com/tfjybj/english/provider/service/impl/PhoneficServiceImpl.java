@@ -60,7 +60,8 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
      */
     @Override
     public List<PhoneficEntity> queryPictureByPhonefic(String phoneficId) {
-        return phoneficDao.queryPictureByPhonefic(phoneficId);
+//        return phoneficDao.queryPictureByPhonefic(phoneficId);
+        return null;
     }
 
     // 音标练习(看)-根据id查询所有图片等_xml
@@ -151,5 +152,6 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
 
         return false;
     }
+
 
 }

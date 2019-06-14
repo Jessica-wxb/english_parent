@@ -79,5 +79,14 @@
         where
           id = #{wordId}
     </select>
+    <select id="queryPictureByPhoneficId" resultType="com.tfjybj.english.model.WordModel">
+                SELECT
+        *
+    FROM
+        tn_word tw
+    LEFT JOIN tn_phonefic_test tpt ON tpt.word_id = tw.id
+    WHERE tpt.phonefic_id = #{phoneficId}
+    LIMIT 2
+    </select>
 
 </mapper>

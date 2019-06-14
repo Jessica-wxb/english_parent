@@ -1,5 +1,6 @@
 package com.tfjybj.english.provider.service.impl;
 
+import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.entity.PhoneficWordEntity;
 import com.tfjybj.english.model.PhoneficWordModel;
 import com.tfjybj.english.provider.dao.PhoneficTestDao;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Service("phoneficTestService")
 public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao,PhoneficWordEntity> implements PhoneficTestService {
-	
+
 	//region 模板生成
     @Resource
     private PhoneficTestDao phoneficTestDao;
@@ -51,5 +52,15 @@ public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
         return phoneficTestDao.getPhoneficTestById(phoneficid);
     }
 
+    /**
+     * 根据用户Id查询音标Id、音频
+     * @param userId 用户Id
+     * @return 音标Id、音频
+     * @since  2019年6月13日22:31:07
+     */
+    @Override
+    public List<PhoneficEntity> queryAudioByUserId(String userId) {
+        return phoneficTestDao.queryAudioByUserId(userId);
+    }
 
 }
