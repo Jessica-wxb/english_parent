@@ -32,12 +32,4 @@ public interface WordTestService extends BaseServicePlus<WordTestEntity> {
      * @author 张凯超
      */
     List<WordTestEntity> queryPhoneticByWordId(String wordId);
-
-    /**
-     * 根据音标Id拼写查找状态
-     * @author
-     * @param phoneficId 音标Id
-     * @return state 0 正确 1 错误
-     */
-    WordTestEntity queryWordStateByphoneficId(String phoneficId);
 }

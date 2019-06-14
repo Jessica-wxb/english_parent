@@ -180,33 +180,6 @@ public class PhoneficController {
 
 
     /**
-     * 通过音标Id查找对应图片
-     * @Author 张凯超
-     * @param phoneficId 音标ID
-     * @return 音标对应图片
-     *
-     */
-    @ApiOperation("通过音标Id查找对应图片")
-    @GetMapping(value = {"/queryPictureByPhonetic/{phoneficId}"})
-    public ItooResult queryPictureByPhoneficId(@ApiParam(value = "音标Id",name ="phoneficId",required = true) @PathVariable String phoneficId){
-        List<PhoneficEntity> phoneficEntityList = phoneficService.queryPictureByPhoneficId(phoneficId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",phoneficEntityList);
-    }
-
-    /**
-     * 通过音标查找对应图片
-     * @param phonefic 音标
-     * @return 音标对应图片
-     * @author 张凯超
-     * @since 2019年6月14日09:55:30
-     */
-    @ApiOperation("通过音标查找对应图片")
-    @GetMapping(value = {"/queryPictureByPhonefic/{phonefic}"})
-    public ItooResult queryPictureByPhonefic(@ApiParam(value = "音标",name = "phonefic",required = true) @PathVariable String phonefic){
-        List<PhoneficEntity> phoneficEntityList = phoneficService.queryPictureByPhonefic(phonefic);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",phoneficEntityList);
-    }
-    /**
      * 根据id查找Phonefic
      * @param id 主键id
      * @return 根据id查找的音标结果

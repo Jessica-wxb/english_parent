@@ -69,19 +69,17 @@ FROM
     <select id="queryAudioByUserId" resultType="com.tfjybj.english.entity.PhoneficEntity">
         SELECT
 	tnp.id,
-	tnp.audio
+	tnp.audio,
+	tur.create_time
 FROM
 	tn_user_record tur
 LEFT JOIN tn_phonefic tnp ON tnp.id = tur.phonefic_id
 WHERE
 	tur.user_id = #{userId}
-    </select>
-    <select id="queryPhoneficByPhoneficId" resultType="com.tfjybj.english.model.PhoneficTestModel">
-            SELECT
-    tn_phonefic_test.phonefic
-    FROM
-    tn_phonefic_test
-    WHERE
-    tn_phonefic_test.phonefic_id = #{phoneficId}
+	ORDER BY
+	tur.create_time
+	DESC
+	LIMIT 1
+
     </select>
 </mapper>

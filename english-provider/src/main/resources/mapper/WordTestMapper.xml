@@ -45,21 +45,4 @@
           tn_word_test.word_id = #{wordId}
 
     </select>
-    <!-- /**
- * 根据单词拼写查找状态
- * @author
- * @param word 单词
- * @return state 0 正确 1 错误
- */-->
-    <select id="queryWordStateByphoneficId" resultType="com.tfjybj.english.entity.WordTestEntity">
-                SELECT
-          tn_word_test.state
-        FROM
-          tn_word_test
-        WHERE
-          tn_word_test.phonefic_id = #{phoneficId}
-    </select>
-
-
-
 </mapper>

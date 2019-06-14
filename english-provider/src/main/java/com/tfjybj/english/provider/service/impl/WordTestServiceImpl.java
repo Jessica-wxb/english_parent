@@ -50,15 +50,4 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordTestDao,WordTes
     public List<WordTestEntity> queryPhoneticByWordId(String wordId) {
         return wordTestDao.queryPhoneticByWordId(wordId);
     }
-
-    /**
-     * 根据音标Id拼写查找状态
-     * @author
-     * @param phoneficId 单词
-     * @return state 0 正确 1 错误
-     */
-    @Override
-    public WordTestEntity queryWordStateByphoneficId(String phoneficId) {
-        return wordTestDao.queryWordStateByphoneficId(phoneficId);
-    }
 }
