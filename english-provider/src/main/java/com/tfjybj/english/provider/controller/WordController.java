@@ -224,16 +224,16 @@ public class WordController {
     }
 
     /**
-     * 根据目录结构插入数据
+     * 根据目录结构插入单词
      *
      * @param path 文件路径
      * @return true/false
      * @author 马莹
      * @since 2019-6-11 19:31:50
      */
-    @ApiOperation(value = "根据目录结构插入数据")
-    @GetMapping(value = "/batchInsert/{path}")
-    public ItooResult batchInsertion(String path) {
+    @ApiOperation(value = "根据目录结构插入单词")
+    @GetMapping(value = "/batchInsert")
+    public ItooResult batchInsertion(@RequestParam String path) {
         try {
             boolean flag = wordService.batchInsert(path);
             return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
@@ -278,16 +278,15 @@ public class WordController {
 
     /**
      * 根据单词Id查询单词音频
-     * @author 张凯超
+     *
      * @param wordId 单词Id
      * @return 单词音频
-     *
+     * @author 张凯超
      */
     @ApiOperation(value = "根据单词Id查询单词音频")
     @GetMapping(value = "{/queryAudioBywordId/{wordId}}")
-    public ItooResult queryAudioBywordId(@ApiParam(name = "wordId",value = "单词Id",required = true) @PathVariable String wordId){
+    public ItooResult queryAudioBywordId(@ApiParam(name = "wordId", value = "单词Id", required = true) @PathVariable String wordId) {
         WordModel wordModel = wordService.queryAudioBywordId(wordId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordModel.getAudio());
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel.getAudio());
     }
-
 }

@@ -46,7 +46,7 @@
         f.is_delete = 0
         LIMIT #{studSum}
     </select>
-    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.model.WordTestModel">
+    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.model.WordPhoneficModel">
       SELECT
         tn_word_test.phonefic
       FROM
@@ -78,6 +78,15 @@
           tn_word
         where
           id = #{wordId}
+    </select>
+    <select id="queryPictureByPhoneficId" resultType="com.tfjybj.english.model.WordModel">
+                SELECT
+        *
+    FROM
+        tn_word tw
+    LEFT JOIN tn_phonefic_test tpt ON tpt.word_id = tw.id
+    WHERE tpt.phonefic_id = #{phoneficId}
+    LIMIT 2
     </select>
 
 </mapper>
