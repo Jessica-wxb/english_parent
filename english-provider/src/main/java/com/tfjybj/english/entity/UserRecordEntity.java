@@ -78,14 +78,14 @@ public class UserRecordEntity extends BaseEntity implements Serializable {
 	/**
 	 * 单词音频
 	 */
-	@ApiModelProperty(value = "单词音频",required = true)
-	@Column(name = "audio")
-	private String audio;
+//	@ApiModelProperty(value = "单词音频",required = true)
+//	@Column(name = "audio")
+//	private String audio;
 
 	/**
 	 * 单词的第一张图片
 	 */
-	@ApiModelProperty(value = "单词的第一张图片",required = true)
-	@Column(name = "word_picture1")
-	private String wordPicture1;
+//	@ApiModelProperty(value = "单词的第一张图片",required = true)
+//	@Column(name = "word_picture1")
+//	private String wordPicture1;
 }

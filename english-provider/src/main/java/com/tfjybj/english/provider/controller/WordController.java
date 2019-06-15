@@ -181,6 +181,19 @@ public class WordController {
     /* **********************************以下为非模板生成的内容********************************* */
 
     /**
+     * 根据学习任务随机查询单词数量不包含记录表中的数据
+     * @param setNumber 设定当天学习任务量
+     * @return 任务量条数
+     * @author 谷海涛
+     * @since 2019-6-15 9:41:00
+     */
+    @ApiOperation(value = "根据学习任务随机查询单词数量不包含记录表中的数据")
+    @GetMapping(value = "/queryWordData/{setNumber}/{userId}")
+    public ItooResult queryWordData(@ApiParam(name = "setNumber", value = "任务量条数", required = true, example = "10")@PathVariable Integer setNumber,
+@ApiParam(name = "userId", value = "用户id", required = true, example = "1") @PathVariable String userId) {
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.queryWordData(setNumber,userId));
+    }
+    /**
      * 根据设定学习量查询数据条数
      *
      * @param setNumber 设定当天学习任务量
@@ -193,6 +206,8 @@ public class WordController {
     public ItooResult selDataNum(@PathVariable Integer setNumber) {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.selDataNum(setNumber));
     }
+
+
 
     /**
      * 查询所有Word
