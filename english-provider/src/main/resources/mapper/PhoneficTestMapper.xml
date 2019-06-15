@@ -2,22 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.PhoneficTestDao">
-    <!--根据PhoneficTest音标id模糊查询PhoneficTestEntity-->
-    <select id="queryLikePhoneficId" resultType="com.tfjybj.english.entity.PhoneficTestEntity">
-        SELECT
-        *
-        FROM
-        tn_phonefic_test f
-        WHERE
-        f.is_delete = 0
-        <if test="phoneficId !=''">
-            <bind name="pattern" value="'%' + phoneficId + '%'"/>
-            AND f.phonefic_id LIKE #{pattern}
-        </if>
-        ORDER BY
-        f.create_time DESC
-    </select>
-    <select id="queryWordIdAudioPicByPhoneficId" resultType="com.tfjybj.english.model.WordModel">
+<!--根据PhoneficTest音标id模糊查询PhoneficTestEntity-->
+<select id="queryLikePhoneficId" resultType="com.tfjybj.english.entity.PhoneficTestEntity">
+    SELECT
+    *
+    FROM
+    tn_phonefic_test f
+    WHERE
+    f.is_delete = 0
+    <if test="phoneficId !=''">
+        <bind name="pattern" value="'%' + phoneficId + '%'"/>
+        AND f.phonefic_id LIKE #{pattern}
+    </if>
+    ORDER BY
+    f.create_time DESC
+</select>
+<select id="queryWordIdAudioPicByPhoneficId" resultType="com.tfjybj.english.model.WordModel">
         SELECT
             tnw.id,
             tnw.audio,
