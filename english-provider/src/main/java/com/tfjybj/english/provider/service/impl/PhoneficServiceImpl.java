@@ -10,16 +10,13 @@ import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import com.tfjybj.english.provider.service.PhoneticCorrespondWordsService;
 import com.tfjybj.english.provider.until.UploadPictureUntil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileFilter;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -72,9 +69,9 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
     }
 
     @Override
+    @Transactional(rollbackOn = IOException.class)
     public boolean phonePathInstert(String phonePath) throws IOException {
-
-        List<PhoneficEntity> phoneficEntityArrayList = new ArrayList<>();
+        boolean flag = false;
         File file = new File(phonePath);
         File[] fileList = file.listFiles();
         for (int i = 0; i < fileList.length; i++) {
@@ -101,8 +98,6 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
                 phonePathInstert(fileList[i].getAbsolutePath());
             } else if (fileFil.length > 0 && fileDir.length >= 0) {
                 PhoneficEntity phoneficEntity = new PhoneficEntity();
-                PhoneficEntity phonefic1 = new PhoneficEntity();
-                List<PhoneficEntity> phoneficEntityList = new ArrayList<>();
                 // 使用雪花算法生成id
                 String phoneId = IdWorker.getIdStr();
                 phoneficEntity.setPhonefic(fileList[i].getName());
@@ -112,22 +107,11 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
 
                     String suffix = uploadPath.substring(uploadPath.lastIndexOf('.') + 1).toUpperCase();
                     // 如果是webm格式的就是插入到视频字段中,如果是音频格式,插入到音频格式;如果是发音诀窍插入到,音标诀窍地址;
-                    phonefic1 = suffix == UploadPictureUntil.VIDEO_FORMAT ? phoneficEntity.setVideo(uploadPath) :
-                            UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(suffix) == true ? phoneficEntity.setVideo(uploadPath) :
+                    phoneficEntity = suffix == UploadPictureUntil.VIDEO_FORMAT ? phoneficEntity.setVideo(uploadPath) :
+                            UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(suffix) == true ? phoneficEntity.setAudio(uploadPath) :
                                     fileFil[j].getName().contains("发音诀窍") == true ? phoneficEntity.setKnackPicture(uploadPath) :
                                             UploadPictureUntil.FILE_FORMAT.contains(suffix) == true ?
                                                     phoneficEntity.setPhoneficPicture(uploadPath) : phoneficEntity.setPhoneficPicture(suffix);
-
-
-                    if (suffix == UploadPictureUntil.VIDEO_FORMAT) {
-                        phoneficEntity.setVideo(uploadPath);
-                    } else if (UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(suffix)) {
-                        phoneficEntity.setAudio(uploadPath);
-                    } else if (fileFil[j].getName().contains("发音诀窍")) {
-                        phoneficEntity.setKnackPicture(uploadPath);
-                    } else if (UploadPictureUntil.FILE_FORMAT.contains(suffix)) {
-                        phoneficEntity.setPhoneficPicture(uploadPath);
-                    }
                 }
                 // 循环完成之后插入到音标表里
                 if (this.save(phoneficEntity)) {
@@ -137,20 +121,13 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
                             pcwe.setPhoneficId(phoneId);
                             pcwe.setWord(fileDir[d].listFiles()[d].getName())
                                     .setAudio(uploadPictureUntil.uploadPicture(fileDir[d].listFiles()[d]));
-//                                    .setVowelOrConsonant(UploadPictureUntil.AUDIO_FREQUENCY_FORMAT);
                         }
-                        phoneticCorrespondWordsService.save(pcwe);
+                        flag = phoneticCorrespondWordsService.save(pcwe);
                     }
                 }
-
-                phoneficEntityList.add(phonefic1);
-
             }
-
-
         }
-
-        return false;
+        return flag;
     }
 
 

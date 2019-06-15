@@ -1,9 +1,7 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneficEntity;
-import com.tfjybj.english.entity.PhoneficWordEntity;
 import com.tfjybj.english.model.PhoneficModel;
-import com.tfjybj.english.model.PhoneficWordModel;
 import com.tfjybj.english.provider.service.PhoneficService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
@@ -33,8 +31,6 @@ public class PhoneficController {
 
     @Resource
     private PhoneficService phoneficService;
-
-    //region 模板生成：基本增删改
 
     /**
      * 添加
