@@ -71,7 +71,7 @@ public class UserRecordModel implements Serializable {
 	@ApiModelProperty(value = "结果：正确、错误",required = true  ,example="0" )
 	private Integer status;
 
-    //endregion
+	//endregion
 
      /* *****************************以下是非模板生成的内容************************************ */
 }
