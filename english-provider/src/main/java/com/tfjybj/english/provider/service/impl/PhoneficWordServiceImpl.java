@@ -4,24 +4,28 @@ import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.entity.PhoneficWordEntity;
 import com.tfjybj.english.model.PhoneficWordModel;
 import com.tfjybj.english.provider.dao.PhoneficTestDao;
-import com.tfjybj.english.provider.service.PhoneficTestService;
+import com.tfjybj.english.provider.service.PhoneficWordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
 import java.util.List;
 
 /**
- * PhoneficTestService接口实现类
+ * PhoneficWordService接口实现类
  * ${base}表
  *
  * @author 马莹
  * @version ${version}
  * @since ${version} 2019-06-08 14:26:23
  */
-@Service("phoneficTestService")
-public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao,PhoneficWordEntity> implements PhoneficTestService {
+@Service("phoneficWordService")
+public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao, PhoneficWordEntity> implements PhoneficWordService {
 
-	//region 模板生成
+    //region 模板生成
     @Resource
     private PhoneficTestDao phoneficTestDao;
 
@@ -48,19 +52,39 @@ public class PhoneficTestServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
 
     //音标练习(听)_根据音标id查询对应正确单词_邢美玲
     @Override
-    public List<PhoneficWordModel>  getPhoneficTestByIdById(Integer phoneficid){
+    public List<PhoneficWordModel> getPhoneficTestByIdById(Integer phoneficid) {
         return phoneficTestDao.getPhoneficTestById(phoneficid);
     }
 
     /**
      * 根据用户Id查询音标Id、音频
+     *
      * @param userId 用户Id
      * @return 音标Id、音频
-     * @since  2019年6月13日22:31:07
+     * @since 2019年6月13日22:31:07
      */
     @Override
     public List<PhoneficEntity> queryAudioByUserId(String userId) {
         return phoneficTestDao.queryAudioByUserId(userId);
+    }
+
+    @Override
+    public boolean insertPhoneWordTable(String phoneWordPath) throws IOException {
+
+        File file = new File(phoneWordPath);
+        // 筛选文件夹下面所有的文件
+        File[] listFiles = file.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File fileList) {
+                return fileList.isFile();
+            }
+        });
+        // 筛选文件夹下面所有的文件
+        if (listFiles.length > 0){
+
+        }
+
+            return false;
     }
 
 }

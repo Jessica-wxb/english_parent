@@ -289,4 +289,11 @@ public class WordController {
         WordModel wordModel = wordService.queryAudioBywordId(wordId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel.getAudio());
     }
+
+
+
+
+
+
+
 }
