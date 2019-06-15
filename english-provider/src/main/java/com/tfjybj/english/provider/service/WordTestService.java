@@ -1,7 +1,7 @@
 package com.tfjybj.english.provider.service;
 
 import com.tfjybj.english.entity.WordEntity;
-import com.tfjybj.english.entity.WordTestEntity;
+import com.tfjybj.english.entity.WordPhoneficEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
  * @version ${version}
  * @since ${version} 2019-06-08 14:26:23
  */
-public interface WordTestService extends BaseServicePlus<WordTestEntity> {
+public interface WordTestService extends BaseServicePlus<WordPhoneficEntity> {
 
     /**
      * 根据单词Id获取对应单词audio
@@ -31,7 +31,7 @@ public interface WordTestService extends BaseServicePlus<WordTestEntity> {
      * @return 单词Id对应音标
      * @author 张凯超
      */
-    List<WordTestEntity> queryPhoneticByWordId(String wordId);
+    List<WordPhoneficEntity> queryPhoneticByWordId(String wordId);
 
     /**
      * 根据音标Id拼写查找状态
@@ -39,5 +39,5 @@ public interface WordTestService extends BaseServicePlus<WordTestEntity> {
      * @param phoneficId 音标Id
      * @return state 0 正确 1 错误
      */
-    WordTestEntity queryWordStateByphoneficId(String phoneficId);
+    WordPhoneficEntity queryWordStateByphoneficId(String phoneficId);
 }

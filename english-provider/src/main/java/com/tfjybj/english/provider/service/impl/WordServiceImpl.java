@@ -67,14 +67,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         File file = new File(path);
         File[] tempList = file.listFiles();
         for (int i = 0; i < tempList.length; i++) {
-            // 文件单个存储
+            // 文件单个存储,不走库,直接跳过!
             if (tempList[i].isFile()) {
-                FileInputStream fileInputStream = new FileInputStream(tempList[i]);
-                MultipartFile multipartFile = new MockMultipartFile(tempList[i].getName(), tempList[i].getName(), "text/plain", fileInputStream);
-                uploadPictureUntil.uploadPicture(multipartFile);
+                continue;
             }
             // 批量存储
-            if (tempList[i].isDirectory()) {
+            if (tempList[i].isDirectory() && ((tempList[i].listFiles().length > 0 ? !tempList[i].listFiles()[0].isFile() : true))) {
+                batchInsert(tempList[i].getAbsolutePath());
+            } else if (tempList[i].listFiles()[0].isFile()) {
                 WordEntity wordEntity = new WordEntity();
                 // 获取文件夹名称
                 wordEntity.setWord(tempList[i].getName());
@@ -83,9 +83,9 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                 int picNum = 0;
                 for (int j = 0; j < tepmWord.length; j++) {
                     // 通过路径转换成文件流picture
-                    FileInputStream wordStrm = new FileInputStream(tepmWord[j]);
-                    MultipartFile multipartFile = new MockMultipartFile(tepmWord[j].getName(), tepmWord[j].getName(), "text/plain", wordStrm);
-                    String picture = uploadPictureUntil.uploadPicture(multipartFile);
+//                    FileInputStream wordStrm = new FileInputStream(tepmWord[j]);
+//                    MultipartFile multipartFile = new MockMultipartFile(tepmWord[j].getName(), tepmWord[j].getName(), "text/plain", wordStrm);
+                    String picture = uploadPictureUntil.uploadPicture(tepmWord[j]);
                     // 通过截取路径获取后缀
                     if (picture == "" || picture == null) {
                         log.error("文件上传失败!");
@@ -114,14 +114,10 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                         wordEntity.setAudio(picture);
                     }
                 }
-
                 wordEntitieList.add(wordEntity);
             }
-
         }
         return this.saveBatch(wordEntitieList);
-
-
     }
 
     //endregion
@@ -164,18 +160,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     public WordModel queryAudioBywordId(String wordId) {
         return wordDao.queryAudioBywordId(wordId);
 
-    }
-
-    /**
-     *  根据音标id查询图片
-     * @author 张凯超
-     * @param phoneficId 音标Id
-     * @since 2019年6月13日22:39:16
-     * @return 图片
-     */
-    @Override
-    public List<WordModel> queryPictureByPhoneficId(String phoneficId) {
-        return wordDao.queryPictureByPhoneficId(phoneficId);
     }
 
 

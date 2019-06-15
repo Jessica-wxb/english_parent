@@ -224,19 +224,19 @@ public class WordController {
     }
 
     /**
-     * 根据目录结构插入数据
+     * 根据目录结构插入单词
      *
      * @param path 文件路径
      * @return true/false
      * @author 马莹
      * @since 2019-6-11 19:31:50
      */
-    @ApiOperation(value = "根据目录结构插入数据")
-    @GetMapping(value = "/batchInsert/{path}")
-    public ItooResult batchInsertion(String path) {
+    @ApiOperation(value = "根据目录结构插入单词")
+    @GetMapping(value = "/batchInsert")
+    public ItooResult batchInsertion(@RequestParam String path) {
         try {
             boolean flag = wordService.batchInsert(path);
-          return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
+            return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
 
         } catch (Exception e) {
             log.error("错误" + e);
@@ -288,20 +288,5 @@ public class WordController {
     public ItooResult queryAudioBywordId(@ApiParam(name = "wordId", value = "单词Id", required = true) @PathVariable String wordId) {
         WordModel wordModel = wordService.queryAudioBywordId(wordId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel.getAudio());
-    }
-
-
-    /**
-     *  根据音标id查询图片
-     * @author 张凯超
-     * @param phoneficId 音标Id
-     * @since 2019年6月13日22:39:16
-     * @return 图片
-     */
-    @ApiOperation("根据音标id查询图片")
-    @GetMapping(value = {"/queryPictureByPhoneficId/{phoneficId}"})
-    public ItooResult queryPictureByPhoneficId(@ApiParam(name = "phoneficId",value = "音标Id",required = true) @PathVariable String phoneficId){
-        List<WordModel> wordModelList = wordService.queryPictureByPhoneficId(phoneficId);
-        return  ItooResult.build(ItooResult.SUCCESS,"查询成功",wordModelList);
     }
 }

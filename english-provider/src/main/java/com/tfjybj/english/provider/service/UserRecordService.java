@@ -2,6 +2,9 @@ package com.tfjybj.english.provider.service;
 
 import com.tfjybj.english.entity.UserRecordEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
+import com.tfjybj.english.model.UserRecordModel;
+
+import java.util.List;
 
 
 /**
@@ -15,4 +18,6 @@ import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 public interface UserRecordService extends BaseServicePlus<UserRecordEntity> {
     //查询该用户id的已学单词--邢美玲
     int findStudyWordById(int userid);
+
+    List<UserRecordModel> queryNoDetectedByUId(String userId);
 }
