@@ -73,58 +73,60 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
     public boolean phonePathInstert(String phonePath) throws IOException {
         boolean flag = false;
         File file = new File(phonePath);
-        File[] fileList = file.listFiles();
-        for (int i = 0; i < fileList.length; i++) {
-            // 单文件不走,直接返回
-            if (fileList[i].isFile()) {
-                continue;
+        File[] fileFile = file.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.isFile();
             }
-            // 收集本次循环的文件
-            File[] fileFil = fileList[i].listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File pathname) {
-                    return pathname.isFile();
-                }
-            });
-            // 收集本次循环中的文件夹
-            File[] fileDir = fileList[i].listFiles(new FileFilter() {
-                @Override
-                public boolean accept(File pathnameDir) {
-                    return pathnameDir.isDirectory();
-                }
-            });
-            // 如果没有文件只有文件夹,直接回调自己,再次循环
-            if (fileFil.length == 0 && fileDir.length > 0) {
-                phonePathInstert(fileList[i].getAbsolutePath());
-            } else if (fileFil.length > 0 && fileDir.length >= 0) {
-                PhoneficEntity phoneficEntity = new PhoneficEntity();
-                // 使用雪花算法生成id
-                String phoneId = IdWorker.getIdStr();
-                phoneficEntity.setPhonefic(fileList[i].getName());
-                phoneficEntity.setId(phoneId);
-                for (int j = 0; j < fileFil.length; j++) {
-                    String uploadPath = uploadPictureUntil.uploadPicture(fileFil[j]);
-
-                    String suffix = uploadPath.substring(uploadPath.lastIndexOf('.') + 1).toUpperCase();
-                    // 如果是webm格式的就是插入到视频字段中,如果是音频格式,插入到音频格式;如果是发音诀窍插入到,音标诀窍地址;
-                    phoneficEntity = suffix == UploadPictureUntil.VIDEO_FORMAT ? phoneficEntity.setVideo(uploadPath) :
-                            UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(suffix) == true ? phoneficEntity.setAudio(uploadPath) :
-                                    fileFil[j].getName().contains("发音诀窍") == true ? phoneficEntity.setKnackPicture(uploadPath) :
-                                            UploadPictureUntil.FILE_FORMAT.contains(suffix) == true ?
-                                                    phoneficEntity.setPhoneficPicture(uploadPath) : phoneficEntity.setPhoneficPicture(suffix);
-                }
-                // 循环完成之后插入到音标表里
-                if (this.save(phoneficEntity)) {
-                    for (int d = 0; d < fileDir.length; d++) {
+        });
+        File[] fileDire = file.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File pathname) {
+                return pathname.isDirectory();
+            }
+        });
+        // 获取文件名称
+        String fileName = phonePath.substring(phonePath.lastIndexOf('\\') + 1);
+        if (fileDire.length > 0 && fileFile.length > 0) {
+            PhoneficEntity phoneficEntity = new PhoneficEntity();
+            // 使用雪花算法生成id
+            String phoneId = IdWorker.getIdStr();
+            // 单词
+            phoneficEntity.setPhonefic(fileName);
+            // 给id赋值
+            phoneficEntity.setId(phoneId);
+            for (int j = 0; j < fileFile.length; j++) {
+                String uploadPath = uploadPictureUntil.uploadPicture(fileFile[j]);
+                // 获取后缀
+                String suffix = uploadPath.substring(uploadPath.lastIndexOf('.') + 1).toUpperCase();
+                // 如果是webm格式的就是插入到视频字段中,如果是音频格式,插入到音频格式;如果是发音诀窍插入到,音标诀窍地址;
+                phoneficEntity = UploadPictureUntil.VIDEO_FORMAT.contains(suffix) ? phoneficEntity.setVideo(uploadPath) :
+                        UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(suffix) == true ? phoneficEntity.setAudio(uploadPath) :
+                                fileFile[j].getName().contains("发音诀窍") == true ? phoneficEntity.setKnackPicture(uploadPath) :
+                                        UploadPictureUntil.FILE_FORMAT.contains(suffix) == true ?
+                                                phoneficEntity.setPhoneficPicture(uploadPath) : phoneficEntity.setVideo("无视频!");
+            }
+            // 循环完成之后插入到音标表里
+            if (this.save(phoneficEntity)) {
+                for (int d = 0; d < fileDire.length; d++) {
+                    for (int f = 0; f < fileDire[d].listFiles().length; f++) {
                         PhoneticCorrespondWordsEntity pcwe = new PhoneticCorrespondWordsEntity();
-                        for (int f = 0; f < fileDir[d].listFiles().length; f++) {
-                            pcwe.setPhoneficId(phoneId);
-                            pcwe.setWord(fileDir[d].listFiles()[d].getName())
-                                    .setAudio(uploadPictureUntil.uploadPicture(fileDir[d].listFiles()[d]));
-                        }
+                        pcwe.setPhoneficId(phoneId);
+                        // 截取单词
+                        pcwe.setWord(fileDire[d].listFiles()[f].getName().substring(0, fileDire[d].listFiles()[f].getName().indexOf('.')))
+                                // 获取音频地址,并且赋值
+                                .setAudio(uploadPictureUntil.uploadPicture(fileDire[d].listFiles()[f]));
                         flag = phoneticCorrespondWordsService.save(pcwe);
                     }
                 }
+            }
+        } else if (fileFile.length == 0 && fileDire.length > 0) {
+            // 获取所有的文件
+            File[] fileList = file.listFiles();
+
+            for (int i = 0; i < fileList.length; i++) {
+                // 回调自身
+                phonePathInstert(fileList[i].getAbsolutePath());
             }
         }
         return flag;
