@@ -3,7 +3,7 @@ package com.tfjybj.english.provider.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.model.PhoneficModel;
-import com.tfjybj.english.model.PhoneficTestModel;
+import com.tfjybj.english.model.PhoneficWordModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -22,21 +22,6 @@ public interface PhoneficDao extends BaseMapper<PhoneficEntity> {
 
     PhoneficEntity selectAudioByPhonefic(String phonefic);
 
-    /**
-     * 通过音标Id查找对应图片
-     * @Author 张凯超
-     * @param phonefic 音标
-     * @return 音标对应图片
-     */
-    List<PhoneficEntity> queryPictureByPhonefic(@Param("phonefic") String phonefic);
     //音标练习(看)-根据id查询所有图片等_xml
     List<PhoneficModel> getPhoneficById(Integer id);
-
-    /**
-     * 通过音标Id查找对应图片
-     * @Author 张凯超
-     * @param phoneficId 音标
-     * @return 音标对应图片
-     */
-    List<PhoneficEntity> queryPictureByPhoneficId(@Param("phoneficId") String phoneficId);
 }

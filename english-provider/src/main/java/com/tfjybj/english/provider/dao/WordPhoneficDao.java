@@ -2,8 +2,7 @@ package com.tfjybj.english.provider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.WordEntity;
-import com.tfjybj.english.entity.WordTestEntity;
-import com.tfjybj.english.model.WordTestModel;
+import com.tfjybj.english.entity.WordPhoneficEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +17,7 @@ import java.util.List;
  * @since ${version} 2019-06-08 14:26:23
  */
 @Repository("wordTestDao")
-public interface WordTestDao extends BaseMapper<WordTestEntity> {
+public interface WordPhoneficDao extends BaseMapper<WordPhoneficEntity> {
 
     /**
      * 根据单词Id获取对应单词audio
@@ -34,7 +33,7 @@ public interface WordTestDao extends BaseMapper<WordTestEntity> {
      * @return 单词audio
      * @author 张凯超
      */
-    List<WordTestEntity> queryPhoneticByWordId(@Param("wordId") String wordId);
+    List<WordPhoneficEntity> queryPhoneticByWordId(@Param("wordId") String wordId);
 
     /**
      * 根据音标Id拼写查找状态
@@ -42,6 +41,6 @@ public interface WordTestDao extends BaseMapper<WordTestEntity> {
      * @param phoneficId 单词
      * @return state 0 正确 1 错误
      */
-    WordTestEntity queryWordStateByphoneficId (@Param("phoneficId") String phoneficId);
+    WordPhoneficEntity queryWordStateByphoneficId (@Param("phoneficId") String phoneficId);
 
 }

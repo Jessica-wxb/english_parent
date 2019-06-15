@@ -2,7 +2,10 @@ package com.tfjybj.english.provider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.UserRecordEntity;
+import com.tfjybj.english.model.UserRecordModel;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * UserRecordDao接口
@@ -16,4 +19,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRecordDao extends BaseMapper<UserRecordEntity> {
     //查询该用户id的已学单词_邢美玲
     int findStudyWordById(int userid);
+
+    // 根据用户id查询未检测的单词-张伟杰
+    List<UserRecordModel> queryNoDetectedByUId(String userId);
 }

@@ -74,4 +74,15 @@ public class UserRecordModel implements Serializable {
 	//endregion
 
      /* *****************************以下是非模板生成的内容************************************ */
+	/**
+	 * 用户id
+	 */
+	@ApiModelProperty(value = "用户id",required = true )
+	private String audio;
+
+	/**
+	 * 用户id
+	 */
+	@ApiModelProperty(value = "用户id",required = true )
+	private String wordPicture1;
 }
