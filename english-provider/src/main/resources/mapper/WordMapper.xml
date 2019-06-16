@@ -27,6 +27,19 @@
             tw.is_delete = 0
             LIMIT #{setNumber}
     </select>
+    <!--根据设定学习量从Word表查不包含记录表中的数据 -谷海涛-2019-6-15 9:41:00-->
+    <select id="queryWordData" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+        *
+        FROM
+        tn_word w
+        WHERE
+        w.is_delete = 0
+        AND w.id NOT IN ( SELECT word_id FROM tn_user_record usr WHERE usr.user_id = #{userId} )
+        ORDER BY
+        rand( )
+        LIMIT #{setNumber};
+    </select>
 
     <!--查询所有单词-邢美玲-->
     <select id="selectAll" resultType="integer">

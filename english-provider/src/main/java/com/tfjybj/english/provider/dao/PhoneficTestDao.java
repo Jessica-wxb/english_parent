@@ -38,5 +38,16 @@ public interface PhoneficTestDao extends BaseMapper<PhoneficWordEntity> {
      * @return 音标Id、音频
      * @since 2019年6月13日22:31:07
      */
+    List<PhoneficEntity> queryAudioByUserId(@Param("userId") String userId);
+
+
+    /**
+     *根据音标的ID查询的tn_phonefic_word中所有的字段信息
+     * @param phoneficId 音标Id
+     * @return tn_phonefic_word中所有的字段
+     * @since 2019年6月15日10:27:04
+     * @autor 冯佳兴
+     */
+    List<PhoneficWordModel> selectAllById(@Param("phoneficId") String phoneficId);
     List<PhoneficEntity> queryAudioByUserId(@Param("userId") String userId,@Param("num") Integer num);
 }

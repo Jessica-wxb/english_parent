@@ -36,7 +36,7 @@ public class UserWrongServiceImpl extends BaseServicePlusImpl<UserWrongDao,UserW
      * @return 用户错题表的信息
      */
     @Override
-    public List<UserWrongModel> queryWrongWordId(Integer userId) {
+    public List<UserWrongModel> queryWrongWordId(String userId) {
         return userWrongDao.queryWrongWordId(userId);
     }
     /**
@@ -47,7 +47,7 @@ public class UserWrongServiceImpl extends BaseServicePlusImpl<UserWrongDao,UserW
      * @return 用户错题表的信息
      */
     @Override
-    public List<UserWrongModel> queryWrongPhoneficId(Integer userId) {
+    public List<UserWrongModel> queryWrongPhoneficId(String userId) {
         return userWrongDao.queryWrongPhoneficId(userId);
     }
 }

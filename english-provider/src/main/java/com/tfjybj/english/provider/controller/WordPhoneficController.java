@@ -26,10 +26,10 @@ import java.util.List;
  * @version ${version}
  * @since ${version} 2019-06-08 14:26:23
  */
-@Api(tags = {"wordTest表接口"})
-@RequestMapping(value = "/wordTest")
+@Api(tags = {"WordPhonefic表接口"})
+@RequestMapping(value = "/wordPhonefic")
 @RestController
-public class WordTestController {
+public class WordPhoneficController {
 
     @Resource
     private WordTestService wordTestService;

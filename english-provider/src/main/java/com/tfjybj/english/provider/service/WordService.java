@@ -19,6 +19,14 @@ import java.util.List;
 public interface WordService extends BaseServicePlus<WordEntity> {
 
     /**
+     * 根据设定学习量从Word表查询单词数不包含记录表的数据
+     * @param setNumber 设定当天学习任务量
+     * @return 任务量条数
+     * @author 谷海涛
+     * @since 2019-6-15 9:41:00
+     */
+    List<WordModel> queryWordData(Integer setNumber,String userId);
+    /**
      * 根据设定学习量查询数据条数
      *
      * @param setNumber 设定当天学习任务量
