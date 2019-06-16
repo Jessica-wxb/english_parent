@@ -20,4 +20,14 @@ public interface UserRecordService extends BaseServicePlus<UserRecordEntity> {
     int findStudyWordById(int userid);
 
     List<UserRecordModel> queryNoDetectedByUId(String userId);
+
+    /**
+     * 根据用户id和音标id查询该音标今天是否学习过
+     * *@param userid 用户id
+     * *@param phoneficId 音标id
+     * @return true or false
+     * @author 闫伟强
+     * @since ${version} 2019年6月15日20:23:12
+     */
+    List<UserRecordModel> queryPhoneficByUIdAndPId(String userId, String phoneficId);
 }

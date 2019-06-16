@@ -1,6 +1,5 @@
 package com.tfjybj.english.provider.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.dao.WordDao;
@@ -8,15 +7,10 @@ import com.tfjybj.english.provider.service.WordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import com.tfjybj.english.provider.until.UploadPictureUntil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import java.beans.Transient;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +32,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     private WordDao wordDao;
     @Resource
     private UploadPictureUntil uploadPictureUntil;
-
     @Override
     public List<WordModel> selDataNum(Integer setNumber) {
         return wordDao.selDataNum(setNumber);
@@ -134,6 +127,15 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         return wordDao.selectPhoneficPictureById(studSum);
     }
 
+    /**
+     * 根据学习任务查询单词数量不包含记录表中的数据
+     * @param setNumber 设定当天学习任务量
+     * @return 任务量条数
+     * @author 谷海涛
+     * @since 2019年6月10日15:13:41
+     */
+    @Override
+    public List<WordModel> queryWordData(Integer setNumber,String userId){ return  wordDao.queryWordData(setNumber,userId);}
     @Override
     public WordEntity queryStateByWord(String word) {
         return wordDao.queryStateByWord(word);
