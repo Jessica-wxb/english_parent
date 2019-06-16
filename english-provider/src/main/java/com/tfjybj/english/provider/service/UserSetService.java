@@ -22,4 +22,12 @@ public interface UserSetService extends BaseServicePlus<UserSetEntity> {
     UserSetEntity getByUserId(String userId);
 
     UserSetEntity updateTimesById(String userId, String phoneficNumber);
+
+    /**
+     * 根据userId修改坚持天数
+     * @param model
+     * @author 张伟杰
+     * @since 2019-6-16 20:17:46
+     */
+    void modifyInsistDays(UserSetModel model);
 }

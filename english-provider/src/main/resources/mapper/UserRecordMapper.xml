@@ -31,17 +31,19 @@
     <!--根据用户id查询未检测的单词-张伟杰-->
     <select id="queryNoDetectedByUId" resultType="com.tfjybj.english.model.UserRecordModel">
         SELECT
-	        a.*,
+            a.*,
 	        b.audio,
-	        b.word_picture1
+	        b.word_picture1,
+	        b.word_picture5
         FROM
 	        `tn_user_record` AS a,
 	        tn_word AS b
         WHERE
 	        a.word_id = b.id
-	    AND a.user_id = #{userId}
-	    AND a.`status` = 0
-	    AND a.is_delete = 0
+            AND a.user_id = #{userId}
+            AND a.`status` = 0
+            AND a.is_delete = 0
+            AND a.type = 1
     </select>
 
 </mapper>
