@@ -7,6 +7,7 @@ import com.tfjybj.english.provider.dao.PhoneficTestDao;
 import com.tfjybj.english.provider.service.PhoneficWordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import com.tfjybj.english.provider.until.UploadPictureUntil;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -60,6 +61,8 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
         return phoneficTestDao.getPhoneficTestById(phoneficid);
     }
 
+
+
     /**
      * 根据用户Id查询音标Id、音频
      *
@@ -68,8 +71,8 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
      * @since 2019年6月13日22:31:07
      */
     @Override
-    public List<PhoneficEntity> queryAudioByUserId(String userId) {
-        return phoneficTestDao.queryAudioByUserId(userId);
+    public List<PhoneficEntity> queryAudioByUserId(String userId, Integer num) {
+        return phoneficTestDao.queryAudioByUserId(userId,num);
     }
 
     /**
