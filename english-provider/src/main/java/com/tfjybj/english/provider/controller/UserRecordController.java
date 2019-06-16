@@ -168,12 +168,12 @@ public class UserRecordController {
      * *@param userid 用户id
      * @return 查询的已经学习单词总数
      * @author 邢美玲
-     * @since ${version} 2019年6月9日14:52:28
+     * @since ${version} 2019年6月16日10:38:47
      */
-    @ApiOperation(value = "根据id查询已学单词数")
+    @ApiOperation(value = "根据userid查询已学单词数")
     @GetMapping(value = {"/findStudyWordById/{userid}"})
-    public ItooResult findById(@ApiParam(value = "用户id", required = true) @PathVariable int userid) {
-        int studywords;
+    public ItooResult findStudyWordById(@ApiParam(value = "用户id", required = true) @PathVariable String userid) {
+        Integer studywords;
         studywords = userRecordService.findStudyWordById(userid);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", studywords);
     }

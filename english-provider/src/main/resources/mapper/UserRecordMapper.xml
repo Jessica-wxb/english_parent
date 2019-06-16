@@ -3,25 +3,25 @@
 
 <mapper namespace="com.tfjybj.english.provider.dao.UserRecordDao">
     <!--根据UserRecord用户id模糊查询UserRecordEntity-->
-    <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.UserRecordEntity">
-        SELECT
-        *
-        FROM
-        tn_user_record f
-        WHERE
-        f.is_delete = 0
-        <if test="userId !=''">
-            <bind name="pattern" value="'%' + userId + '%'"/>
-            AND f.user_id LIKE #{pattern}
-        </if>
-        ORDER BY
-        f.create_time DESC
-    </select>
+    <!--<select id="queryLikeUserId" resultType="com.tfjybj.english.entity.UserRecordEntity">-->
+        <!--SELECT-->
+        <!--*-->
+        <!--FROM-->
+        <!--tn_user_record f-->
+        <!--WHERE-->
+        <!--f.is_delete = 0-->
+        <!--<if test="userId !=''">-->
+            <!--<bind name="pattern" value="'%' + userId + '%'"/>-->
+            <!--AND f.user_id LIKE #{pattern}-->
+        <!--</if>-->
+        <!--ORDER BY-->
+        <!--f.create_time DESC-->
+    <!--</select>-->
 
     <!--根据UserRecord用户id查询已学单词word_id的数量-邢美玲-->
     <select id="findStudyWordById" resultType="java.lang.Integer">
         SELECT
-        count( r.word_id )
+          count( DISTINCT r.word_id )
         FROM
         tn_user_record r
         Where

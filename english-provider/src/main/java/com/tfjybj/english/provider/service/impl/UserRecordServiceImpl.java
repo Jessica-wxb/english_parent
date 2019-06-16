@@ -34,7 +34,7 @@ public class UserRecordServiceImpl extends BaseServicePlusImpl<UserRecordDao,Use
      * @version ${version}
      * @since ${version} 2019年6月9日15:47:16
      */
-    public int findStudyWordById(int userid){
+    public Integer findStudyWordById(String  userid){
         return userRecordDao.findStudyWordById(userid);
     }
 

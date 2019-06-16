@@ -97,7 +97,7 @@ public class UserWrongModel implements Serializable {
 	 * 错误音标类型
 	 */
 	@ApiModelProperty(value = "错误音标类型" )
-	private String phonefic_type;
+	private String phoneficType;
 
 	//endregion
 
