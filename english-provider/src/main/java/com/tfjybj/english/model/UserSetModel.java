@@ -80,10 +80,5 @@ public class UserSetModel implements Serializable {
     //endregion
 
      /* *****************************以下是非模板生成的内容************************************ */
-	/**
-	 * 是否随机选词
-	 */
-	@ApiModelProperty(value = "用户坚持天数",required = true  ,example="1" )
-	private Integer insistDays;
 
 }
