@@ -195,7 +195,7 @@ public class UserRecordController {
     @ApiOperation(value="根据用户id(userId)和当天时间,获取当天学习的音标id(phoneficId)")
     @GetMapping(value={"/selectPhoneficIdByUserIdAndcreatetime/{userId}"})
     public ItooResult selectPhoneficIdByUserIdAndcreatetime(@ApiParam(value = "用户id", required = true) @PathVariable String userId){
-        List<UserRecordModel> userRecordModels = userRecordService.selectPhonefic_idByUserIdAndcreatetime(userId);
+        List<UserRecordModel> userRecordModels = userRecordService.selectPhoneficIdByUserIdAndcreatetime(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", userRecordModels);
     }
     /**

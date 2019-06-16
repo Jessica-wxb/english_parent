@@ -72,8 +72,8 @@ public class UserRecordServiceImpl extends BaseServicePlusImpl<UserRecordDao,Use
      * @autor 冯佳兴
      */
     @Override
-    public List<UserRecordModel> selectPhonefic_idByUserIdAndcreatetime(String userId) {
-        return userRecordDao.selectPhonefic_idByUserIdAndcreatetime(userId);
+    public List<UserRecordModel> selectPhoneficIdByUserIdAndcreatetime(String userId) {
+        return userRecordDao.selectPhoneficIdByUserIdAndcreatetime(userId);
     }
 
 }
