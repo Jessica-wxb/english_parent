@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.*;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 
 /**
@@ -85,4 +86,10 @@ public class UserRecordModel implements Serializable {
 	 */
 	@ApiModelProperty(value = "用户id",required = true )
 	private String wordPicture1;
+
+	/**
+	 * 创建时间字段_冯佳兴_2019年6月15日14:35:28
+	 */
+	@ApiModelProperty(value="创建时间",required = true)
+	private Date createTime;
 }

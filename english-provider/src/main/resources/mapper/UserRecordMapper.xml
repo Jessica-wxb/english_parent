@@ -43,5 +43,16 @@
 	    AND a.`status` = 0
 	    AND a.is_delete = 0
     </select>
-
+     <!--    根据用户Id(user_id)查询当天学习的音标ID(phonefic_id)-->
+    <select id="selectPhonefic_idByUserIdAndcreatetime" resultType="com.tfjybj.english.model.UserRecordModel">
+        SELECT
+            phonefic_id
+        FROM
+            tn_user_record
+        WHERE
+            user_id = #{userId}
+            AND is_delete = '0'
+            AND create_time BETWEEN (CURDATE())
+            AND (CURDATE()+1)
+     </select>
 </mapper>

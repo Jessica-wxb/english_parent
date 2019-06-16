@@ -184,4 +184,18 @@ public class UserRecordController {
         List<UserRecordModel> userRecordModels = userRecordService.queryNoDetectedByUId(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", userRecordModels);
     }
+
+    /**
+     * 根据用户Id和当天时间,查询音标的ID
+     * @param userId 用户ID
+     * @return 当天学习过的音标ID(phonefic_id)
+     * @since 2019年6月15日11:55:03
+     * @autor 冯佳兴
+     */
+    @ApiOperation(value="根据用户id(user_id)和当天时间,获取当天学习的音标id(phonefic_id)")
+    @GetMapping(value={"/selectPhonefic_idByUserIdAndcreatetime/{userId}"})
+    public ItooResult selectPhonefic_idByUserIdAndcreatetime(@ApiParam(value = "用户id", required = true) @PathVariable String userId){
+        List<UserRecordModel> userRecordModels = userRecordService.selectPhonefic_idByUserIdAndcreatetime(userId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userRecordModels);
+    }
 }
