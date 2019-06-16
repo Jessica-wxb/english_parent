@@ -1,6 +1,7 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneticCorrespondWordsEntity;
+import com.tfjybj.english.model.PhoneficModel;
 import com.tfjybj.english.model.PhoneticCorrespondWordsModel;
 import com.tfjybj.english.provider.service.PhoneticCorrespondWordsService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
@@ -140,5 +141,17 @@ public class PhoneticCorrespondWordsController {
 
     /* **********************************以下为非模板生成的内容********************************* */
 
-   
+    /**
+     * 根据音标ID查询对应的单词
+     * @return 音标所对应的单词
+     * @param id 音标id
+     * @author 闫伟强
+     * @since ${version} 2019年6月15日19:17:28
+     */
+    @ApiOperation(value = "根据音标ID查询对应的单词")
+    @GetMapping(value = {"/findWordById/{id}"})
+    public ItooResult findWordById(@ApiParam(value = "音标id", required = true) @PathVariable String id) {
+        List<PhoneticCorrespondWordsModel> PhoneticCorrespondList = phoneticCorrespondWordsService.findWordById(id);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功",PhoneticCorrespondList);
+    }
 }    

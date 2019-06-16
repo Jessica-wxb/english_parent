@@ -91,4 +91,5 @@ public class WordModel implements Serializable {
     /* *****************************以下是非模板生成的内容************************************ */
     @ApiModelProperty(value = "是不是存在", required = true)
     private boolean isLeaf = true;
+
 }

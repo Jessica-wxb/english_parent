@@ -1,12 +1,8 @@
 package com.tfjybj.english.provider.service;
 
-import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.tfjybj.english.entity.WordEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 import com.tfjybj.english.model.WordModel;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 import java.util.List;
@@ -22,6 +18,14 @@ import java.util.List;
  */
 public interface WordService extends BaseServicePlus<WordEntity> {
 
+    /**
+     * 根据设定学习量从Word表查询单词数不包含记录表的数据
+     * @param setNumber 设定当天学习任务量
+     * @return 任务量条数
+     * @author 谷海涛
+     * @since 2019-6-15 9:41:00
+     */
+    List<WordModel> queryWordData(Integer setNumber,String userId);
     /**
      * 根据设定学习量查询数据条数
      *
@@ -77,4 +81,12 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      */
     WordModel queryAudioBywordId(String wordId);
 
+    /**
+     * 根据用户ID获取用户记录中单词、单词Id
+     * @param userId 用户Id
+     * @param num
+     * @return 单词、单词Id
+     * @since 2019年6月14日21:24:13
+     */
+    List<WordModel> queryWordAboutByUserId(String userId, Integer num);
 }

@@ -41,4 +41,11 @@ public interface PhoneficService extends BaseServicePlus<PhoneficEntity> {
      * @since 2019-6-14 10:19:54
      */
     boolean phonePathInstert(String phonePath) throws IOException;
+
+    /**
+     * 查询所有音标
+     * @Author 闫伟强
+     * @return 所有音标
+     */
+    List<PhoneficModel> getPhonefic();
 }

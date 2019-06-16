@@ -88,11 +88,4 @@ public class UserRecordEntity extends BaseEntity implements Serializable {
 	@ApiModelProperty(value = "单词的第一张图片",required = true)
 	@Column(name = "word_picture1")
 	private String wordPicture1;
-
-	/**
-	 * 单词的第五张图片
-	 */
-	@ApiModelProperty(value = "单词的第五张图片",required = true)
-	@Column(name = "word_picture5")
-	private String wordPicture5;
 }

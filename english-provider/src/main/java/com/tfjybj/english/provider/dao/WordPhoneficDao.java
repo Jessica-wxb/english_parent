@@ -3,6 +3,7 @@ package com.tfjybj.english.provider.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordPhoneficEntity;
+import com.tfjybj.english.model.WordPhoneficModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -43,4 +44,13 @@ public interface WordPhoneficDao extends BaseMapper<WordPhoneficEntity> {
      */
     WordPhoneficEntity queryWordStateByphoneficId (@Param("phoneficId") String phoneficId);
 
+    /**
+     * 根据单词Id获取相关音标信息
+     * @author 张凯超
+     * @param wordId 单词Id
+     * @return 音标信息
+     * @since 2019年6月14日22点35分
+     *
+     */
+    List<WordPhoneficModel> queryPhoneficAboutByWordId(@Param("wordId") String wordId);
 }

@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.*;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 
 /**
@@ -71,7 +72,7 @@ public class UserRecordModel implements Serializable {
 	@ApiModelProperty(value = "结果：正确、错误",required = true  ,example="0" )
 	private Integer status;
 
-    //endregion
+	//endregion
 
      /* *****************************以下是非模板生成的内容************************************ */
 	/**
@@ -91,4 +92,10 @@ public class UserRecordModel implements Serializable {
 	 */
 	@ApiModelProperty(value = "单词的第一张图片",required = true )
 	private String wordPicture5;
+
+    /**
+     * 创建时间字段_冯佳兴_2019年6月15日14:35:28
+     */
+    @ApiModelProperty(value="创建时间",required = true)
+    private Date createTime;
 }
