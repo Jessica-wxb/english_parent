@@ -221,16 +221,18 @@ public class PhoneficWordController {
     @ApiOperation(value = "根据用户Id查询音标Id、音频")
     @GetMapping(value = {"/queryAudioByUserId/{userId}/{num}"})
     public ItooResult queryAudioByUserId(@ApiParam(value = "用户Id", name = "userId", required = true) @PathVariable String userId,
-                                         @ApiParam(value = "每日任务数",name = "num",required =true,example = "1") @PathVariable  Integer num) {
-        List<PhoneficEntity> phoneficTestEntityList = phoneficWordService.queryAudioByUserId(userId,num);
+                                         @ApiParam(value = "每日任务数", name = "num", required = true, example = "1") @PathVariable Integer num) {
+        List<PhoneficEntity> phoneficTestEntityList = phoneficWordService.queryAudioByUserId(userId, num);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestEntityList);
     }
-/**
-     *根据音标的ID查询的tn_phonefic_word中所有的字段信息
+
+    /**
+     * 根据音标的ID查询的tn_phonefic_word中所有的字段信息
+     *
      * @param phoneficId 音标Id
      * @return tn_phonefic_word中所有的字段
-     * @since 2019年6月15日10:27:04
      * @author 冯佳兴
+     * @since 2019年6月15日10:27:04
      */
     @ApiOperation(value = "根据音标查找tn_phonefic_word中所有的信息")
     @GetMapping(value = "selectAllById/{phoneficId}")
@@ -258,4 +260,5 @@ public class PhoneficWordController {
             log.error("错误" + e);
             return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
         }
-    }}
+    }
+}

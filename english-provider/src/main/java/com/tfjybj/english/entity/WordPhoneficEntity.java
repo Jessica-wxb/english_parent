@@ -92,4 +92,7 @@ public class WordPhoneficEntity extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "状态（音标正确与否）")
     @Column(name = "state")
     private Integer state;
+
+
+
 }

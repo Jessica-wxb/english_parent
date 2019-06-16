@@ -24,8 +24,8 @@ import java.util.List;
  * wordTest表
  *
  * @author 马莹
- * @version ${version}
- * @since ${version} 2019-06-08 14:26:23
+ * @version 1.0.0
+ * @since 2019-06-08 14:26:23
  */
 @Api(tags = {"WordPhonefic表接口"})
 @RequestMapping(value = "/wordPhonefic")
@@ -206,7 +206,6 @@ public class WordPhoneficController {
      *
      */
     @ApiOperation(value = "根据单词Id获取相关音标信息")
-//    @GetMapping(value = "/queryPhoficByWordId/{wordId}")
     @GetMapping(value = "/queryPhoneficAboutByWordId/{wordId}")
     public ItooResult queryPhoneficAboutByWordId(@PathVariable String wordId){
        List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryPhoneficAboutByWordId(wordId);
