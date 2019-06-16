@@ -23,7 +23,7 @@ public interface UserWrongService extends BaseServicePlus<UserWrongEntity> {
      * @param userId  该用户的id
      * @return 该用户的错误记录
      */
-    List<UserWrongModel> queryWrongWordId(Integer userId);
+    List<UserWrongModel> queryWrongWordId(String userId);
 
     /**
      * @author 陈广晗
@@ -31,7 +31,7 @@ public interface UserWrongService extends BaseServicePlus<UserWrongEntity> {
      * @param userId  该用户的id
      * @return 该用户的错误记录
      */
-    List<UserWrongModel> queryWrongPhoneficId(Integer userId);
+    List<UserWrongModel> queryWrongPhoneficId(String userId);
 
 
 

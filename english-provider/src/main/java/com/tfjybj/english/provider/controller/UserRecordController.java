@@ -168,12 +168,12 @@ public class UserRecordController {
      * *@param userid 用户id
      * @return 查询的已经学习单词总数
      * @author 邢美玲
-     * @since ${version} 2019年6月9日14:52:28
+     * @since ${version} 2019年6月16日10:38:47
      */
-    @ApiOperation(value = "根据id查询已学单词数")
+    @ApiOperation(value = "根据userid查询已学单词数")
     @GetMapping(value = {"/findStudyWordById/{userid}"})
-    public ItooResult findById(@ApiParam(value = "用户id", required = true) @PathVariable int userid) {
-        int studywords;
+    public ItooResult findStudyWordById(@ApiParam(value = "用户id", required = true) @PathVariable String userid) {
+        Integer studywords;
         studywords = userRecordService.findStudyWordById(userid);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", studywords);
     }
@@ -192,10 +192,25 @@ public class UserRecordController {
      * @since 2019年6月15日11:55:03
      * @autor 冯佳兴
      */
-    @ApiOperation(value="根据用户id(user_id)和当天时间,获取当天学习的音标id(phonefic_id)")
-    @GetMapping(value={"/selectPhonefic_idByUserIdAndcreatetime/{userId}"})
-    public ItooResult selectPhonefic_idByUserIdAndcreatetime(@ApiParam(value = "用户id", required = true) @PathVariable String userId){
+    @ApiOperation(value="根据用户id(userId)和当天时间,获取当天学习的音标id(phoneficId)")
+    @GetMapping(value={"/selectPhoneficIdByUserIdAndcreatetime/{userId}"})
+    public ItooResult selectPhoneficIdByUserIdAndcreatetime(@ApiParam(value = "用户id", required = true) @PathVariable String userId){
         List<UserRecordModel> userRecordModels = userRecordService.selectPhonefic_idByUserIdAndcreatetime(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", userRecordModels);
+    }
+    /**
+     * 根据用户id和音标id查询该音标今天是否学习过
+     * *@param userid 用户id
+     * *@param phoneficId 音标id
+     * @return true or false
+     * @author 闫伟强
+     * @since ${version} 2019年6月15日20:23:12
+     */
+    @ApiOperation(value = "根据用户id和音标id查询该音标今天是否学习过")
+    @GetMapping(value = {"/queryPhoneficByUIdAndPId/{userId}/{phoneficId}"})
+    public ItooResult queryPhoneficByUIdAndPId(@ApiParam(value = "用户id", required = true) @PathVariable String userId,
+                                               @ApiParam(value = "音标Id",required = true) @PathVariable String phoneficId) {
+        List<UserRecordModel> isStudy  = userRecordService.queryPhoneficByUIdAndPId(userId,phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS, "true",isStudy);
     }
 }

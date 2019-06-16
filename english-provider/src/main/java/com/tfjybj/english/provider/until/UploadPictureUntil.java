@@ -27,7 +27,7 @@ public class UploadPictureUntil {
     public static String FILE_FORMAT = "WEBP、BMP、PCX、TIF、GIF、JPEG、TGA、EXIF、FPX、SVG、PSD、CDR、PCD、DXF、UFO、EPS、AI、PNG、HDRI、RAW、WMF、FLIC、EMF、ICO、JPG、JPEG、PNG、GIF";
 
     // 目前视频播放支持的格式为wev
-    public static String VIDEO_FORMAT = "WEV";
+    public static String VIDEO_FORMAT = "WEBM";
 
     public String uploadPicture(File file) {
         try {

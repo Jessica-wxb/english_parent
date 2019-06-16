@@ -4,10 +4,11 @@ import com.tfjybj.english.entity.PhoneficWordEntity;
 import com.tfjybj.english.model.PhoneficModel;
 import com.tfjybj.english.model.PhoneficWordModel;
 import com.tfjybj.english.entity.PhoneficEntity;
-import com.tfjybj.english.provider.service.PhoneficTestService;
+import com.tfjybj.english.provider.service.PhoneficWordService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +25,14 @@ import java.util.List;
  * @version ${version}
  * @since ${version} 2019-06-08 14:26:23
  */
-@Api(tags = {"phoneficTest表接口"})
+@Api(tags = {"phoneficWord表接口"})
 @RequestMapping(value = "/phoneficTest")
 @RestController
-public class PhoneficTestController {
+@Slf4j
+public class PhoneficWordController {
 
     @Resource
-    private PhoneficTestService phoneficTestService;
+    private PhoneficWordService phoneficWordService;
 
     //region 模板生成：基本增删改
 
@@ -53,7 +55,7 @@ public class PhoneficTestController {
         }
         PhoneficWordEntity phoneficWordEntity = new PhoneficWordEntity();
         BeanUtils.copyProperties(model, phoneficWordEntity);
-        phoneficTestService.save(phoneficWordEntity);
+        phoneficWordService.save(phoneficWordEntity);
         return ItooResult.build(ItooResult.SUCCESS, "添加成功");
     }
 
@@ -68,7 +70,7 @@ public class PhoneficTestController {
     @ApiOperation(value = "根据id删除（单个）")
     @DeleteMapping(value = {"/delete/{id}"})
     public ItooResult delete(@ApiParam(value = "主键id", required = true) @PathVariable String id) {
-        phoneficTestService.removeById(id);
+        phoneficWordService.removeById(id);
         return ItooResult.build(ItooResult.SUCCESS, "删除成功");
     }
 
@@ -84,7 +86,7 @@ public class PhoneficTestController {
     @DeleteMapping(value = {"/deleteByIds"})
     @ApiImplicitParam(name = "ids", value = "ids", dataType = "List<String>", required = true)
     public ItooResult deleteByIds(@RequestBody List<String> ids) {
-        phoneficTestService.removeByIds(ids);
+        phoneficWordService.removeByIds(ids);
         return ItooResult.build(ItooResult.SUCCESS, "批量删除成功");
     }
 
@@ -107,7 +109,7 @@ public class PhoneficTestController {
         }
         PhoneficWordEntity phoneficWordEntity = new PhoneficWordEntity();
         BeanUtils.copyProperties(model, phoneficWordEntity);
-        phoneficTestService.updateById(phoneficWordEntity);
+        phoneficWordService.updateById(phoneficWordEntity);
         return ItooResult.build(ItooResult.SUCCESS, "修改成功");
     }
 
@@ -122,7 +124,7 @@ public class PhoneficTestController {
     @ApiOperation(value = "根据id查询")
     @GetMapping(value = {"/findById/{id}"})
     public ItooResult findById(@ApiParam(value = "主键id", required = true) @PathVariable String id) {
-        PhoneficWordEntity phoneficWordEntity = phoneficTestService.getById(id);
+        PhoneficWordEntity phoneficWordEntity = phoneficWordService.getById(id);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordEntity);
     }
 
@@ -139,7 +141,7 @@ public class PhoneficTestController {
     @GetMapping(value = {"/queryPageAll/{pageNo}/{pageSize}"})
     public ItooResult queryPageAll(@ApiParam(name = "pageNo", value = "页码", required = true, example = "1") @PathVariable Integer pageNo,
                                    @ApiParam(name = "pageSize", value = "页数", required = true, example = "10") @PathVariable Integer pageSize) {
-        PageInfo<PhoneficWordEntity> phoneficTests = phoneficTestService.queryPageAll(pageNo, pageSize);
+        PageInfo<PhoneficWordEntity> phoneficTests = phoneficWordService.queryPageAll(pageNo, pageSize);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTests);
     }
 
@@ -158,7 +160,7 @@ public class PhoneficTestController {
     @ApiOperation(value = "根据音标id找到对应音频audio")
     @GetMapping(value = "queryAudioByPhoneficId/{phoneficId}")
     public ItooResult queryAudioByPhoneficId(@ApiParam(name = "phoneficId", value = "音标Id", required = true) @PathVariable String phoneficId) {
-        List<PhoneficWordModel> phoneficWordModelList = phoneficTestService.queryAudioByPhoneficId(phoneficId);
+        List<PhoneficWordModel> phoneficWordModelList = phoneficWordService.queryAudioByPhoneficId(phoneficId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordModelList);
     }
 
@@ -173,7 +175,7 @@ public class PhoneficTestController {
     @ApiOperation(value = "根据音标id匹配对应两个单词word")
     @GetMapping(value = "selectWordByPhoneficId/{phoneficId}")
     public ItooResult selectWordByPhoneficId(@ApiParam(name = "phoneficId", value = "音标Id", required = true) @PathVariable String phoneficId) {
-        List<PhoneficWordModel> phoneficWordModelList = phoneficTestService.selectWordByPhoneficId(phoneficId);
+        List<PhoneficWordModel> phoneficWordModelList = phoneficWordService.selectWordByPhoneficId(phoneficId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordModelList);
     }
 
@@ -188,7 +190,7 @@ public class PhoneficTestController {
     @ApiOperation(value = "根据单词拼写查找单词音频")
     @GetMapping(value = {"/queryStateByWord/{word}"})
     public ItooResult queryStateByWord(@ApiParam(name = "word", value = "单词", required = true) @PathVariable String word) {
-        PhoneficWordEntity phoneficWordEntity = phoneficTestService.queryStateByWord(word);
+        PhoneficWordEntity phoneficWordEntity = phoneficWordService.queryStateByWord(word);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordEntity);
     }
 
@@ -202,8 +204,8 @@ public class PhoneficTestController {
      */
     @ApiOperation(value = "音标练习(听)根据音标id查询对应正确单词")
     @GetMapping(value = {"/findPhoneficById/{phoneficid}"})
-    public ItooResult findPhoneficTestById(@ApiParam(value = "音标id", required = true) @PathVariable Integer phoneficid) {
-        List<PhoneficWordModel> phoneficTestList = phoneficTestService.getPhoneficTestByIdById(phoneficid);
+    public ItooResult findPhoneficTestById(@ApiParam(value = "音标id", required = true, example = "0") @PathVariable Integer phoneficid) {
+        List<PhoneficWordModel> phoneficTestList = phoneficWordService.getPhoneficTestByIdById(phoneficid);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestList);
     }
 
@@ -218,7 +220,7 @@ public class PhoneficTestController {
     @ApiOperation(value = "根据用户Id查询音标Id、音频")
     @GetMapping(value = {"/queryAudioByUserId/{userId}"})
     public ItooResult queryAudioByUserId(@ApiParam(value = "用户Id", name = "userId", required = true) @PathVariable String userId) {
-        List<PhoneficEntity> phoneficTestEntityList = phoneficTestService.queryAudioByUserId(userId);
+        List<PhoneficEntity> phoneficTestEntityList = phoneficWordService.queryAudioByUserId(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestEntityList);
     }
 
@@ -233,8 +235,28 @@ public class PhoneficTestController {
     @ApiOperation(value = "根据音标查找tn_phonefic_word中所有的信息")
     @GetMapping(value = "selectAllById/{phoneficId}")
     public ItooResult selectAllById(@ApiParam(value = "音标phoneficId", name = "phoneficId", required = true) @PathVariable String phoneficId) {
-        List<PhoneficWordModel> phoneficWordModelList = phoneficTestService.selectAllById(phoneficId);
+        List<PhoneficWordModel> phoneficWordModelList = phoneficWordService.selectAllById(phoneficId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordModelList);
     }
 
+    /**
+     * 根据路径插入根据音频选单词的文件路径
+     *
+     * @param phoneWordPath 根据音频选择单词的文件路径
+     * @return true/false
+     * @author 马莹
+     * @since 2019-6-15 18:05:07
+     */
+    @ApiOperation(value = "根据路径插入根据音频选单词的文件路径")
+    @GetMapping(value = "phoneWordPath")
+    public ItooResult phoneWordPath(@RequestParam String phoneWordPath) {
+        try {
+            boolean flag = phoneficWordService.insertPhoneWordTable(phoneWordPath);
+            return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
+
+        } catch (Exception e) {
+            log.error("错误" + e);
+            return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
+        }
+    }
 }

@@ -20,6 +20,15 @@ import java.util.List;
 public interface WordDao extends BaseMapper<WordEntity> {
 
     /**
+     * 根据学习任务查询单词数量不包含记录表中的数据
+     *
+     * @param setNumber ,userId设定当天学习任务量
+     * @return 任务量条数
+     * @author 谷海涛
+     * @since 2019-6-15 9:41:00
+     */
+    List<WordModel> queryWordData(@Param("setNumber") Integer setNumber,@Param("userId")String userId);
+    /**
      * 根据设定学习量查询数据条数
      *
      * @param setNumber 设定当天学习任务量

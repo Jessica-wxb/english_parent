@@ -229,4 +229,16 @@ public class PhoneficController {
             return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
         }
     }
+    /**
+     * 根据id查找Phonefic
+     * @return 查询所有音标
+     * @author 闫伟强
+     * @since ${version} 2019年6月11日08:33:00
+     */
+    @ApiOperation(value = "查询所有音标")
+    @GetMapping(value = {"/findPhonefic"})
+    public ItooResult findPhoneficById() {
+        List<PhoneficModel> phoneficList = phoneficService.getPhonefic();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功",phoneficList);
+    }
 }

@@ -2,26 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.UserRecordDao">
-	<!--根据UserRecord用户id模糊查询UserRecordEntity-->
-    <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.UserRecordEntity">
-        SELECT
-			*
-        FROM
-			tn_user_record f
-        WHERE
-			f.is_delete = 0
-        <if test="userId !=''">
-            <bind name="pattern" value="'%' + userId + '%'"/>
-            AND f.user_id LIKE #{pattern}
-        </if>
-        ORDER BY
-        f.create_time DESC
-    </select>
 
     <!--根据UserRecord用户id查询已学单词word_id的数量-邢美玲-->
     <select id="findStudyWordById" resultType="java.lang.Integer">
         SELECT
-        count( r.word_id )
+          count( DISTINCT r.word_id )
         FROM
         tn_user_record r
         Where
@@ -44,7 +29,7 @@
 	    AND a.is_delete = 0
     </select>
      <!--    根据用户Id(user_id)查询当天学习的音标ID(phonefic_id)-->
-    <select id="selectPhonefic_idByUserIdAndcreatetime" resultType="com.tfjybj.english.model.UserRecordModel">
+    <select id="selectPhoneficIdByUserIdAndcreatetime" resultType="com.tfjybj.english.model.UserRecordModel">
         SELECT
             phonefic_id
         FROM
@@ -55,4 +40,18 @@
             AND create_time BETWEEN (CURDATE())
             AND (CURDATE()+1)
      </select>
+    <!--根据用户id和音标id查询该音标今天是否学习过-闫伟强-->
+    <select id="queryPhoneficByUIdAndPId" resultType="com.tfjybj.english.model.UserRecordModel">
+	    SELECT
+	     *
+        FROM
+	    tn_user_record AS a
+        WHERE
+	        a.phonefic_id = #{phoneficId}
+	    AND a.user_id = #{userId}
+	    AND a.type = 2
+	    AND a.is_delete = 0
+	    AND a.create_time >= ( SELECT curdate( ) )
+    </select>
+
 </mapper>

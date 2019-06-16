@@ -24,4 +24,10 @@ public interface PhoneficDao extends BaseMapper<PhoneficEntity> {
 
     //音标练习(看)-根据id查询所有图片等_xml
     List<PhoneficModel> getPhoneficById(Integer id);
+    /**
+     * 查询所有音标
+     * @Author 闫伟强
+     * @return 所有音标
+     */
+    List<PhoneficModel> getPhonefic();
 }

@@ -167,7 +167,7 @@ public class UserWrongController {
      */
     @ApiImplicitParam(value = "根据用户id查询错误单词")
     @GetMapping(value = "/queryWrongWordId/{userId}")
-   public ItooResult queryWrongWordId(@PathVariable Integer userId){
+   public ItooResult queryWrongWordId(@PathVariable String userId){
        List<UserWrongModel> userWrongs = userWrongService.queryWrongWordId(userId);
        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userWrongs);
    }
@@ -182,7 +182,7 @@ public class UserWrongController {
      */
     @ApiImplicitParam(value = "根据用户id查询错误音标")
     @GetMapping(value = "/queryWrongPhoneficId/{userId}")
-    public ItooResult queryWrongPhoneficId(@PathVariable Integer userId) {
+    public ItooResult queryWrongPhoneficId(@PathVariable String userId) {
         List<UserWrongModel> userWrongs = userWrongService.queryWrongPhoneficId(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", userWrongs);
     }

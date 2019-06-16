@@ -93,6 +93,12 @@ public class UserWrongModel implements Serializable {
 	@ApiModelProperty(value = "错误图片" )
 	private String picture4;
 
+	/**
+	 * 错误音标类型
+	 */
+	@ApiModelProperty(value = "错误音标类型" )
+	private String phoneficType;
+
 	//endregion
 
 }
