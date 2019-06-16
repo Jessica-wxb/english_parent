@@ -149,7 +149,7 @@ public class PhoneticCorrespondWordsController {
      * @since ${version} 2019年6月15日19:17:28
      */
     @ApiOperation(value = "根据音标ID查询对应的单词")
-    @GetMapping(value = {"/findWordById/[id]"})
+    @GetMapping(value = {"/findWordById/{id}"})
     public ItooResult findWordById(@ApiParam(value = "音标id", required = true) @PathVariable String id) {
         List<PhoneticCorrespondWordsModel> PhoneticCorrespondList = phoneticCorrespondWordsService.findWordById(id);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功",PhoneticCorrespondList);

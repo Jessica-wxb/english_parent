@@ -17,5 +17,13 @@
         ORDER BY
         f.create_time DESC
     </select>
-
+    <!--根据音标ID查询对应的单词 -闫伟强-->
+    <select id="findWordById" resultType="com.tfjybj.english.entity.PhoneticCorrespondWordsEntity">
+        SELECT
+        *
+        FROM
+        tn_phonetic_correspond_words
+        WHERE
+        phonefic_id = #{phoneficId}
+    </select>
 </mapper>

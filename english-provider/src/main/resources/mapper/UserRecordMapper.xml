@@ -44,7 +44,7 @@
 	    AND a.is_delete = 0
     </select>
     <!--根据用户id和音标id查询该音标今天是否学习过-闫伟强-->
-    <select id="queryPhoneficByUIdAndPId" resultType="java.lang.Integer">
+    <select id="queryPhoneficByUIdAndPId" resultType="com.tfjybj.english.model.UserRecordModel">
 	    SELECT
 	     *
         FROM
@@ -54,7 +54,7 @@
 	    AND a.user_id = #{userId}
 	    AND a.type = 2
 	    AND a.is_delete = 0
-	    AND a.create_time = ( SELECT curdate( ) )
+	    AND a.create_time >= ( SELECT curdate( ) )
     </select>
 
 </mapper>
