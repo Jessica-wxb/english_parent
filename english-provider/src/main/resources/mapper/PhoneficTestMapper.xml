@@ -2,14 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.PhoneficTestDao">
-    <!--根据PhoneficTest音标id模糊查询PhoneficTestEntity-->
-    <select id="queryLikePhoneficId" resultType="com.tfjybj.english.entity.PhoneficTestEntity">
+    <!--根据PhoneficTest音标id模糊查询PhoneficWordEntity-->
+    <select id="queryLikePhoneficId" resultType="com.tfjybj.english.entity.PhoneficWordEntity">
         SELECT
-        *
+			*
         FROM
-        tn_phonefic_test f
+			tn_phonefic_test f
         WHERE
-        f.is_delete = 0
+			f.is_delete = 0
         <if test="phoneficId !=''">
             <bind name="pattern" value="'%' + phoneficId + '%'"/>
             AND f.phonefic_id LIKE #{pattern}
@@ -33,7 +33,7 @@
             tnp.phonefic_id = #{phoneficId}
     </select>
 
-    <select id="queryAudioByPhoneficId" resultType="com.tfjybj.english.model.PhoneficTestModel">
+    <select id="queryAudioByPhoneficId" resultType="com.tfjybj.english.model.PhoneficWordModel">
         SELECT
           p.audio,
           COUNT(1)
@@ -42,7 +42,7 @@
         Left JOIN
           tn_phonefic p ON pt.phonefic_id = p.id
     </select>
-    <select id="selectWordByPhoneficId" resultType="com.tfjybj.english.model.PhoneficTestModel">
+    <select id="selectWordByPhoneficId" resultType="com.tfjybj.english.model.PhoneficWordModel">
         SELECT
           *
         FROM
@@ -50,12 +50,12 @@
         WHERE
           phonefic_id = #{phoneficId}
     </select>
-    <select id="queryStateByWord" resultType="com.tfjybj.english.entity.PhoneficTestEntity">
+    <select id="queryStateByWord" resultType="com.tfjybj.english.entity.PhoneficWordEntity">
         select * from tn_phonefic_test where word = #{word}
     </select>
 
     <!--音标练习(听)_根据音标id查询对应正确单词_邢美玲-->
-    <select id="getPhoneficTestById" resultType="com.tfjybj.english.model.PhoneficTestModel">
+    <select id="getPhoneficTestById" resultType="com.tfjybj.english.model.PhoneficWordModel">
         SELECT
 	w.audio,
 	pt.word
@@ -67,19 +67,17 @@ FROM
 	AND pt.phonefic_id = #{phoneficId}
     </select>
     <select id="queryAudioByUserId" resultType="com.tfjybj.english.entity.PhoneficEntity">
-        SELECT
-	tnp.id,
-	tnp.audio,
-	tur.create_time
-FROM
-	tn_user_record tur
-LEFT JOIN tn_phonefic tnp ON tnp.id = tur.phonefic_id
-WHERE
-	tur.user_id = #{userId}
-	ORDER BY
-	tur.create_time
-	DESC
-	LIMIT 1
-
+   SELECT
+	*
+    FROM
+    tn_user_record tur
+    LEFT JOIN
+    tn_word tnw  ON tnw.id = tur.word_id
+    WHERE
+    tur.user_id= #{userId}
+		ORDER BY
+		tur.update_time
+		DESC
+		LIMIT #{num}
     </select>
 </mapper>

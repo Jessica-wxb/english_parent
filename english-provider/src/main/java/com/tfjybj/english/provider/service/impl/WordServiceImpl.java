@@ -1,6 +1,5 @@
 package com.tfjybj.english.provider.service.impl;
 
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.dao.WordDao;
@@ -8,15 +7,10 @@ import com.tfjybj.english.provider.service.WordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import com.tfjybj.english.provider.until.UploadPictureUntil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import java.beans.Transient;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,14 +61,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         File file = new File(path);
         File[] tempList = file.listFiles();
         for (int i = 0; i < tempList.length; i++) {
-            // 文件单个存储
+            // 文件单个存储,不走库,直接跳过!
             if (tempList[i].isFile()) {
-                FileInputStream fileInputStream = new FileInputStream(tempList[i]);
-                MultipartFile multipartFile = new MockMultipartFile(tempList[i].getName(), tempList[i].getName(), "text/plain", fileInputStream);
-                uploadPictureUntil.uploadPicture(multipartFile);
+                continue;
             }
             // 批量存储
-            if (tempList[i].isDirectory()) {
+            if (tempList[i].isDirectory() && ((tempList[i].listFiles().length > 0 ? !tempList[i].listFiles()[0].isFile() : true))) {
+                batchInsert(tempList[i].getAbsolutePath());
+            } else if (tempList[i].listFiles()[0].isFile()) {
                 WordEntity wordEntity = new WordEntity();
                 // 获取文件夹名称
                 wordEntity.setWord(tempList[i].getName());
@@ -83,9 +77,9 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                 int picNum = 0;
                 for (int j = 0; j < tepmWord.length; j++) {
                     // 通过路径转换成文件流picture
-                    FileInputStream wordStrm = new FileInputStream(tepmWord[j]);
-                    MultipartFile multipartFile = new MockMultipartFile(tepmWord[j].getName(), tepmWord[j].getName(), "text/plain", wordStrm);
-                    String picture = uploadPictureUntil.uploadPicture(multipartFile);
+//                    FileInputStream wordStrm = new FileInputStream(tepmWord[j]);
+//                    MultipartFile multipartFile = new MockMultipartFile(tepmWord[j].getName(), tepmWord[j].getName(), "text/plain", wordStrm);
+                    String picture = uploadPictureUntil.uploadPicture(tepmWord[j]);
                     // 通过截取路径获取后缀
                     if (picture == "" || picture == null) {
                         log.error("文件上传失败!");
@@ -169,12 +163,13 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     /**
      * 根据用户ID获取用户记录中单词、单词Id
      * @param userId 用户Id
+     * @param num
      * @return 单词、单词Id
      * @since  2019年6月14日21:25:14
      */
     @Override
-    public List<WordModel> queryWordAboutByUserId(String userId) {
-        return wordDao.queryWordAboutByUserId(userId);
+    public List<WordModel> queryWordAboutByUserId(String userId, Integer num) {
+        return wordDao.queryWordAboutByUserId(userId,num);
     }
 
 }

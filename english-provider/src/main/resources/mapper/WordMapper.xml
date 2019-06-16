@@ -46,7 +46,7 @@
         f.is_delete = 0
         LIMIT #{studSum}
     </select>
-    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.model.WordTestModel">
+    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.model.WordPhoneficModel">
       SELECT
         tn_word_test.phonefic
       FROM
@@ -90,19 +90,25 @@
     </select>
     <select id="queryWordAboutByUserId" resultType="com.tfjybj.english.model.WordModel">
             SELECT
-        tnw.id ,
-        tnw.audio ,
-        tur.create_time
+            		tnw.id,
+			tnw.word,
+     tnw.word_picture1,
+     tnw.word_picture2,
+     tnw.word_picture3,
+     tnw.word_picture4,
+     tnw.word_picture5,
+      tnw.audio,
+      tur.phonefic
     FROM
     tn_user_record tur
     LEFT JOIN
-    tn_word tnw  ON tnw.id = tur.word_id
+    tn_word tnw  ON  tur.word_id = tnw.id
     WHERE
     tur.user_id= #{userId}
     ORDER BY
-        tur.create_time
-        DESC
-        LIMIT 1
+        tur.update_time
+        ASC
+        LIMIT #{num}
     </select>
 
 </mapper>

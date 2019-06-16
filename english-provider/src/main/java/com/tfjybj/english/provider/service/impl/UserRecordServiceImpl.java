@@ -1,11 +1,13 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.UserRecordEntity;
+import com.tfjybj.english.model.UserRecordModel;
 import com.tfjybj.english.provider.dao.UserRecordDao;
 import com.tfjybj.english.provider.service.UserRecordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * UserRecordService接口实现类
@@ -21,7 +23,7 @@ public class UserRecordServiceImpl extends BaseServicePlusImpl<UserRecordDao,Use
 	//region 模板生成
     @Resource
     private UserRecordDao userRecordDao;
-	
+
 	//endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
@@ -34,6 +36,18 @@ public class UserRecordServiceImpl extends BaseServicePlusImpl<UserRecordDao,Use
      */
     public int findStudyWordById(int userid){
         return userRecordDao.findStudyWordById(userid);
+    }
+
+    /**
+     * 根据用户Id查询未检测的单词
+     * @param userId
+     * @return 单词list
+     * @author 张伟杰
+     * @since 2019年6月13日23:26:47
+     */
+    @Override
+    public List<UserRecordModel> queryNoDetectedByUId(String userId) {
+        return userRecordDao.queryNoDetectedByUId(userId);
     }
 
 }

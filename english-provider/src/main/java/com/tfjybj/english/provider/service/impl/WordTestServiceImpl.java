@@ -1,8 +1,9 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.WordEntity;
-import com.tfjybj.english.entity.WordTestEntity;
-import com.tfjybj.english.provider.dao.WordTestDao;
+import com.tfjybj.english.entity.WordPhoneficEntity;
+import com.tfjybj.english.model.WordPhoneficModel;
+import com.tfjybj.english.provider.dao.WordPhoneficDao;
 import com.tfjybj.english.provider.service.WordTestService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,11 @@ import java.util.List;
  * @since ${version} 2019-06-08 14:26:23
  */
 @Service("wordTestService")
-public class WordTestServiceImpl extends BaseServicePlusImpl<WordTestDao,WordTestEntity> implements WordTestService {
+public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao,WordPhoneficEntity> implements WordTestService {
 	
 	//region 模板生成
     @Resource
-    private WordTestDao wordTestDao;
+    private WordPhoneficDao wordPhoneficDao;
 
 
     //endregion
@@ -37,7 +38,7 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordTestDao,WordTes
      */
     @Override
     public WordEntity queryAudioByWordId(String wordId) {
-        return wordTestDao.queryAudioByWordId(wordId);
+        return wordPhoneficDao.queryAudioByWordId(wordId);
     }
 
     /**
@@ -47,7 +48,31 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordTestDao,WordTes
      * @author 张凯超
      */
     @Override
-    public List<WordTestEntity> queryPhoneticByWordId(String wordId) {
-        return wordTestDao.queryPhoneticByWordId(wordId);
+    public List<WordPhoneficEntity> queryPhoneticByWordId(String wordId) {
+        return wordPhoneficDao.queryPhoneticByWordId(wordId);
+    }
+
+    /**
+     * 根据音标Id拼写查找状态
+     * @author
+     * @param phoneficId 单词
+     * @return state 0 正确 1 错误
+     */
+    @Override
+    public WordPhoneficEntity queryWordStateByphoneficId(String phoneficId) {
+        return wordPhoneficDao.queryWordStateByphoneficId(phoneficId);
+    }
+
+    /**
+     * 根据单词Id获取相关音标信息
+     * @author 张凯超
+     * @param wordId 单词Id
+     * @return 音标信息
+     * @since 2019年6月14日22点35分
+     *
+     */
+    @Override
+    public List<WordPhoneficModel> queryPhoneficAboutByWordId(String wordId) {
+        return wordPhoneficDao.queryPhoneficAboutByWordId(wordId);
     }
 }

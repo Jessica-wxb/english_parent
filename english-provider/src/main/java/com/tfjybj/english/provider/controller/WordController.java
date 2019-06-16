@@ -224,19 +224,19 @@ public class WordController {
     }
 
     /**
-     * 根据目录结构插入数据
+     * 根据目录结构插入单词
      *
      * @param path 文件路径
      * @return true/false
      * @author 马莹
      * @since 2019-6-11 19:31:50
      */
-    @ApiOperation(value = "根据目录结构插入数据")
-    @GetMapping(value = "/batchInsert/{path}")
-    public ItooResult batchInsertion(String path) {
+    @ApiOperation(value = "根据目录结构插入单词")
+    @GetMapping(value = "/batchInsert")
+    public ItooResult batchInsertion(@RequestParam String path) {
         try {
             boolean flag = wordService.batchInsert(path);
-          return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
+            return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
 
         } catch (Exception e) {
             log.error("错误" + e);
@@ -297,9 +297,10 @@ public class WordController {
      * @since 2019年6月14日21:24:13
      */
     @ApiOperation(value = "根据用户ID获取用户记录中单词、单词Id")
-    @GetMapping({"/queryWordAboutByUserId/{userId}"})
-    public ItooResult queryWordAboutByUserId(@ApiParam(value = "用户Id",name = "userId",required = true) @PathVariable String userId ){
-        List<WordModel> wordModel = wordService.queryWordAboutByUserId(userId);
+    @GetMapping({"/queryWordAboutByUserId/{userId}/{num}"})
+    public ItooResult queryWordAboutByUserId(@ApiParam(value = "用户Id",name = "userId",required = true) @PathVariable String userId ,
+                                                @ApiParam(value = "用户单词任务数",name = "num",required = true,example = "0") @PathVariable Integer num){
+        List<WordModel> wordModel = wordService.queryWordAboutByUserId(userId,num);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordModel);
     }
 }

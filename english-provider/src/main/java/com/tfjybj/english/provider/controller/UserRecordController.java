@@ -177,4 +177,11 @@ public class UserRecordController {
         studywords = userRecordService.findStudyWordById(userid);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", studywords);
     }
-}    
+
+    @ApiOperation(value = "根据用户id查询未检测的单词")
+    @GetMapping(value = {"/queryNoDetected/{userId}"})
+    public ItooResult queryNoDetectedByUId(@ApiParam(value = "用户id", required = true) @PathVariable String userId) {
+        List<UserRecordModel> userRecordModels = userRecordService.queryNoDetectedByUId(userId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userRecordModels);
+    }
+}
