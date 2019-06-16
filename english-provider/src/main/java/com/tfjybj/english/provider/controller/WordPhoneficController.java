@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.ejb.PostActivate;
+import javax.swing.*;
 import java.util.List;
 
 
@@ -211,6 +212,21 @@ public class WordPhoneficController {
        List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryPhoneficAboutByWordId(wordId);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordPhoneficModelList);
 
+    }
+
+    /**
+     * 根据主键Id查询所有信息
+     * @author 张凯超
+     * @param id
+     * @return
+     * @since 2019年6月16日-21点14分
+     */
+    @ApiOperation(value = "根据主键Id查询所有信息")
+//    @GetMapping(value = "/queryAllById/{Id}")
+    @GetMapping(value = "/queryAllById/{id}")
+    public  ItooResult queryAllById(@ApiParam(value = "id",name = "主键id",required = true) @PathVariable String id){
+        List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryAllById(id);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordPhoneficModelList);
     }
 
 }

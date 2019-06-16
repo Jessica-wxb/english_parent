@@ -67,6 +67,14 @@
     where
     twp.word_id = #{wordId}
     </select>
+    <select id="queryAllById" resultType="com.tfjybj.english.model.WordPhoneficModel">
+        select
+        *
+        from
+        tn_word_phonefic tnw
+        where
+        tnw.id = #{id}
+    </select>
 
 
 </mapper>
