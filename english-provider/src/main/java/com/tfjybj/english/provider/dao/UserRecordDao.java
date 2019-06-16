@@ -31,7 +31,7 @@ public interface UserRecordDao extends BaseMapper<UserRecordEntity> {
 
 
     //查询该用户id的已学单词_邢美玲
-    int findStudyWordById(int userid);
+    Integer findStudyWordById(String userid);
 
     // 根据用户id查询未检测的单词-张伟杰
     List<UserRecordModel> queryNoDetectedByUId(String userId);
