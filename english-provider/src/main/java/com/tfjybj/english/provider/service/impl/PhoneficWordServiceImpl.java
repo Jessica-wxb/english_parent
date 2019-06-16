@@ -6,7 +6,9 @@ import com.tfjybj.english.model.PhoneficWordModel;
 import com.tfjybj.english.provider.dao.PhoneficTestDao;
 import com.tfjybj.english.provider.service.PhoneficWordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
+import com.tfjybj.english.provider.until.UploadPictureUntil;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -28,6 +30,8 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
     //region 模板生成
     @Resource
     private PhoneficTestDao phoneficTestDao;
+    @Resource
+    private UploadPictureUntil uploadPictureUntil;
 
     @Override
     public List<PhoneficWordModel> queryAudioByPhoneficId(String phoneficId) {
@@ -79,12 +83,25 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
                 return fileList.isFile();
             }
         });
+        File[] fileDic = file.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File fileDic) {
+                return fileDic.isDirectory();
+            }
+        });
         // 筛选文件夹下面所有的文件
-        if (listFiles.length > 0){
+        if (listFiles.length > 0 && fileDic.length > 0) {
+            PhoneficWordEntity pwEntity = new PhoneficWordEntity();
+            pwEntity.setPhoneficAudio(uploadPictureUntil.uploadPicture(listFiles[0]));
+            for (int i = 0; i < fileDic.length; i++) {
+                for (int j = 0; j < fileDic[i].listFiles().length; j++) {
+//                    pwEntity=
+                }
 
+            }
         }
 
-            return false;
+        return false;
     }
 
 }
