@@ -26,7 +26,7 @@ public interface UserWrongDao extends BaseMapper<UserWrongEntity> {
      * @param userId  该用户的id
      * @return 该用户的错误记录
      */
-    List<UserWrongModel> queryWrongWordId(@Param("userId") Integer userId);
+    List<UserWrongModel> queryWrongWordId(@Param("userId") String userId);
 
     /**
      * 根据用户id查询该用户的错误音标
@@ -35,5 +35,5 @@ public interface UserWrongDao extends BaseMapper<UserWrongEntity> {
      * @param userId  该用户的id
      * @return 该用户的错误记录
      */
-    List<UserWrongModel> queryWrongPhoneficId(@Param("userId") Integer userId);
+    List<UserWrongModel> queryWrongPhoneficId(@Param("userId") String userId);
 }

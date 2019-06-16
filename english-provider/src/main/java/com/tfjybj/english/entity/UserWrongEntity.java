@@ -99,7 +99,9 @@ public class UserWrongEntity extends BaseEntity implements Serializable {
 	/**
 	 * 错误音标类型
 	 */
-	@ApiModelProperty(value = "错误音标类型" )
-	private String phonefic_type;
+	@ApiModelProperty(value = "错误音标类型")
+	@Column(name = "phoneficType")
+	private String phoneficType;
+
 
 }

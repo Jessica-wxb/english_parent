@@ -1,6 +1,7 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneficWordEntity;
+import com.tfjybj.english.model.PhoneficModel;
 import com.tfjybj.english.model.PhoneficWordModel;
 import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.provider.service.PhoneficWordService;
@@ -221,6 +222,21 @@ public class PhoneficWordController {
     public ItooResult queryAudioByUserId(@ApiParam(value = "用户Id", name = "userId", required = true) @PathVariable String userId) {
         List<PhoneficEntity> phoneficTestEntityList = phoneficWordService.queryAudioByUserId(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestEntityList);
+    }
+
+
+    /**
+     *根据音标的ID查询的tn_phonefic_word中所有的字段信息
+     * @param phoneficId 音标Id
+     * @return tn_phonefic_word中所有的字段
+     * @since 2019年6月15日10:27:04
+     * @author 冯佳兴
+     */
+    @ApiOperation(value = "根据音标查找tn_phonefic_word中所有的信息")
+    @GetMapping(value = "selectAllById/{phoneficId}")
+    public ItooResult selectAllById(@ApiParam(value = "音标phoneficId", name = "phoneficId", required = true) @PathVariable String phoneficId) {
+        List<PhoneficWordModel> phoneficWordModelList = phoneficWordService.selectAllById(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordModelList);
     }
 
     /**

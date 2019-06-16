@@ -5,11 +5,11 @@
     <!--根据PhoneficTest音标id模糊查询PhoneficWordEntity-->
     <select id="queryLikePhoneficId" resultType="com.tfjybj.english.entity.PhoneficWordEntity">
         SELECT
-			*
+        *
         FROM
-			tn_phonefic_test f
+        tn_phonefic_test f
         WHERE
-			f.is_delete = 0
+        f.is_delete = 0
         <if test="phoneficId !=''">
             <bind name="pattern" value="'%' + phoneficId + '%'"/>
             AND f.phonefic_id LIKE #{pattern}
@@ -80,6 +80,18 @@ WHERE
 	tur.create_time
 	DESC
 	LIMIT 1
-
     </select>
+
+    <!--  根据音标Id(phonefic_id),获取所有信息 _冯佳兴 -->
+    <select id="selectAllById" resultType="com.tfjybj.english.model.PhoneficWordModel">
+       SELECT
+            *
+        FROM
+            tn_phonefic_word tpw
+        WHERE
+            tpw.phonefic_id = #{phoneficId}
+        and
+            tpw.is_delete = 0
+    </select>
+
 </mapper>

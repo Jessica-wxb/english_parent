@@ -71,6 +71,12 @@ public class UserSetModel implements Serializable {
 	@ApiModelProperty(value = "是否随机选词",required = true  ,example="0" )
 	private Integer isRandom;
 
+	/**
+	 * 坚持天数
+	 */
+	@ApiModelProperty(value = "坚持天数",required = true  ,example="0" )
+	private Integer insistDays;
+
     //endregion
 
      /* *****************************以下是非模板生成的内容************************************ */
