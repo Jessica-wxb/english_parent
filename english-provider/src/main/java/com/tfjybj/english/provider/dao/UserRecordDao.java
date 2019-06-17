@@ -17,7 +17,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since ${version} 2019-06-08 14:26:23
  */
 @Repository("userRecordDao")
-public interface UserRecordDao extends BaseMapper<UserRecordEntity> {
+public interface  UserRecordDao extends BaseMapper<UserRecordEntity> {
 
     /**
      * 根据用户id和音标id查询该音标今天是否学习过
@@ -27,14 +27,20 @@ public interface UserRecordDao extends BaseMapper<UserRecordEntity> {
      * @author 闫伟强
      * @since ${version} 2019年6月15日20:23:12
      */
-    List<UserRecordModel> queryPhoneficByUIdAndPId(String userId, String phoneficId);
+    List<UserRecordModel> queryPhoneficByUIdAndPId(@Param("userId") String userId, @Param("phoneficId") String phoneficId);
 
 
     //查询该用户id的已学单词_邢美玲
-    Integer findStudyWordById(String userid);
+    Integer findStudyWordById(@Param("userId") String userId);
 
-    // 根据用户id查询未检测的单词-张伟杰
-    List<UserRecordModel> queryNoDetectedByUId(String userId);
+    /**
+     * 根据用户id查询未检测的单词
+     * @param userId 用户ID
+     * @return 未检测的单词
+     * @since 2019年6月17日21:04:42
+     * @autor 张伟杰
+     */
+    List<UserRecordModel> queryNoDetectedByUId(@Param("userId") String userId);
 
     /**
      * 根据用户Id和当天时间,查询音标的ID

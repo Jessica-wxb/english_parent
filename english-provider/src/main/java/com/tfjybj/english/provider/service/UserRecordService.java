@@ -17,7 +17,7 @@ import java.util.List;
  */
 public interface UserRecordService extends BaseServicePlus<UserRecordEntity> {
     //查询该用户id的已学单词--邢美玲
-    Integer findStudyWordById(String userid);
+    Integer findStudyWordById(String userId);
 
     List<UserRecordModel> queryNoDetectedByUId(String userId);
 
