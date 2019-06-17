@@ -9,6 +9,7 @@ import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.persistence.Id;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -39,6 +41,7 @@ public class PhoneficWordController {
 
     /**
      * 添加
+     *
      * @param model PhoneficWordModel
      * @return 添加的结果
      * @author 马莹
@@ -250,9 +253,9 @@ public class PhoneficWordController {
      */
     @ApiOperation(value = "根据路径插入根据音频选单词的文件路径")
     @GetMapping(value = "phoneWordPath")
-    public ItooResult phoneWordPath(@RequestParam String phoneWordPath) {
+    public ItooResult phoneWordPath(@RequestParam String phoneWordPath, Map<String, PhoneficModel> phoneficModelMap) {
         try {
-            boolean flag = phoneficWordService.insertPhoneWordTable(phoneWordPath);
+            boolean flag = phoneficWordService.insertPhoneWordTable(phoneWordPath, phoneficModelMap);
             return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
 
         } catch (Exception e) {

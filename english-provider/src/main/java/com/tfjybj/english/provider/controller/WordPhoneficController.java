@@ -2,11 +2,14 @@ package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordPhoneficEntity;
+import com.tfjybj.english.model.PhoneficModel;
+import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.model.WordPhoneficModel;
 import com.tfjybj.english.provider.service.WordTestService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
@@ -16,7 +19,7 @@ import javax.annotation.Resource;
 import javax.ejb.PostActivate;
 import javax.swing.*;
 import java.util.List;
-
+import java.util.Map;
 
 
 /**
@@ -30,6 +33,7 @@ import java.util.List;
 @Api(tags = {"WordPhonefic表接口"})
 @RequestMapping(value = "/wordPhonefic")
 @RestController
+@Slf4j
 public class WordPhoneficController {
 
     @Resource
@@ -48,13 +52,13 @@ public class WordPhoneficController {
     @ApiOperation(value = "添加")
     @PostMapping(value = {"/create"})
     public ItooResult create(@RequestBody WordPhoneficModel model) {
-		if (StringUtils.isEmpty(model.getWordId())){
+        if (StringUtils.isEmpty(model.getWordId())) {
             return ItooResult.build(ItooResult.FAIL, "wordId为空");
         }
-		if (StringUtils.isEmpty(model.getState())){
+        if (StringUtils.isEmpty(model.getState())) {
             return ItooResult.build(ItooResult.FAIL, "state为空");
         }
-		if (StringUtils.isEmpty(model.getCreatTime())){
+        if (StringUtils.isEmpty(model.getCreatTime())) {
             return ItooResult.build(ItooResult.FAIL, "creatTime为空");
         }
         WordPhoneficEntity wordPhoneficEntity = new WordPhoneficEntity();
@@ -67,7 +71,7 @@ public class WordPhoneficController {
      * 删除
      *
      * @param id 主键id
-     * @return ItooResult 是否删除成功          
+     * @return ItooResult 是否删除成功
      * @author 马莹
      * @since ${version} 2019-06-08 14:26:23
      */
@@ -105,13 +109,13 @@ public class WordPhoneficController {
     @ApiOperation(value = "根据id修改wordTest")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody WordPhoneficModel model) {
-		if (StringUtils.isEmpty(model.getWordId())){
+        if (StringUtils.isEmpty(model.getWordId())) {
             return ItooResult.build(ItooResult.FAIL, "wordId为空");
         }
-		if (StringUtils.isEmpty(model.getState())){
+        if (StringUtils.isEmpty(model.getState())) {
             return ItooResult.build(ItooResult.FAIL, "state为空");
         }
-		if (StringUtils.isEmpty(model.getCreatTime())){
+        if (StringUtils.isEmpty(model.getCreatTime())) {
             return ItooResult.build(ItooResult.FAIL, "creatTime为空");
         }
         WordPhoneficEntity wordPhoneficEntity = new WordPhoneficEntity();
@@ -146,12 +150,12 @@ public class WordPhoneficController {
      */
     @ApiOperation(value = "分页查询所有WordTest")
     @GetMapping(value = {"/queryPageAll/{pageNo}/{pageSize}"})
-    public ItooResult queryPageAll(@ApiParam(name = "pageNo",value = "页码",required = true,example = "1")@PathVariable Integer pageNo, 
-								   @ApiParam(name = "pageSize",value = "页数",required = true,example = "10")@PathVariable Integer pageSize) {
+    public ItooResult queryPageAll(@ApiParam(name = "pageNo", value = "页码", required = true, example = "1") @PathVariable Integer pageNo,
+                                   @ApiParam(name = "pageSize", value = "页数", required = true, example = "10") @PathVariable Integer pageSize) {
         PageInfo<WordPhoneficEntity> wordTests = wordTestService.queryPageAll(pageNo, pageSize);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordTests);
     }
-	
+
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
@@ -159,73 +163,97 @@ public class WordPhoneficController {
 
     /**
      * 根据单词Id获取对应单词audio
+     *
      * @param wordId 单词Id
      * @return 单词audio
      * @author 张凯超
      */
-    @ApiOperation(value ="根据单词Id获取对应单词audio" )
+    @ApiOperation(value = "根据单词Id获取对应单词audio")
     @GetMapping(value = {"/queryAudioByWordId/{wordId}"})
-    public ItooResult queryAudioByWordId(@ApiParam(value = "单词Id",name = "wordId") @PathVariable String wordId){
-       WordEntity wordEntity = wordTestService.queryAudioByWordId(wordId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordEntity.getAudio());
+    public ItooResult queryAudioByWordId(@ApiParam(value = "单词Id", name = "wordId") @PathVariable String wordId) {
+        WordEntity wordEntity = wordTestService.queryAudioByWordId(wordId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity.getAudio());
     }
 
     /**
-     *根据单词id匹配对应两个音标
+     * 根据单词id匹配对应两个音标
+     *
      * @param wordId 单词Id
      * @return 单词Id对应音标
      * @author 张凯超
      */
     @ApiOperation(value = "根据单词id匹配对应两个音标")
     @GetMapping(value = {"/queryPhoneticByWordId/{wordId}"})
-    public ItooResult queryPhoneticByWordId(@ApiParam(value = "单词Id",name = "wordId",required = true) @PathVariable String wordId){
+    public ItooResult queryPhoneticByWordId(@ApiParam(value = "单词Id", name = "wordId", required = true) @PathVariable String wordId) {
         List<WordPhoneficEntity> wordPhoneficEntity = wordTestService.queryPhoneticByWordId(wordId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordPhoneficEntity);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordPhoneficEntity);
     }
 
     /**
      * 根据音标Id查找状态
-     * @author 张凯超
-     * @param phoneficId  音标Id
-     * @return state 0 正确 1 错误
      *
+     * @param phoneficId 音标Id
+     * @return state 0 正确 1 错误
+     * @author 张凯超
      */
     @ApiOperation(value = "根据音标Id拼写查找状态")
     @GetMapping(value = "/queryWordStateByphoneficId/{phoneficId}")
-    public ItooResult queryWordStateByphoneficId(@ApiParam(value = "phoneficId",name = "音标Id",required = true)@PathVariable String phoneficId){
+    public ItooResult queryWordStateByphoneficId(@ApiParam(value = "phoneficId", name = "音标Id", required = true) @PathVariable String phoneficId) {
         WordPhoneficEntity wordPhoneficEntity = wordTestService.queryWordStateByphoneficId(phoneficId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordPhoneficEntity);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordPhoneficEntity);
     }
 
     /**
      * 根据单词Id获取相关音标信息
-     * @author 张凯超
+     *
      * @param wordId 单词Id
      * @return 音标信息
+     * @author 张凯超
      * @since 2019年6月14日22点35分
-     *
      */
     @ApiOperation(value = "根据单词Id获取相关音标信息")
     @GetMapping(value = "/queryPhoneficAboutByWordId/{wordId}")
-    public ItooResult queryPhoneficAboutByWordId(@PathVariable String wordId){
-       List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryPhoneficAboutByWordId(wordId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordPhoneficModelList);
+    public ItooResult queryPhoneficAboutByWordId(@PathVariable String wordId) {
+        List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryPhoneficAboutByWordId(wordId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordPhoneficModelList);
 
     }
 
     /**
      * 根据主键Id查询所有信息
-     * @author 张凯超
+     *
      * @param id
      * @return
+     * @author 张凯超
      * @since 2019年6月16日-21点14分
      */
     @ApiOperation(value = "根据主键Id查询所有信息")
 //    @GetMapping(value = "/queryAllById/{Id}")
     @GetMapping(value = "/queryAllById/{id}")
-    public  ItooResult queryAllById(@ApiParam(value = "id",name = "主键id",required = true) @PathVariable String id){
+    public ItooResult queryAllById(@ApiParam(value = "id", name = "主键id", required = true) @PathVariable String id) {
         List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryAllById(id);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordPhoneficModelList);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordPhoneficModelList);
+    }
+
+    /**
+     * 根据路径插入根据单词选音标的文件路径
+     *
+     * @param phoneWordPath 根据单词选音标的文件路径
+     * @return true/false
+     * @author 马莹
+     * @since 2019-6-17 21:13:58
+     */
+    @ApiOperation(value = "根据路径插入根据单词选音标的文件路径")
+    @GetMapping(value = "phoneWordPath")
+    public ItooResult phoneWordPath(@RequestParam String phoneWordPath, Map<String, PhoneficModel> phoneficWordMap) {
+        try {
+            boolean flag = wordTestService.insertPhoneWordTable(phoneWordPath, phoneficWordMap);
+            return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
+
+        } catch (Exception e) {
+            log.error("错误" + e);
+            return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
+        }
     }
 
 }
