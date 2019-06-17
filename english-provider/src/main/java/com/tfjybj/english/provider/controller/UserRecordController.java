@@ -205,4 +205,17 @@ public class UserRecordController {
         List<UserRecordModel> isStudy  = userRecordService.queryPhoneficByUIdAndPId(userId,phoneficId);
         return ItooResult.build(ItooResult.SUCCESS, "true",isStudy);
     }
+
+    /**
+     * 根据用户ID查询当天音标学习记录
+     * @param userId
+     * @return
+     * @author 张凯超
+     */
+    @ApiOperation(value = "根据用户id查询当天学习的音标信息")
+    @GetMapping(value = "/queryphoneficIdByuserId/{userId}")
+    public  ItooResult queryphoneficIdByuserId(@ApiParam(value = "用户Id",name ="userId",required = true) @PathVariable String userId ){
+        List<UserRecordModel> userRecordModelList = userRecordService.queryphoneficIdByuserId(userId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",userRecordModelList);
+    }
 }

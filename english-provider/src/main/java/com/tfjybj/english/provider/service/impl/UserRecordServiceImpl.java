@@ -65,6 +65,17 @@ public class UserRecordServiceImpl extends BaseServicePlusImpl<UserRecordDao,Use
     }
 
     /**
+     * 根据用户ID查询当天音标学习记录
+     * @param userId
+     * @return
+     * @author 张凯超
+     */
+    @Override
+    public List<UserRecordModel> queryphoneficIdByuserId(String userId) {
+        return userRecordDao.queryphoneficIdByuserId(userId);
+    }
+
+    /**
      * 根据用户Id和当天时间,查询音标的ID
      * @param userId 用户ID
      * @return 当天学习过的音标ID(phonefic_id)

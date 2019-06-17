@@ -119,8 +119,8 @@
     WHERE
     tur.user_id= #{userId}
     ORDER BY
-        tur.update_time
-        ASC
+        tur.create_time
+        Asc
         LIMIT #{num}
     </select>
 

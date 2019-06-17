@@ -40,4 +40,12 @@ public interface UserRecordService extends BaseServicePlus<UserRecordEntity> {
      * @since ${version} 2019年6月15日20:23:12
      */
     List<UserRecordModel> queryPhoneficByUIdAndPId(String userId, String phoneficId);
+
+    /**
+     * 根据用户ID查询当天音标学习记录
+     * @param userId
+     * @return
+     * @author 张凯超
+     */
+    List<UserRecordModel> queryphoneficIdByuserId(String userId);
 }
