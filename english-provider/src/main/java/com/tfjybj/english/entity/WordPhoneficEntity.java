@@ -94,5 +94,4 @@ public class WordPhoneficEntity extends BaseEntity implements Serializable {
     private Integer state;
 
 
-
 }
