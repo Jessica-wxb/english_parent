@@ -107,10 +107,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                         wordEntity.setAudio(picture);
                     }
                 }
+
                 wordEntitieList.add(wordEntity);
             }
+
         }
         return this.saveBatch(wordEntitieList);
+
+
     }
 
     //endregion
@@ -164,5 +168,16 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
 
     }
 
+    /**
+     * 根据用户ID获取用户记录中单词、单词Id
+     * @param userId 用户Id
+     * @param num
+     * @return 单词、单词Id
+     * @since  2019年6月14日21:25:14
+     */
+    @Override
+    public List<WordModel> queryWordAboutByUserId(String userId, Integer num) {
+        return wordDao.queryWordAboutByUserId(userId,num);
+    }
 
 }

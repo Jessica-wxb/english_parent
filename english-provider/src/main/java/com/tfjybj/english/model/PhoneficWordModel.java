@@ -80,4 +80,10 @@ public class PhoneficWordModel implements Serializable {
     //endregion
 
      /* *****************************以下是非模板生成的内容************************************ */
+	/**
+	 * 是否删除 0，未删除  ；1，删除
+	 */
+	@ApiModelProperty(value = "是否删除 0，未删除  ；1，删除"  ,example="0" )
+	private int isDelete = 0;
+
 }

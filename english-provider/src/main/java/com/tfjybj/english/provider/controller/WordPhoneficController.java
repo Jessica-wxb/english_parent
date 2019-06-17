@@ -23,13 +23,13 @@ import java.util.List;
  * wordTest表
  *
  * @author 马莹
- * @version ${version}
- * @since ${version} 2019-06-08 14:26:23
+ * @version 1.0.0
+ * @since 2019-06-08 14:26:23
  */
-@Api(tags = {"wordTest表接口"})
-@RequestMapping(value = "/wordTest")
+@Api(tags = {"WordPhonefic表接口"})
+@RequestMapping(value = "/wordPhonefic")
 @RestController
-public class WordTestController {
+public class WordPhoneficController {
 
     @Resource
     private WordTestService wordTestService;
@@ -190,10 +190,26 @@ public class WordTestController {
      *
      */
     @ApiOperation(value = "根据音标Id拼写查找状态")
-    @GetMapping(value = {"/queryWordStateByphoneficId/{phoneficId}"})
+    @GetMapping(value = "/queryWordStateByphoneficId/{phoneficId}")
     public ItooResult queryWordStateByphoneficId(@ApiParam(value = "phoneficId",name = "音标Id",required = true)@PathVariable String phoneficId){
         WordPhoneficEntity wordPhoneficEntity = wordTestService.queryWordStateByphoneficId(phoneficId);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordPhoneficEntity);
+    }
+
+    /**
+     * 根据单词Id获取相关音标信息
+     * @author 张凯超
+     * @param wordId 单词Id
+     * @return 音标信息
+     * @since 2019年6月14日22点35分
+     *
+     */
+    @ApiOperation(value = "根据单词Id获取相关音标信息")
+    @GetMapping(value = "/queryPhoneficAboutByWordId/{wordId}")
+    public ItooResult queryPhoneficAboutByWordId(@PathVariable String wordId){
+       List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryPhoneficAboutByWordId(wordId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",wordPhoneficModelList);
+
     }
 
 }

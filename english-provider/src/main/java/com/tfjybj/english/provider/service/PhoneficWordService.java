@@ -32,10 +32,20 @@ public interface PhoneficWordService extends BaseServicePlus<PhoneficWordEntity>
      * 根据用户Id查询音标Id、音频
      *
      * @param userId 用户Id
+     * @param num
      * @return 音标Id、音频
      * @since 2019年6月13日22:31:07
      */
-    List<PhoneficEntity> queryAudioByUserId(String userId);
+    List<PhoneficEntity> queryAudioByUserId(String userId, Integer num);
+
+    /**
+     *根据音标的ID查询的tn_phonefic_word中所有的字段信息
+     * @param phoneficId 音标Id
+     * @return tn_phonefic_word中所有的字段
+     * @since 2019年6月15日10:27:04
+     * @autor 冯佳兴
+     */
+    List<PhoneficWordModel> selectAllById(String phoneficId);
 
     /**
      * 根据路径插入根据音频选单词的文件路径

@@ -6,7 +6,10 @@ import com.tfjybj.english.model.PhoneficWordModel;
 import com.tfjybj.english.provider.dao.PhoneficTestDao;
 import com.tfjybj.english.provider.service.PhoneficWordService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
+import com.tfjybj.english.provider.until.UploadPictureUntil;
+import io.swagger.models.auth.In;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -28,6 +31,8 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
     //region 模板生成
     @Resource
     private PhoneficTestDao phoneficTestDao;
+    @Resource
+    private UploadPictureUntil uploadPictureUntil;
 
     @Override
     public List<PhoneficWordModel> queryAudioByPhoneficId(String phoneficId) {
@@ -56,6 +61,8 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
         return phoneficTestDao.getPhoneficTestById(phoneficid);
     }
 
+
+
     /**
      * 根据用户Id查询音标Id、音频
      *
@@ -64,9 +71,22 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
      * @since 2019年6月13日22:31:07
      */
     @Override
-    public List<PhoneficEntity> queryAudioByUserId(String userId) {
-        return phoneficTestDao.queryAudioByUserId(userId);
+    public List<PhoneficEntity> queryAudioByUserId(String userId, Integer num) {
+        return phoneficTestDao.queryAudioByUserId(userId,num);
     }
+
+    /**
+     *根据音标的ID查询的tn_phonefic_word中所有的字段信息
+     * @param phoneficId 音标Id
+     * @return tn_phonefic_word中所有的字段
+     * @since 2019年6月15日10:27:04
+     * @autor 冯佳兴
+     */
+    @Override
+    public List<PhoneficWordModel> selectAllById(String phoneficId) {
+        return phoneficTestDao.selectAllById(phoneficId);
+    }
+
 
     @Override
     public boolean insertPhoneWordTable(String phoneWordPath) throws IOException {
@@ -79,12 +99,25 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
                 return fileList.isFile();
             }
         });
+        File[] fileDic = file.listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File fileDic) {
+                return fileDic.isDirectory();
+            }
+        });
         // 筛选文件夹下面所有的文件
-        if (listFiles.length > 0){
+        if (listFiles.length > 0 && fileDic.length > 0) {
+            PhoneficWordEntity pwEntity = new PhoneficWordEntity();
+            pwEntity.setPhoneficAudio(uploadPictureUntil.uploadPicture(listFiles[0]));
+            for (int i = 0; i < fileDic.length; i++) {
+                for (int j = 0; j < fileDic[i].listFiles().length; j++) {
+//                    pwEntity=
+                }
 
+            }
         }
 
-            return false;
+        return false;
     }
 
 }

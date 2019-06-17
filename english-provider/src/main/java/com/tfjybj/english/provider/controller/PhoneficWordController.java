@@ -1,6 +1,7 @@
 package com.tfjybj.english.provider.controller;
 
 import com.tfjybj.english.entity.PhoneficWordEntity;
+import com.tfjybj.english.model.PhoneficModel;
 import com.tfjybj.english.model.PhoneficWordModel;
 import com.tfjybj.english.entity.PhoneficEntity;
 import com.tfjybj.english.provider.service.PhoneficWordService;
@@ -13,6 +14,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.persistence.Id;
 import java.util.List;
 
 
@@ -216,10 +218,26 @@ public class PhoneficWordController {
      * @since 2019年6月13日22:31:07
      */
     @ApiOperation(value = "根据用户Id查询音标Id、音频")
-    @GetMapping(value = {"/queryAudioByUserId/{userId}"})
-    public ItooResult queryAudioByUserId(@ApiParam(value = "用户Id", name = "userId", required = true) @PathVariable String userId) {
-        List<PhoneficEntity> phoneficTestEntityList = phoneficWordService.queryAudioByUserId(userId);
+    @GetMapping(value = {"/queryAudioByUserId/{userId}/{num}"})
+    public ItooResult queryAudioByUserId(@ApiParam(value = "用户Id", name = "userId", required = true) @PathVariable String userId,
+                                         @ApiParam(value = "每日任务数", name = "num", required = true, example = "1") @PathVariable Integer num) {
+        List<PhoneficEntity> phoneficTestEntityList = phoneficWordService.queryAudioByUserId(userId, num);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficTestEntityList);
+    }
+
+    /**
+     * 根据音标的ID查询的tn_phonefic_word中所有的字段信息
+     *
+     * @param phoneficId 音标Id
+     * @return tn_phonefic_word中所有的字段
+     * @author 冯佳兴
+     * @since 2019年6月15日10:27:04
+     */
+    @ApiOperation(value = "根据音标查找tn_phonefic_word中所有的信息")
+    @GetMapping(value = "selectAllById/{phoneficId}")
+    public ItooResult selectAllById(@ApiParam(value = "音标phoneficId", name = "phoneficId", required = true) @PathVariable String phoneficId) {
+        List<PhoneficWordModel> phoneficWordModelList = phoneficWordService.selectAllById(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordModelList);
     }
 
     /**

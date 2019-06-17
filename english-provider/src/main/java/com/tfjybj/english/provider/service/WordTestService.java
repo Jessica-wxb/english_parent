@@ -3,6 +3,7 @@ package com.tfjybj.english.provider.service;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordPhoneficEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
+import com.tfjybj.english.model.WordPhoneficModel;
 
 import java.util.List;
 
@@ -40,4 +41,15 @@ public interface WordTestService extends BaseServicePlus<WordPhoneficEntity> {
      * @return state 0 正确 1 错误
      */
     WordPhoneficEntity queryWordStateByphoneficId(String phoneficId);
+
+
+    /**
+     * 根据单词Id获取相关音标信息
+     * @author 张凯超
+     * @param wordId 单词Id
+     * @return 音标信息
+     * @since 2019年6月14日22点35分
+     *
+     */
+    List<WordPhoneficModel> queryPhoneficAboutByWordId(String wordId);
 }

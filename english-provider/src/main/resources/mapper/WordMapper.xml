@@ -101,5 +101,27 @@
     WHERE tpt.phonefic_id = #{phoneficId}
     LIMIT 2
     </select>
+    <select id="queryWordAboutByUserId" resultType="com.tfjybj.english.model.WordModel">
+            SELECT
+            		tnw.id,
+			tnw.word,
+     tnw.word_picture1,
+     tnw.word_picture2,
+     tnw.word_picture3,
+     tnw.word_picture4,
+     tnw.word_picture5,
+      tnw.audio,
+      tur.phonefic
+    FROM
+    tn_user_record tur
+    LEFT JOIN
+    tn_word tnw  ON  tur.word_id = tnw.id
+    WHERE
+    tur.user_id= #{userId}
+    ORDER BY
+        tur.update_time
+        ASC
+        LIMIT #{num}
+    </select>
 
 </mapper>

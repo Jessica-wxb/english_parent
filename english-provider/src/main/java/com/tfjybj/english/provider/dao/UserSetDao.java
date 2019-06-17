@@ -31,4 +31,13 @@ public interface UserSetDao extends BaseMapper<UserSetEntity> {
     UserSetEntity selectByUserId(@Param("userId") String userId);
 
     UserSetEntity updateTimesById(@Param("userId") String userId, @Param("phoneficNumber") String phoneficNumber);
+
+    /**
+     * 根据用户id修改
+     *
+     * @param model 设置model
+     * @return 返回实体集合
+     * @since 2019年6月11日18:13:01
+     */
+    void modifyInsistDays(UserSetModel model);
 }

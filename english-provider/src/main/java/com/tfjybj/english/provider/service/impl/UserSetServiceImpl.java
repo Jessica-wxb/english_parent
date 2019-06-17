@@ -43,4 +43,15 @@ public class UserSetServiceImpl extends BaseServicePlusImpl<UserSetDao, UserSetE
     public UserSetEntity updateTimesById(String userId, String phoneficNumber) {
         return userSetDao.updateTimesById(userId, phoneficNumber);
     }
+
+    /**
+     * 根据用户id修改坚持天数
+     * @param model
+     * @author 张伟杰
+     * @since 2019-6-16 20:17:24
+     */
+    @Override
+    public void modifyInsistDays(UserSetModel model) {
+        userSetDao.modifyInsistDays(model);
+    }
 }
