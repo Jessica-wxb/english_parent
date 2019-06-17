@@ -2,14 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.UserSetDao">
-	<!--根据UserSet用户id模糊查询UserSetEntity-->
+    <update id="modifyInsistDays">
+        UPDATE tn_user_set
+        SET insist_days = insist_days + 1
+        WHERE
+	        user_id = #{userId}
+    </update>
+    <!--根据UserSet用户id模糊查询UserSetEntity-->
     <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.UserSetEntity">
         SELECT
-			*
+        *
         FROM
-			tn_user_set f
+        tn_user_set f
         WHERE
-			f.is_delete = 0
+        f.is_delete = 0
         <if test="userId !=''">
             <bind name="pattern" value="'%' + userId + '%'"/>
             AND f.user_id LIKE #{pattern}
