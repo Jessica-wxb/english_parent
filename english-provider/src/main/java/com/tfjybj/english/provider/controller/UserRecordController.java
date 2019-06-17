@@ -156,10 +156,10 @@ public class UserRecordController {
      * @since ${version} 2019年6月16日10:38:47
      */
     @ApiOperation(value = "根据userid查询已学单词数")
-    @GetMapping(value = {"/findStudyWordById/{userid}"})
-    public ItooResult findStudyWordById(@ApiParam(value = "用户id", required = true) @PathVariable String userid) {
+    @GetMapping(value = {"/findStudyWordById/{userId}"})
+    public ItooResult findStudyWordById(@ApiParam(value = "用户id", required = true) @PathVariable String userId) {
         Integer studywords;
-        studywords = userRecordService.findStudyWordById(userid);
+        studywords = userRecordService.findStudyWordById(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", studywords);
     }
 

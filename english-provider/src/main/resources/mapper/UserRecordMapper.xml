@@ -11,7 +11,7 @@
         tn_user_record r
         Where
         is_delete= 0
-        AND r.user_id = #{userid}
+        AND r.user_id = #{userId}
     </select>
     <!--根据用户id查询未检测的单词-张伟杰-->
     <select id="queryNoDetectedByUId" resultType="com.tfjybj.english.model.UserRecordModel">
