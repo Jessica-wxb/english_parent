@@ -31,5 +31,13 @@
         And
         tp.id =#{id}
     </select>
-
+    <!--音标练习(看)-查询所有音标-闫伟强-->
+    <select id="getPhonefic" resultType="com.tfjybj.english.model.PhoneficModel">
+        SELECT
+        *
+        FROM
+        tn_phonefic tp
+        WHERE
+        tp. is_delete =0
+    </select>
 </mapper>
