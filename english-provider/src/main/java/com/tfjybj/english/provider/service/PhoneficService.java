@@ -22,7 +22,6 @@ public interface PhoneficService extends BaseServicePlus<PhoneficEntity> {
 
     /**
      * 通过音标Id查找对应图片
-     *
      * @param phoneficId 音标
      * @return 音标对应图片
      * @Author 张凯超
