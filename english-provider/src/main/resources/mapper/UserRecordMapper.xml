@@ -16,19 +16,22 @@
     <!--根据用户id查询未检测的单词-张伟杰-->
     <select id="queryNoDetectedByUId" resultType="com.tfjybj.english.model.UserRecordModel">
         SELECT
-            a.*,
-	        b.audio,
-	        b.word_picture1,
-	        b.word_picture5
+        DISTINCT a.user_id,a.word_id,a.word,a.phonefic_id,a.phonefic,a.type,a.status,
+        b.audio,
+        b.word_picture1,
+        b.word_picture5
         FROM
-	        `tn_user_record` AS a,
-	        tn_word AS b
+        `tn_user_record` AS a,
+        tn_word AS b
         WHERE
-	        a.word_id = b.id
-            AND a.user_id = #{userId}
-            AND a.`status` = 0
-            AND a.is_delete = 0
-            AND a.type = 1
+        a.word_id = b.id
+        AND (b.word_picture1 is not null or  b.word_picture1 &lt;&gt; '' )
+        AND (b.word_picture5 is not null or  b.word_picture5 &lt;&gt; '' )
+        AND (b.audio is not null or  b.audio &lt;&gt; '' )
+        AND a.user_id = #{userId}
+        AND a.`status` = 0
+        AND a.is_delete = 0
+        AND a.type = 1
     </select>
      <!--    根据用户Id(user_id)查询当天学习的音标ID(phonefic_id)-->
     <select id="selectPhoneficIdByUserIdAndcreatetime" resultType="com.tfjybj.english.model.UserRecordModel">
