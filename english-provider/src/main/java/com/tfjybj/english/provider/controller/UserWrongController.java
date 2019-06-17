@@ -47,12 +47,6 @@ public class UserWrongController {
 		if (StringUtils.isEmpty(model.getUserId())){
             return ItooResult.build(ItooResult.FAIL, "userId为空");
         }
-		if (StringUtils.isEmpty(model.getPhoneficId())){
-            return ItooResult.build(ItooResult.FAIL, "phoneficId为空");
-        }
-		if (StringUtils.isEmpty(model.getWordId())){
-            return ItooResult.build(ItooResult.FAIL, "wordId为空");
-        }
 		if (StringUtils.isEmpty(model.getType())){
             return ItooResult.build(ItooResult.FAIL, "type为空");
         }

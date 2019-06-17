@@ -50,9 +50,6 @@ public class UserRecordController {
 		if (StringUtils.isEmpty(model.getWordId())){
             return ItooResult.build(ItooResult.FAIL, "wordId为空");
         }
-		if (StringUtils.isEmpty(model.getPhoneficId())){
-            return ItooResult.build(ItooResult.FAIL, "phoneficId为空");
-        }
 		if (StringUtils.isEmpty(model.getType())){
             return ItooResult.build(ItooResult.FAIL, "type为空");
         }
@@ -107,18 +104,6 @@ public class UserRecordController {
     @ApiOperation(value = "根据id修改userRecord")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody UserRecordModel model) {
-		if (StringUtils.isEmpty(model.getUserId())){
-            return ItooResult.build(ItooResult.FAIL, "userId为空");
-        }
-		if (StringUtils.isEmpty(model.getWordId())){
-            return ItooResult.build(ItooResult.FAIL, "wordId为空");
-        }
-		if (StringUtils.isEmpty(model.getPhoneficId())){
-            return ItooResult.build(ItooResult.FAIL, "phoneficId为空");
-        }
-		if (StringUtils.isEmpty(model.getType())){
-            return ItooResult.build(ItooResult.FAIL, "type为空");
-        }
 		if (StringUtils.isEmpty(model.getStatus())){
             return ItooResult.build(ItooResult.FAIL, "status为空");
         }
@@ -178,6 +163,13 @@ public class UserRecordController {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", studywords);
     }
 
+    /**
+     * 根据用户id查询未检测的单词
+     * *@param userId 用户id
+     * @return 未检测的单词
+     * @author 张伟杰
+     * @since ${version} 2019年6月9日14:52:28
+     */
     @ApiOperation(value = "根据用户id查询未检测的单词")
     @GetMapping(value = {"/queryNoDetected/{userId}"})
     public ItooResult queryNoDetectedByUId(@ApiParam(value = "用户id", required = true) @PathVariable String userId) {

@@ -75,6 +75,24 @@ public class UserRecordModel implements Serializable {
 
     //endregion
 
+     /* *****************************以下是非模板生成的内容************************************ */
+	/**
+	 * 单词音频
+	 */
+	@ApiModelProperty(value = "单词音频",required = true )
+	private String audio;
+
+	/**
+	 * 单词的第一张图片
+	 */
+	@ApiModelProperty(value = "单词的第一张图片",required = true )
+	private String wordPicture1;
+
+	/**
+	 * 单词的第五张图片
+	 */
+	@ApiModelProperty(value = "单词的第一张图片",required = true )
+	private String wordPicture5;
     /* *****************************以下是非模板生成的内容************************************ */
 
     /**

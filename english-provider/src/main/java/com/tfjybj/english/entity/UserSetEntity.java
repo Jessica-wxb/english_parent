@@ -76,5 +76,11 @@ public class UserSetEntity extends BaseEntity implements Serializable {
     @Column(name = "is_random")
     private Integer isRandom;
 
+	/**
+	 * 坚持天数
+	 */
+	@ApiModelProperty(value = "坚持天数",required = true)
+	@Column(name = "insist_days")
+	private Integer insistDays;
 
 }
