@@ -22,23 +22,28 @@
         SELECT
             *
         FROM
-            tn_word tw
+            tn_word w
         WHERE
-            tw.is_delete = 0
+            w.is_delete = 0
+            AND (w.word_picture1 is not null or  w.word_picture2 is not null or  w.word_picture3 is not null or  w.word_picture4 is not null or  w.word_picture5 is not null or  w.audio is not null)
+        ORDER BY
+	        rand( )
             LIMIT #{setNumber}
     </select>
     <!--根据设定学习量从Word表查不包含记录表中的数据 -谷海涛-2019-6-15 9:41:00-->
     <select id="queryWordData" resultType="com.tfjybj.english.model.WordModel">
-        SELECT
+
+         SELECT
         *
         FROM
         tn_word w
         WHERE
         w.is_delete = 0
         AND w.id NOT IN ( SELECT word_id FROM tn_user_record usr WHERE usr.user_id = #{userId} )
+        AND (w.word_picture1 is not null or  w.word_picture2 is not null or  w.word_picture3 is not null or  w.word_picture4 is not null or  w.word_picture5 is not null or  w.audio is not null)
         ORDER BY
         rand( )
-        LIMIT #{setNumber};
+        LIMIT #{setNumber}
     </select>
 
     <!--查询所有单词-邢美玲-->

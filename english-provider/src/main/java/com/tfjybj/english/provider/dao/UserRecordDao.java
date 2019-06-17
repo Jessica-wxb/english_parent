@@ -17,7 +17,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since ${version} 2019-06-08 14:26:23
  */
 @Repository("userRecordDao")
-public interface UserRecordDao extends BaseMapper<UserRecordEntity> {
+public interface  UserRecordDao extends BaseMapper<UserRecordEntity> {
 
     /**
      * 根据用户id和音标id查询该音标今天是否学习过
