@@ -50,4 +50,12 @@ public interface  UserRecordDao extends BaseMapper<UserRecordEntity> {
      * @autor 冯佳兴
      */
     List<UserRecordModel> selectPhoneficIdByUserIdAndcreatetime(@Param("userId") String userId);
+
+    /**
+     * 根据用户ID查询当天音标学习记录
+     * @param userId
+     * @return
+     * @author 张凯超
+     */
+    List<UserRecordModel> queryphoneficIdByuserId(String userId);
 }

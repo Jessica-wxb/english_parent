@@ -18,8 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.ejb.PostActivate;
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 
 /**
@@ -210,30 +214,39 @@ public class WordPhoneficController {
      * @return 音标信息
      * @author 张凯超
      * @since 2019年6月14日22点35分
+     *
      */
     @ApiOperation(value = "根据单词Id获取相关音标信息")
     @GetMapping(value = "/queryPhoneficAboutByWordId/{wordId}")
-    public ItooResult queryPhoneficAboutByWordId(@PathVariable String wordId) {
-        List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryPhoneficAboutByWordId(wordId);
+    public ItooResult queryPhoneficAboutByWordId(@PathVariable String[] wordId) {
+        List<WordPhoneficModel> wordPhoneficModelList = new ArrayList<>();
+        for (String id : wordId) {
+            WordPhoneficModel wordPhoneficModel = wordTestService.queryPhoneficAboutByWordId(id);
+            wordPhoneficModelList.add(wordPhoneficModel);
+        }
+        wordPhoneficModelList = wordPhoneficModelList.parallelStream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordPhoneficModelList);
 
     }
 
     /**
-     * 根据主键Id查询所有信息
+     * 根据音标Id查询所有信息
      *
-     * @param id
+     * @param phoneficid
      * @return
      * @author 张凯超
      * @since 2019年6月16日-21点14分
      */
-    @ApiOperation(value = "根据主键Id查询所有信息")
-//    @GetMapping(value = "/queryAllById/{Id}")
-    @GetMapping(value = "/queryAllById/{id}")
-    public ItooResult queryAllById(@ApiParam(value = "id", name = "主键id", required = true) @PathVariable String id) {
-        List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryAllById(id);
+    @ApiOperation(value = "根据音标Id查询所有信息")
+    @GetMapping(value = "/queryAllByPhoneficId/{phoneficid}")
+    public ItooResult queryAllById(@ApiParam(name = "phoneficid", value = "音标Id", required = true) @PathVariable(name = "phoneficid") String phoneficid) {
+        List<WordPhoneficModel> wordPhoneficModelList = wordTestService.queryAllById(phoneficid);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordPhoneficModelList);
     }
+
+
 
     /**
      * 根据路径插入根据单词选音标的文件路径

@@ -57,17 +57,16 @@ public interface WordTestService extends BaseServicePlus<WordPhoneficEntity> {
      * @author 张凯超
      * @since 2019年6月14日22点35分
      */
-    List<WordPhoneficModel> queryPhoneficAboutByWordId(String wordId);
+    WordPhoneficModel queryPhoneficAboutByWordId(String wordId);
 
     /**
      * 根据主键Id查询所有信息
-     *
-     * @param id
-     * @return
      * @author 张凯超
+     * @param phoneficid
+     * @return
      * @since 2019年6月16日-21点14分
      */
-    List<WordPhoneficModel> queryAllById(String id);
+    List<WordPhoneficModel> queryAllById(String phoneficid);
 
     /**
      * 根据路径插入根据单词选音标的文件路径

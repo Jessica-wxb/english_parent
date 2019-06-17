@@ -91,12 +91,14 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
      * @since 2019年6月14日22点35分
      */
     @Override
-    public List<WordPhoneficModel> queryPhoneficAboutByWordId(String wordId) {
+    public WordPhoneficModel queryPhoneficAboutByWordId(String wordId) {
         return wordPhoneficDao.queryPhoneficAboutByWordId(wordId);
     }
 
     /**
      * 根据主键Id查询所有信息
+     * @author 张凯超
+     * @param phoneficid
      *
      * @param id
      * @return
@@ -104,8 +106,8 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
      * @since 2019年6月16日-21点14分
      */
     @Override
-    public List<WordPhoneficModel> queryAllById(String id) {
-        return wordPhoneficDao.queryAllById(id);
+    public List<WordPhoneficModel> queryAllById(String phoneficid) {
+        return wordPhoneficDao.queryAllById(phoneficid);
     }
 
     @Override

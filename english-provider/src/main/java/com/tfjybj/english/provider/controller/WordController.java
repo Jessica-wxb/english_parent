@@ -306,13 +306,13 @@ public class WordController {
     }
 
     /**
-     * 根据用户ID获取用户记录中单词、单词Id
+     * 根据用户ID获取用户记录中音标、音标Id
      * @param userId 用户Id
-     * @return 单词、单词Id
+     * @return
      * @since 2019年6月14日21:24:13
      */
-    @ApiOperation(value = "根据用户ID获取用户记录中单词、单词Id")
-    @GetMapping({"/queryWordAboutByUserId/{userId}/{num}"})
+    @ApiOperation(value = "根据用户ID获取用户记录中音标Id")
+    @GetMapping({"/queryWordAboutByUserId/{userId}"})
     public ItooResult queryWordAboutByUserId(@ApiParam(value = "用户Id",name = "userId",required = true) @PathVariable String userId ,
                                                 @ApiParam(value = "用户单词任务数",name = "num",required = true,example = "0") @PathVariable Integer num){
         List<WordModel> wordModel = wordService.queryWordAboutByUserId(userId,num);
