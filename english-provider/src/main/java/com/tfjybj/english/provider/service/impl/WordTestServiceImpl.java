@@ -83,16 +83,16 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
     }
 
     /**
-     * 根据单词Id获取相关音标信息
+     * 根据音标Id获取对应Id的所有信息
      *
-     * @param wordId 单词Id
+     * @param phoneficTrueId 音标Id
      * @return 音标信息
      * @author 张凯超
      * @since 2019年6月14日22点35分
      */
     @Override
-    public WordPhoneficModel queryPhoneficAboutByWordId(String wordId) {
-        return wordPhoneficDao.queryPhoneficAboutByWordId(wordId);
+    public WordPhoneficModel queryPhoneficAboutByPhoneficTrueId(String phoneficTrueId) {
+        return wordPhoneficDao.queryPhoneficAboutByPhoneficTrueId(phoneficTrueId);
     }
 
     /**

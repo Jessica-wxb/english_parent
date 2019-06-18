@@ -45,14 +45,14 @@ public interface WordPhoneficDao extends BaseMapper<WordPhoneficEntity> {
     WordPhoneficEntity queryWordStateByphoneficId (@Param("phoneficId") String phoneficId);
 
     /**
-     * 根据单词Id获取相关音标信息
-     * @author 张凯超
-     * @param wordId 单词Id
-     * @return 音标信息
-     * @since 2019年6月14日22点35分
+     * 根据音标Id获取对应Id的所有信息
      *
+     * @param phoneficTrueId 音标Id
+     * @return 音标信息
+     * @author 张凯超
+     * @since 2019年6月14日22点35分
      */
-    WordPhoneficModel queryPhoneficAboutByWordId(@Param("wordId") String wordId);
+    WordPhoneficModel queryPhoneficAboutByPhoneficTrueId(@Param("phoneficTrueId") String phoneficTrueId);
 
     /**
      * 根据主键Id查询所有信息

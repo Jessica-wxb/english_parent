@@ -50,14 +50,14 @@ public interface WordTestService extends BaseServicePlus<WordPhoneficEntity> {
 
 
     /**
-     * 根据单词Id获取相关音标信息
+     * 根据音标Id获取对应Id的所有信息
      *
-     * @param wordId 单词Id
+     * @param phoneficTrueId 音标Id
      * @return 音标信息
      * @author 张凯超
      * @since 2019年6月14日22点35分
      */
-    WordPhoneficModel queryPhoneficAboutByWordId(String wordId);
+    WordPhoneficModel queryPhoneficAboutByPhoneficTrueId(String phoneficTrueId);
 
     /**
      * 根据主键Id查询所有信息
@@ -77,4 +77,5 @@ public interface WordTestService extends BaseServicePlus<WordPhoneficEntity> {
      * @since 2019-6-17 21:15:11
      */
     boolean insertPhoneWordTable(String phoneWordPath, Map<String, PhoneficModel> phoneficWordMap);
+
 }

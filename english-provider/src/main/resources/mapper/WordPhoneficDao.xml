@@ -75,6 +75,14 @@ WHERE
         where
         tnw.phonefic_true_id = #{phoneficid}
     </select>
+    <select id="queryPhoneficAboutByPhoneficTrueId" resultType="com.tfjybj.english.model.WordPhoneficModel">
+        SELECT
+	*
+FROM
+	tn_word_phonefic twp
+WHERE
+	twp.phonefic_true_id = #{phoneficTrueId}
+    </select>
 
 
 </mapper>

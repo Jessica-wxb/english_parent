@@ -203,20 +203,19 @@ public class WordPhoneficController {
     }
 
     /**
-     * 根据单词Id获取相关音标信息
-     *
-     * @param wordId 单词Id
-     * @return 音标信息
+     * 根据音标Id获取相关对应Id所有信息
+     * @param PhoneficTrueId 正确音标Id
+     * @return  音标信息
      * @author 张凯超
      * @since 2019年6月14日22点35分
      *
      */
-    @ApiOperation(value = "根据单词Id获取相关音标信息")
-    @GetMapping(value = "/queryPhoneficAboutByWordId/{wordId}")
-    public ItooResult queryPhoneficAboutByWordId(@PathVariable String[] wordId) {
+    @ApiOperation(value = "根据音标Id获取相关对应Id所有信息")
+    @GetMapping(value = "/queryPhoneficAboutByPhoneficTrueId/{PhoneficTrueId}")
+    public ItooResult queryPhoneficAboutByPhoneficTrueId(@PathVariable String[] PhoneficTrueId) {
         List<WordPhoneficModel> wordPhoneficModelList = new ArrayList<>();
-        for (String id : wordId) {
-            WordPhoneficModel wordPhoneficModel = wordTestService.queryPhoneficAboutByWordId(id);
+        for (String id : PhoneficTrueId) {
+            WordPhoneficModel wordPhoneficModel = wordTestService.queryPhoneficAboutByPhoneficTrueId(id);
             wordPhoneficModelList.add(wordPhoneficModel);
         }
         wordPhoneficModelList = wordPhoneficModelList.parallelStream()
