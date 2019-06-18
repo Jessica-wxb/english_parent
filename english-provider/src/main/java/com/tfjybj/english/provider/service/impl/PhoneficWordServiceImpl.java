@@ -132,19 +132,22 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
             PhoneficWordEntity pwEntity = new PhoneficWordEntity();
             pwEntity.setPhoneficAudio(uploadPictureUntil.uploadPicture(listFiles[0]));
             // 截取文件名称,当做map的key值,然后利用key值获取map中的value,value是一个model.然后get model中的id
-            PhoneficModel phoneficModel = phoneficWordMap.get(listFiles[0].getName().substring(0, listFiles[0].getName().lastIndexOf('.')));
+            PhoneficModel phoneficModel = phoneficWordMap.get(listFiles[0].getName().substring(0, listFiles[0].getName().indexOf('.')));
             pwEntity.setPhoneficId(phoneficModel == null ? null : phoneficModel.getId());
+            pwEntity.setPhonefic(listFiles[0].getName().substring(0, listFiles[0].getName().lastIndexOf('.')));
             for (int i = 0; i < fileDic.length; i++) {
                 for (int j = 0; j < fileDic[i].listFiles().length; j++) {
                     String uploadPicture = uploadPictureUntil.uploadPicture(fileDic[i].listFiles()[j]);
                     String upperCase = uploadPicture.substring(uploadPicture.lastIndexOf('.') + 1).toUpperCase();
                     if (fileDic[i].getName().equals("错误")) {
+                        pwEntity.setWordFalse(fileDic[i].listFiles()[j].getName().substring(0, fileDic[i].listFiles()[j].getName().indexOf('.')));
                         if (UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(upperCase)) {
                             pwEntity.setWordFalseAudio(uploadPicture);
                         } else if (UploadPictureUntil.FILE_FORMAT.contains(upperCase)) {
                             pwEntity.setWordFalsePicture(uploadPicture);
                         }
                     } else if (fileDic[i].getName().equals("正确")) {
+                        pwEntity.setWordTrue(fileDic[i].listFiles()[j].getName().substring(0, fileDic[i].listFiles()[j].getName().indexOf('.')));
                         if (UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(upperCase)) {
                             pwEntity.setWordTrueAudio(uploadPicture);
                         } else if (UploadPictureUntil.FILE_FORMAT.contains(upperCase)) {

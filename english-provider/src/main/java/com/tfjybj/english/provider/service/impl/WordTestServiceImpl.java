@@ -97,11 +97,10 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
 
     /**
      * 根据主键Id查询所有信息
-     * @author 张凯超
-     * @param phoneficid
      *
-     * @param id
+     * @param phoneficid
      * @return
+     * @author 张凯超
      * @author 张凯超
      * @since 2019年6月16日-21点14分
      */
@@ -112,7 +111,6 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
 
     @Override
     public boolean insertPhoneWordTable(String phoneWordPath, Map<String, PhoneficModel> phoneficWordMap) {
-
         // 查询所有的音标数据
         if (phoneficWordMap == null || phoneficWordMap.size() == 0) {
             phoneficWordMap = new HashMap<>();
@@ -121,7 +119,6 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
                 phoneficWordMap.put(phoneficModel.getPhonefic(), phoneficModel);
             }
         }
-
 
         boolean flag = false;
         File file = new File(phoneWordPath);
@@ -138,7 +135,6 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
                 return fileDicWordPhone.isDirectory();
             }
         });
-
         // 筛选文件夹下面所有的文件
         if (listFiles.length == 0 && fileDicWordPhone.length > 0) {
             // 获取所有的文件
@@ -149,23 +145,25 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
         } else if (listFiles.length > 0 && fileDicWordPhone.length > 0) {
             WordPhoneficEntity wordPhoneEntity = new WordPhoneficEntity();
             wordPhoneEntity.setWordAudio(uploadPictureUntil.uploadPicture(listFiles[0]));
+            wordPhoneEntity.setWord(listFiles[0].getName().substring(0, listFiles[0].getName().indexOf('.')));
             for (int i = 0; i < fileDicWordPhone.length; i++) {
                 for (int j = 0; j < fileDicWordPhone[i].listFiles().length; j++) {
                     String uploadPicture = uploadPictureUntil.uploadPicture(fileDicWordPhone[i].listFiles()[j]);
                     String upperCase = uploadPicture.substring(uploadPicture.lastIndexOf('.') + 1).toUpperCase();
+                    // 截取文件名称,当做map的key值,然后利用key值获取map中的value,value是一个model.然后get model中的id
+                    PhoneficModel phoneficModel = phoneficWordMap.get(fileDicWordPhone[i].listFiles()[j].getName().substring(0, fileDicWordPhone[j].listFiles()[0].getName().indexOf('.')));
                     if (fileDicWordPhone[i].getName().equals("错误")) {
                         // 截取文件名称,当做map的key值,然后利用key值获取map中的value,value是一个model.然后get model中的id
-                        PhoneficModel phoneficModel = phoneficWordMap.get(fileDicWordPhone[i].listFiles()[j].getName().substring(0, fileDicWordPhone[i].listFiles()[j].getName().lastIndexOf('.')));
+                        //  PhoneficModel phoneficModel = phoneficWordMap.get(fileDicWordPhone[i].listFiles()[j].getName().substring(0, fileDicWordPhone[i].listFiles()[j].getName().indexOf('.')));
+                        wordPhoneEntity.setPhoneficFalse(fileDicWordPhone[i].listFiles()[j].getName().substring(0, fileDicWordPhone[j].listFiles()[0].getName().indexOf('.')));
                         wordPhoneEntity.setPhoneficFalseId(phoneficModel == null ? null : phoneficModel.getId());
-
                         if (UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(upperCase)) {
                             wordPhoneEntity.setPhoneficFalseAudio(uploadPicture);
                         } else if (UploadPictureUntil.FILE_FORMAT.contains(upperCase)) {
                             wordPhoneEntity.setPhoneficFalsePicture(uploadPicture);
                         }
                     } else if (fileDicWordPhone[i].getName().equals("正确")) {
-                        // 截取文件名称,当做map的key值,然后利用key值获取map中的value,value是一个model.然后get model中的id
-                        PhoneficModel phoneficModel = phoneficWordMap.get(fileDicWordPhone[i].listFiles()[j].getName().substring(0, fileDicWordPhone[j].listFiles()[0].getName().lastIndexOf('.')));
+                        wordPhoneEntity.setPhoneficTrue(fileDicWordPhone[i].listFiles()[j].getName().substring(0, fileDicWordPhone[j].listFiles()[0].getName().indexOf('.')));
                         wordPhoneEntity.setPhoneficTrueId(phoneficModel == null ? null : phoneficModel.getId());
                         if (UploadPictureUntil.AUDIO_FREQUENCY_FORMAT.contains(upperCase)) {
                             wordPhoneEntity.setPhoneficTrueAudio(uploadPicture);
@@ -174,7 +172,6 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
                         }
                     }
                 }
-
             }
             flag = this.save(wordPhoneEntity);
         }

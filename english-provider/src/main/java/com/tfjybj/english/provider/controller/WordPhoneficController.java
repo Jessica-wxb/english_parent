@@ -62,9 +62,7 @@ public class WordPhoneficController {
         if (StringUtils.isEmpty(model.getState())) {
             return ItooResult.build(ItooResult.FAIL, "state为空");
         }
-        if (StringUtils.isEmpty(model.getCreatTime())) {
-            return ItooResult.build(ItooResult.FAIL, "creatTime为空");
-        }
+
         WordPhoneficEntity wordPhoneficEntity = new WordPhoneficEntity();
         BeanUtils.copyProperties(model, wordPhoneficEntity);
         wordTestService.save(wordPhoneficEntity);
@@ -118,9 +116,6 @@ public class WordPhoneficController {
         }
         if (StringUtils.isEmpty(model.getState())) {
             return ItooResult.build(ItooResult.FAIL, "state为空");
-        }
-        if (StringUtils.isEmpty(model.getCreatTime())) {
-            return ItooResult.build(ItooResult.FAIL, "creatTime为空");
         }
         WordPhoneficEntity wordPhoneficEntity = new WordPhoneficEntity();
         BeanUtils.copyProperties(model, wordPhoneficEntity);
