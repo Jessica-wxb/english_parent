@@ -82,7 +82,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                     // 通过截取路径获取后缀
                     if (picture == "" || picture == null) {
                         log.error("文件上传失败!");
-                        return false;
+                        continue;
                     }
                     if (UploadPictureUntil.FILE_FORMAT.contains(picture.substring(picture.lastIndexOf('.') + 1).toUpperCase())) {
                         picNum++;

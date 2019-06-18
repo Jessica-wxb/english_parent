@@ -40,7 +40,7 @@ public class UploadPictureUntil {
             log.info("图片上传成功，地址：" + imagePath);
             return imagePath;
         } catch (Exception e) {
-            log.error("图片插入错误:" + e);
+            log.error("图片插入错误,file="+file.getAbsolutePath() ,e);
             return null;
         }
     }
