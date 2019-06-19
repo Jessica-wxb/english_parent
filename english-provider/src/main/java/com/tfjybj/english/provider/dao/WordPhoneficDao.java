@@ -52,7 +52,7 @@ public interface WordPhoneficDao extends BaseMapper<WordPhoneficEntity> {
      * @author 张凯超
      * @since 2019年6月14日22点35分
      */
-    WordPhoneficModel queryPhoneficAboutByPhoneficTrueId(@Param("phoneficTrueId") String phoneficTrueId);
+    List<WordPhoneficModel> queryPhoneficAboutByPhoneficTrueId(@Param("phoneficTrueId") String phoneficTrueId);
 
     /**
      * 根据主键Id查询所有信息
