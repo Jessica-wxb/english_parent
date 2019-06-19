@@ -3,27 +3,20 @@ package com.tfjybj.english.provider.controller;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordPhoneficEntity;
 import com.tfjybj.english.model.PhoneficModel;
-import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.model.WordPhoneficModel;
 import com.tfjybj.english.provider.service.WordTestService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.ejb.PostActivate;
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 
 /**
@@ -205,7 +198,7 @@ public class WordPhoneficController {
     /**
      * 根据音标Id获取相关对应Id所有信息
      * @param PhoneficTrueId 正确音标Id
-     * @return  音标信息
+     * @return  音标信息集合
      * @author 张凯超
      * @since 2019年6月14日22点35分
      *
@@ -215,12 +208,9 @@ public class WordPhoneficController {
     public ItooResult queryPhoneficAboutByPhoneficTrueId(@PathVariable String[] PhoneficTrueId) {
         List<WordPhoneficModel> wordPhoneficModelList = new ArrayList<>();
         for (String id : PhoneficTrueId) {
-            WordPhoneficModel wordPhoneficModel = wordTestService.queryPhoneficAboutByPhoneficTrueId(id);
-            wordPhoneficModelList.add(wordPhoneficModel);
+            List<WordPhoneficModel> wordPhoneficModel = wordTestService.queryPhoneficAboutByPhoneficTrueId(id);
+            wordPhoneficModelList.addAll(wordPhoneficModel);
         }
-        wordPhoneficModelList = wordPhoneficModelList.parallelStream()
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList());
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordPhoneficModelList);
 
     }
