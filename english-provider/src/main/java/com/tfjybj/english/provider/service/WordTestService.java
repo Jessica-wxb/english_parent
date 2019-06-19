@@ -4,7 +4,6 @@ import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordPhoneficEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 import com.tfjybj.english.model.PhoneficModel;
-import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.model.WordPhoneficModel;
 
 import java.util.List;
@@ -57,7 +56,7 @@ public interface WordTestService extends BaseServicePlus<WordPhoneficEntity> {
      * @author 张凯超
      * @since 2019年6月14日22点35分
      */
-    WordPhoneficModel queryPhoneficAboutByPhoneficTrueId(String phoneficTrueId);
+    List<WordPhoneficModel> queryPhoneficAboutByPhoneficTrueId(String phoneficTrueId);
 
     /**
      * 根据主键Id查询所有信息

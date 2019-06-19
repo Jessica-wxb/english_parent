@@ -3,16 +3,12 @@ package com.tfjybj.english.provider.service.impl;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordPhoneficEntity;
 import com.tfjybj.english.model.PhoneficModel;
-import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.model.WordPhoneficModel;
 import com.tfjybj.english.provider.dao.WordPhoneficDao;
 import com.tfjybj.english.provider.service.PhoneficService;
-import com.tfjybj.english.provider.service.PhoneficWordService;
-import com.tfjybj.english.provider.service.WordService;
 import com.tfjybj.english.provider.service.WordTestService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import com.tfjybj.english.provider.until.UploadPictureUntil;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -91,7 +87,7 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
      * @since 2019年6月14日22点35分
      */
     @Override
-    public WordPhoneficModel queryPhoneficAboutByPhoneficTrueId(String phoneficTrueId) {
+    public List<WordPhoneficModel> queryPhoneficAboutByPhoneficTrueId(String phoneficTrueId) {
         return wordPhoneficDao.queryPhoneficAboutByPhoneficTrueId(phoneficTrueId);
     }
 
