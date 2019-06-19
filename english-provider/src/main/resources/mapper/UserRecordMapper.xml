@@ -59,16 +59,13 @@
 	    AND a.create_time >= ( SELECT curdate( ) )
     </select>
     <select id="queryphoneficIdByuserId" resultType="com.tfjybj.english.model.UserRecordModel">
-            SELECT
-    tur.phonefic_id
-    FROM
-    tn_user_record  tur
-    WHERE
-    tur.user_id = #{userId}
-    AND tur.phonefic_id != 'null'
-    AND tur.is_delete = 0
-    AND create_time BETWEEN (CURDATE())
-                AND (CURDATE()+1)
+        SELECT DISTINCT
+        tur.phonefic_id
+        FROM
+        tn_user_record  tur
+        WHERE
+        tur.user_id = #{userId}
+        AND tur.is_delete = 0
+    AND DATE_SUB(CURDATE(),INTERVAL 1 DAY) &lt;= DATE(create_time)
     </select>
-
 </mapper>
