@@ -199,12 +199,12 @@ public class PhoneficController {
      *
      * @param id 主键id
      * @return 根据id查找的音标结果
-     * @author xml
+     * @author xml -- 张凯超修改
      * @since ${version} 2019年6月11日08:33:00
      */
     @ApiOperation(value = "音标练习(看)_根据音标id查询音标信息")
     @GetMapping(value = {"/findPhoneficById/{id}"})
-    public ItooResult findPhoneficById(@ApiParam(value = "主键id", required = true) @PathVariable Integer id) {
+    public ItooResult findPhoneficById(@ApiParam(value = "主键id", required = true,example = "1") @PathVariable Integer id) {
         List<PhoneficModel> phoneficList = phoneficService.getPhoneficById(id);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficList);
     }

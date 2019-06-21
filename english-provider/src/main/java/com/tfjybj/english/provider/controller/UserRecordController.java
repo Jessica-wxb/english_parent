@@ -207,12 +207,12 @@ public class UserRecordController {
     }
 
     /**
-     * 根据用户ID查询当天音标学习记录
+     * 根据用户ID查询用户学习的音标学习记录
      * @param userId
      * @return
      * @author 张凯超
      */
-    @ApiOperation(value = "根据用户id查询当天学习的音标信息")
+    @ApiOperation(value = "根据用户id查询用户学习的音标信息")
     @GetMapping(value = "/queryphoneficIdByuserId/{userId}")
     public  ItooResult queryphoneficIdByuserId(@ApiParam(value = "用户Id",name ="userId",required = true) @PathVariable String userId ){
         List<UserRecordModel> userRecordModelList = userRecordService.queryphoneficIdByuserId(userId);

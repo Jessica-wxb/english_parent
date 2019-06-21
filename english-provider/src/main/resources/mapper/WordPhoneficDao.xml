@@ -75,6 +75,14 @@ WHERE
         where
         tnw.phonefic_true_id = #{phoneficid}
     </select>
-
-
+    <select id="queryPhoneficAboutByPhoneficTrueId" resultType="com.tfjybj.english.model.WordPhoneficModel">
+        SELECT DISTINCT
+	*
+FROM
+	tn_word_phonefic twp
+WHERE
+	twp.phonefic_true_id =#{phoneficTrueId}
+	and twp.phonefic_true_id is not null
+	and twp.phonefic_false_id is not NULL
+    </select>
 </mapper>
