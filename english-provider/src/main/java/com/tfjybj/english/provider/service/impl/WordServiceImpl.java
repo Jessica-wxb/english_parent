@@ -1,5 +1,6 @@
 package com.tfjybj.english.provider.service.impl;
 
+import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.dao.WordDao;
@@ -8,6 +9,7 @@ import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import com.tfjybj.english.provider.until.UploadPictureUntil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -33,6 +35,9 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     private WordDao wordDao;
     @Resource
     private UploadPictureUntil uploadPictureUntil;
+
+    @Resource
+    private FastFileStorageClient fastFileStorageClient;
 
     @Override
     public List<WordModel> selDataNum(Integer setNumber) {
@@ -192,5 +197,41 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     public List<WordModel> queryWordAboutByUserId(String userId, Integer num) {
         return wordDao.queryWordAboutByUserId(userId, num);
     }
+
+    @Override
+    public boolean delServeFile(String dataId) {
+        // 查询符合条件的数据
+        List<WordModel> wordModels = wordDao.selDataWordAll(dataId);
+        if (wordModels.size() > 0) {
+            // 遍历所查出来的数据
+            wordModels.forEach(wordModel -> {
+                // 声明一个String类型的list泛型,存放所有的连接
+                List<String> strList = new ArrayList<>();
+                strList.add(wordModel.getAudio());
+                strList.add(wordModel.getAudio());
+                strList.add(wordModel.getWordPicture1());
+                strList.add(wordModel.getWordPicture2());
+                strList.add(wordModel.getWordPicture3());
+                strList.add(wordModel.getWordPicture4());
+                strList.add(wordModel.getWordPicture5());
+                strList.add(wordModel.getPhonefic());
+                // 循环删除服务器上的文件,加上try catch 可以忽略错误,删除正确的
+                strList.forEach(str -> {
+                    try {
+                        fastFileStorageClient.deleteFile(str);
+                    } catch (Exception e) {
+                        log.error("删除fastdfs文件失败,服务器地址=" + str, e);
+                    }
+                });
+                // 删除数据库中对应的数据
+                wordDao.deleteById(wordModel.getId());
+            });
+        } else {
+            return false;
+        }
+
+        return true;
+    }
+
 
 }

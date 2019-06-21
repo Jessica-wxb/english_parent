@@ -27,7 +27,8 @@ public interface WordDao extends BaseMapper<WordEntity> {
      * @author 谷海涛
      * @since 2019-6-15 9:41:00
      */
-    List<WordModel> queryWordData(@Param("setNumber") Integer setNumber,@Param("userId")String userId);
+    List<WordModel> queryWordData(@Param("setNumber") Integer setNumber, @Param("userId") String userId);
+
     /**
      * 根据设定学习量查询数据条数
      *
@@ -73,22 +74,34 @@ public interface WordDao extends BaseMapper<WordEntity> {
      * @param wordId 单词Id
      * @return 单词音频
      */
-    WordModel queryAudioBywordId( @Param("wordId") String wordId);
+    WordModel queryAudioBywordId(@Param("wordId") String wordId);
 
     /**
-     *  根据音标id查询图片
-     * @author 张凯超
+     * 根据音标id查询图片
+     *
      * @param phoneficId 音标Id
-     * @since 2019年6月13日22:39:16
      * @return 图片
+     * @author 张凯超
+     * @since 2019年6月13日22:39:16
      */
     List<WordModel> queryPictureByPhoneficId(@Param("phoneficId") String phoneficId);
 
     /**
      * 根据用户ID获取用户记录中单词、单词Id
+     *
      * @param userId 用户Id
      * @return 单词、单词Id
      * @since 2019年6月14日21:24:13
      */
     List<WordModel> queryWordAboutByUserId(@Param("userId") String userId, @Param("num") Integer num);
+
+    /**
+     * 根据id查询数据或者查询全部
+     *
+     * @param dataId 数据id
+     * @return wordmodal集合
+     * @author 马莹
+     * @since 2019-6-21 20:35:33
+     */
+    List<WordModel> selDataWordAll(@Param("dataId") String dataId);
 }
