@@ -108,17 +108,17 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
             }
             // 循环完成之后插入到音标表里
             if (this.save(phoneficEntity)) {
-                for (int d = 0; d < fileDire.length; d++) {
-                    for (int f = 0; f < fileDire[d].listFiles().length; f++) {
-                        PhoneticCorrespondWordsEntity pcwe = new PhoneticCorrespondWordsEntity();
-                        pcwe.setPhoneficId(phoneId);
-                        // 截取单词
-                        pcwe.setWord(fileDire[d].listFiles()[f].getName().substring(0, fileDire[d].listFiles()[f].getName().indexOf('.')))
-                                // 获取音频地址,并且赋值
-                                .setAudio(uploadPictureUntil.uploadPicture(fileDire[d].listFiles()[f]));
-                        flag = phoneticCorrespondWordsService.save(pcwe);
-                    }
+//                for (int d = 0; d < fileDire.length; d++) {
+                for (int f = 0; f < fileDire[0].listFiles().length; f++) {
+                    PhoneticCorrespondWordsEntity pcwe = new PhoneticCorrespondWordsEntity();
+                    pcwe.setPhoneficId(phoneId);
+                    // 截取单词
+                    pcwe.setWord(fileDire[0].listFiles()[f].getName().substring(0, fileDire[0].listFiles()[f].getName().indexOf('.')))
+                            // 获取音频地址,并且赋值
+                            .setAudio(uploadPictureUntil.uploadPicture(fileDire[0].listFiles()[f]));
+                    flag = phoneticCorrespondWordsService.save(pcwe);
                 }
+//                }
             }
         } else if (fileFile.length == 0 && fileDire.length > 0) {
             // 获取所有的文件
@@ -134,8 +134,9 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
 
     /**
      * 音标练习(看)-查询所有音标
-     * @Author 闫伟强
+     *
      * @return 音标对应图片
+     * @Author 闫伟强
      */
     @Override
     public List<PhoneficModel> getPhonefic() {
