@@ -103,7 +103,7 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      * @since 2019-6-21 20:29:23
      */
     boolean delServeFile(String dataId);
-}
+
     /**
      * 根据word模糊查询word表记录
      * @param word 单词
@@ -111,4 +111,5 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      * @return
      * @since 2019年6月22日09:30:16
      */
-    List<WordEntity> queryLikeWord(String word);}
+    List<WordEntity> queryLikeWord(String word);
+}
