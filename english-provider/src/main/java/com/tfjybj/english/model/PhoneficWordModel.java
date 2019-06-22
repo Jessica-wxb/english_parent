@@ -12,8 +12,8 @@ import javax.persistence.Column;
  * 据音标选单词
  *
  * @author 马莹 
- * @version 1.0.0
- * @since 2019-06-14 21:24:30
+ * @version .0.0.1
+ * @since 2019-06-18 08:59:12
  */
 @ApiModel(value = "PhoneficWordModel:据音标选单词")
 @Data
@@ -32,8 +32,14 @@ public class PhoneficWordModel implements Serializable {
    	/**
 	 * 音标id
 	 */
-	@ApiModelProperty(value = "音标id",required = true )
+    @ApiModelProperty(value = "音标id" )
 	private String phoneficId;
+
+	/**
+	 * 音标
+	 */
+    @ApiModelProperty(value = "音标" )
+	private String phonefic;
 
 	/**
 	 * 音标音频
@@ -42,34 +48,40 @@ public class PhoneficWordModel implements Serializable {
 	private String phoneficAudio;
 
 	/**
-	 * 单词正确图片
+	 * 正确单词
 	 */
-    @ApiModelProperty(value = "单词正确图片" )
+    @ApiModelProperty(value = "正确单词" )
+	private String wordTrue;
+
+	/**
+	 * 正确单词图片
+	 */
+    @ApiModelProperty(value = "正确单词图片" )
 	private String wordTruePicture;
 
 	/**
-	 * 单词错误图片
+	 * 正确单词音频
 	 */
-    @ApiModelProperty(value = "单词错误图片" )
-	private String wordFalsePicture;
-
-	/**
-	 * 单词正确音频
-	 */
-    @ApiModelProperty(value = "单词正确音频" )
+    @ApiModelProperty(value = "正确单词音频" )
 	private String wordTrueAudio;
 
 	/**
-	 * 单词错误音频
+	 * 错误单词
 	 */
-    @ApiModelProperty(value = "单词错误音频" )
-	private String wordFalseAudio;
+    @ApiModelProperty(value = "错误单词" )
+	private String wordFalse;
 
 	/**
-	 * 单词
+	 * 错误单词图片
 	 */
-    @ApiModelProperty(value = "单词" )
-	private String word;
+    @ApiModelProperty(value = "错误单词图片" )
+	private String wordFalsePicture;
+
+	/**
+	 * 错误单词音频
+	 */
+    @ApiModelProperty(value = "错误单词音频" )
+	private String wordFalseAudio;
 
 	/**
 	 * 状态（单词正确与否）0正确；1错误
@@ -80,10 +92,4 @@ public class PhoneficWordModel implements Serializable {
     //endregion
 
      /* *****************************以下是非模板生成的内容************************************ */
-	/**
-	 * 是否删除 0，未删除  ；1，删除
-	 */
-	@ApiModelProperty(value = "是否删除 0，未删除  ；1，删除"  ,example="0" )
-	private int isDelete = 0;
-
 }

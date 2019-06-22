@@ -33,8 +33,14 @@ public interface  UserRecordDao extends BaseMapper<UserRecordEntity> {
     //查询该用户id的已学单词_邢美玲
     Integer findStudyWordById(@Param("userId") String userId);
 
-    // 根据用户id查询未检测的单词-张伟杰
-    List<UserRecordModel> queryNoDetectedByUId(String userId);
+    /**
+     * 根据用户id查询未检测的单词
+     * @param userId 用户ID
+     * @return 未检测的单词
+     * @since 2019年6月17日21:04:42
+     * @autor 张伟杰
+     */
+    List<UserRecordModel> queryNoDetectedByUId(@Param("userId") String userId);
 
     /**
      * 根据用户Id和当天时间,查询音标的ID
@@ -44,4 +50,12 @@ public interface  UserRecordDao extends BaseMapper<UserRecordEntity> {
      * @autor 冯佳兴
      */
     List<UserRecordModel> selectPhoneficIdByUserIdAndcreatetime(@Param("userId") String userId);
+
+    /**
+     * 根据用户ID查询当天音标学习记录
+     * @param userId
+     * @return
+     * @author 张凯超
+     */
+    List<UserRecordModel> queryphoneficIdByuserId(@Param("userId") String userId);
 }

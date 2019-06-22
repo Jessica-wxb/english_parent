@@ -7,17 +7,14 @@ import lombok.experimental.*;
 
 import java.io.Serializable;
 import javax.persistence.Column;
-import java.util.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * WordPhoneficModel
  * 据单词选音标
  *
  * @author 马莹
- * @version 1.0.0
- * @since 2019-06-14 21:24:30
+ * @version .0.0.1
+ * @since 2019-06-18 08:59:12
  */
 @ApiModel(value = "WordPhoneficModel:据单词选音标")
 @Data
@@ -42,14 +39,32 @@ public class WordPhoneficModel implements Serializable {
     /**
      * 单词
      */
-    @ApiModelProperty(value = "单词发音")
+    @ApiModelProperty(value = "单词")
+    private String word;
+
+    /**
+     * 单词音频
+     */
+    @ApiModelProperty(value = "单词音频")
     private String wordAudio;
+
+    /**
+     * 正确音标
+     */
+    @ApiModelProperty(value = "正确音标")
+    private String phoneficTrue;
 
     /**
      * 音标正确id
      */
     @ApiModelProperty(value = "音标正确id")
     private String phoneficTrueId;
+
+    /**
+     * 错误音标
+     */
+    @ApiModelProperty(value = "错误音标")
+    private String phoneficFalse;
 
     /**
      * 音标错误id
@@ -87,16 +102,9 @@ public class WordPhoneficModel implements Serializable {
     @ApiModelProperty(value = "状态（音标正确与否）", example = "0")
     private Integer state;
 
-    /**
-     * 创建时间
-     */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8"
-    )
-    @ApiModelProperty(value = "创建时间", required = true)
-    private Date creatTime;
-
     //endregion
 
     /* *****************************以下是非模板生成的内容************************************ */
+
+
 }

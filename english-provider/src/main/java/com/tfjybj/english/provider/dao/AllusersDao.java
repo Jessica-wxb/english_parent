@@ -14,5 +14,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("allusersDao")
 public interface AllusersDao extends BaseMapper<AllusersEntity> {
-	
+
 }

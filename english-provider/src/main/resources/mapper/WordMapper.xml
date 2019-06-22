@@ -124,9 +124,22 @@
     WHERE
     tur.user_id= #{userId}
     ORDER BY
-        tur.update_time
-        ASC
+        tur.create_time
+        Asc
         LIMIT #{num}
+    </select>
+    <!--    根据id查询数据或者查询全部-马莹-2019年6月21日20:36:30-->
+    <select id="selDataWordAll" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+        *
+        FROM
+        tn_word tw
+        WHERE
+        tw.is_delete = 0
+        <if test="dataId!='' and dataId!=null">
+            AND tw.id=#{dataId}
+        </if>
+        LIMIT 3
     </select>
 
 </mapper>

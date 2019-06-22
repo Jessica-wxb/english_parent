@@ -60,21 +60,29 @@
           tn_word_test.phonefic_id = #{phoneficId}
     </select>
     <select id="queryPhoneficAboutByWordId" resultType="com.tfjybj.english.model.WordPhoneficModel">
-            SELECT
-    *
-    FROM
-    tn_word_phonefic twp
-    where
-    twp.word_id = #{wordId}
-    </select>
+SELECT
+	*
+FROM
+	tn_word_phonefic twp
+WHERE
+	twp.phonefic_true_id = #{wordId}
+</select>
     <select id="queryAllById" resultType="com.tfjybj.english.model.WordPhoneficModel">
         select
         *
         from
         tn_word_phonefic tnw
         where
-        tnw.id = #{id}
+        tnw.phonefic_true_id = #{phoneficid}
     </select>
-
-
+    <select id="queryPhoneficAboutByPhoneficTrueId" resultType="com.tfjybj.english.model.WordPhoneficModel">
+        SELECT DISTINCT
+	*
+FROM
+	tn_word_phonefic twp
+WHERE
+	twp.phonefic_true_id =#{phoneficTrueId}
+	and twp.phonefic_true_id is not null
+	and twp.phonefic_false_id is not NULL
+    </select>
 </mapper>
