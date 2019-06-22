@@ -89,4 +89,11 @@ public interface WordService extends BaseServicePlus<WordEntity> {
      * @since 2019年6月14日21:24:13
      */
     List<WordModel> queryWordAboutByUserId(String userId, Integer num);
-}
+    /**
+     * 根据word模糊查询word表记录
+     * @param word 单词
+     * @author 白靖
+     * @return
+     * @since 2019年6月22日09:30:16
+     */
+    List<WordEntity> queryLikeWord(String word);}
