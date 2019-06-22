@@ -27,7 +27,7 @@ public interface  UserRecordDao extends BaseMapper<UserRecordEntity> {
      * @author 闫伟强
      * @since ${version} 2019年6月15日20:23:12
      */
-    List<UserRecordModel> queryPhoneficByUIdAndPId(String userId, String phoneficId);
+    List<UserRecordModel> queryPhoneficByUIdAndPId(@Param("userId") String userId, @Param("phoneficId") String phoneficId);
 
 
     //查询该用户id的已学单词_邢美玲
