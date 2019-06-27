@@ -105,5 +105,20 @@ WHERE
         and
             tpw.is_delete = 0
     </select>
+    <!--  根据音标(phonefic),获取所有信息 _白靖 -->
+    <select id="queryLikePhoneficTest" resultType="com.tfjybj.english.model.PhoneficWordModel">
+        SELECT
+        *
+        FROM
+        tn_phonefic_word f
+        WHERE
+        f.is_delete = 0
+        <if test="phonefic !=''">
+            <bind name="pattern" value="'%' + phonefic + '%'"/>
+            AND f.phonefic LIKE #{pattern}
+        </if>
+        ORDER BY
+        f.create_time DESC
+    </select>
 
 </mapper>

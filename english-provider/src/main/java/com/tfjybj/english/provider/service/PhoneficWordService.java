@@ -60,4 +60,13 @@ public interface PhoneficWordService extends BaseServicePlus<PhoneficWordEntity>
      * @since 2019-6-15 18:15:47
      */
     boolean insertPhoneWordTable(String phoneWordPath, Map<String, PhoneficModel> phoneficModelMap) throws IOException;
+    /**
+     * 根据音标phonefic模糊查询音标单词对应记录
+     *
+     * @param phonefic 根据音标phonefic模糊查询音标单词对应记录
+     * @return
+     * @author 白靖
+     * @since 2019年6月26日09:05:48
+     */
+    List<PhoneficWordModel> queryLikePhoneficTest(String phonefic);
 }

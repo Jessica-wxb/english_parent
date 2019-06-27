@@ -252,5 +252,20 @@ public class WordPhoneficController {
             return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
         }
     }
+    /**
+     * 根据word模糊查询所有单词音标对应记录
+     *
+     * @param word 根据word模糊查询所有单词音标对应记录
+     * @return
+     * @author 白靖
+     * @since 2019年6月26日08:28:37
+     */
+    @ApiOperation(value = "根据word模糊查询所有单词音标对应记录")
+    @GetMapping({"/queryLikeWordTest/{word}"})
+    public ItooResult WordPhoneficEntity(@ApiParam(value = "单词",name = "word",required = true) @PathVariable String word ){
+        List<WordPhoneficEntity> WordPhoneficEntity = wordTestService.queryLikeWordTest(word);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",WordPhoneficEntity);
+    }
+
 
 }

@@ -3,6 +3,7 @@ package com.tfjybj.english.provider.service;
 import com.tfjybj.english.entity.PhoneficEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 import com.tfjybj.english.model.PhoneficModel;
+import org.apache.ibatis.annotations.Param;
 
 import java.io.IOException;
 import java.util.List;
@@ -47,4 +48,10 @@ public interface PhoneficService extends BaseServicePlus<PhoneficEntity> {
      * @return 所有音标
      */
     List<PhoneficModel> getPhonefic();
+    /**
+     * 根据音标模糊查询
+     * @Author 白靖
+     * @return 音标模糊查询结果
+     */
+    List<PhoneficEntity> queryLikePhonefic(String  phonefic);
 }
