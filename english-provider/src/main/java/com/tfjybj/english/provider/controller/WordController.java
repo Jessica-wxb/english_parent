@@ -319,6 +319,19 @@ public class WordController {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel);
     }
 
+    /**
+     * 模糊查询word
+     * @param word 单词
+     * @return
+     * @author 白靖
+     * @since 2019年6月22日09:27:28
+     */
+    @ApiOperation(value = "根据单词模糊查询单词表记录")
+    @GetMapping({"/queryLikeWord/{word}"})
+    public ItooResult queryLikeWord(@ApiParam(value = "单词",name = "word",required = true) @PathVariable String word ){
+        List<WordEntity> WordEntity = wordService.queryLikeWord(word);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",WordEntity);
+    }
 
     /**
      * 根据id查询数据库或者默认全部,筛选出服务器文件,并且删除服务器文件

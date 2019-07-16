@@ -62,4 +62,12 @@ public interface WordPhoneficDao extends BaseMapper<WordPhoneficEntity> {
      * @since 2019年6月16日-21点14分
      */
     List<WordPhoneficModel> queryAllById(@Param("phoneficid") String phoneficid);
+    /**
+     * 根据单词word模糊查询单词音标对应表记录
+     * @author 白靖
+     * @param word
+     * @return
+     * @since 2019年6月26日08:36:55
+     */
+    List<WordPhoneficEntity> queryLikeWordTest(@Param("word") String word);
 }

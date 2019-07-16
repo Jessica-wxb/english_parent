@@ -173,4 +173,16 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
         }
         return flag;
     }
+    /**
+     * 根据单词word模糊查询单词音标对应表记录
+     *
+     * @param word 单词
+     * @return
+     * @author 白靖
+     * @since 2019年6月26日08:42:28
+     */
+    public List<WordPhoneficEntity> queryLikeWordTest(String word) {
+        return wordPhoneficDao.queryLikeWordTest(word);
+    }
+
 }

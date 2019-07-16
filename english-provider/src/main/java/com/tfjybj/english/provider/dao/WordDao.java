@@ -104,4 +104,13 @@ public interface WordDao extends BaseMapper<WordEntity> {
      * @since 2019-6-21 20:35:33
      */
     List<WordModel> selDataWordAll(@Param("dataId") String dataId);
+
+    /**
+     * 根据单词模糊查询结果
+     * @param word 单词模糊输入
+     * @author 白靖
+     * @return 查到的记录
+     * @since 2019年6月22日09:09:02
+     */
+    List<WordEntity> queryLikeWord(@Param("word") String word);
 }

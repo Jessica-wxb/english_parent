@@ -241,4 +241,17 @@ public class PhoneficController {
         List<PhoneficModel> phoneficList = phoneficService.getPhonefic();
         return ItooResult.build(ItooResult.SUCCESS, "查询成功",phoneficList);
     }
+    /**
+     * 根据音标模糊查询
+     * @return 音标模糊查询结果
+     * @author 白靖
+     * @param phonefic
+     * @since ${version} 2019年6月23日09:59:49
+     */
+    @ApiOperation(value = "根据音标模糊查询")
+    @GetMapping(value = {"/queryLikePhonefic/{phonefic}"})
+    public ItooResult queryLikePhonefic(@ApiParam(value = "音标", required = true) @PathVariable String phonefic) {
+        List<PhoneficEntity> phoneficList = phoneficService.queryLikePhonefic(phonefic);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功",phoneficList);
+    }
 }

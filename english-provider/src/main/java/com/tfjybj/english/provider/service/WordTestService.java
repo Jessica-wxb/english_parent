@@ -76,5 +76,13 @@ public interface WordTestService extends BaseServicePlus<WordPhoneficEntity> {
      * @since 2019-6-17 21:15:11
      */
     boolean insertPhoneWordTable(String phoneWordPath, Map<String, PhoneficModel> phoneficWordMap);
+    /**
+     * 根据单词word模糊查询单词音标对应表记录
+     * @author 白靖
+     * @param word
+     * @return
+     * @since 2019年6月26日08:43:29
+     */
 
+    List<WordPhoneficEntity> queryLikeWordTest(String word);
 }

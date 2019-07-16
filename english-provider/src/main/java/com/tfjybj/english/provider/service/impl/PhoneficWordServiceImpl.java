@@ -162,4 +162,16 @@ public class PhoneficWordServiceImpl extends BaseServicePlusImpl<PhoneficTestDao
         return flag;
     }
 
+    /**
+     * 根据音标phonefic模糊查询音标单词对应记录、音频
+     *
+     * @param phonefic 根据音标phonefic模糊查询音标单词对应记录
+     * @return
+     * @author 白靖
+     * @since 2019年6月26日09:07:48
+     */
+    @Override
+    public List<PhoneficWordModel> queryLikePhoneficTest(String phonefic) {
+        return phoneficTestDao.queryLikePhoneficTest(phonefic);
+    }
 }

@@ -184,7 +184,19 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         return wordDao.queryAudioBywordId(wordId);
 
     }
+    /**
+     * 根据单词Id查询单词音频
+     *
+     * @param word 单词
+     * @return 单词音频
+     * @author 白靖
+     * @since 2019年6月22日09:15:46
+     */
+    @Override
+    public List<WordEntity> queryLikeWord(String word) {
+        return wordDao.queryLikeWord(word);
 
+    }
     /**
      * 根据用户ID获取用户记录中单词、单词Id
      *

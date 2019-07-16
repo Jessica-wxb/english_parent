@@ -132,15 +132,19 @@ public class PhoneficServiceImpl extends BaseServicePlusImpl<PhoneficDao, Phonef
         return flag;
     }
 
-    /**
-     * 音标练习(看)-查询所有音标
-     *
-     * @return 音标对应图片
-     * @Author 闫伟强
-     */
     @Override
     public List<PhoneficModel> getPhonefic() {
+        return null;
+    }
 
-        return phoneficDao.getPhonefic();
+    /**
+     * 根据音标模糊查询
+     *
+     * @return 音标模糊查询结果
+     * @Author 白靖
+     */
+    @Override
+    public List<PhoneficEntity> queryLikePhonefic(String phonefic) {
+        return phoneficDao.queryLikePhonefic(phonefic);
     }
 }

@@ -47,4 +47,10 @@ public interface PhoneficService extends BaseServicePlus<PhoneficEntity> {
      * @return 所有音标
      */
     List<PhoneficModel> getPhonefic();
+    /**
+     * 根据音标模糊查询
+     * @Author 白靖
+     * @return 音标模糊查询结果
+     */
+    List<PhoneficEntity> queryLikePhonefic(String  phonefic);
 }
