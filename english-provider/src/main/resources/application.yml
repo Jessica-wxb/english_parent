@@ -84,7 +84,6 @@ fdfs:
   realIp: 192.168.22.64
   #pool:
   #jmx-enabled:false
-  ----
 
 
 ---
@@ -168,7 +167,6 @@ fdfs:
   realIp: 192.168.22.64
   #pool:
   #jmx-enabled:false
-  ----
 
 
 ---
