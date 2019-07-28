@@ -57,5 +57,5 @@ public interface  UserRecordDao extends BaseMapper<UserRecordEntity> {
      * @return
      * @author 张凯超
      */
-    List<UserRecordModel> queryphoneficIdByuserId(String userId);
+    List<UserRecordModel> queryphoneficIdByuserId(@Param("userId") String userId);
 }

@@ -75,6 +75,33 @@ WHERE
         where
         tnw.phonefic_true_id = #{phoneficid}
     </select>
-
-
+    <select id="queryPhoneficAboutByPhoneficTrueId" resultType="com.tfjybj.english.model.WordPhoneficModel">
+        SELECT DISTINCT
+	*
+FROM
+	tn_word_phonefic twp
+WHERE
+	twp.phonefic_true_id =#{phoneficTrueId}
+	and twp.phonefic_true_id is not null
+	and twp.phonefic_false_id is not NULL
+    </select>
+<!--
+* 根据单词word模糊查询单词音标对应表记录
+* @param word 根据单词word模糊查询单词音标对应表记录
+* @return
+* @author 白靖-->
+    <select id="queryLikeWordTest" resultType="com.tfjybj.english.entity.WordPhoneficEntity">
+        SELECT
+        *
+        FROM
+        tn_word_phonefic f
+        WHERE
+        f.is_delete = 0
+        <if test="word !=''">
+            <bind name="pattern" value="'%' + word + '%'"/>
+            AND f.word LIKE #{pattern}
+        </if>
+        ORDER BY
+        f.create_time DESC
+    </select>
 </mapper>

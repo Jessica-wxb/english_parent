@@ -3,16 +3,12 @@ package com.tfjybj.english.provider.service.impl;
 import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.entity.WordPhoneficEntity;
 import com.tfjybj.english.model.PhoneficModel;
-import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.model.WordPhoneficModel;
 import com.tfjybj.english.provider.dao.WordPhoneficDao;
 import com.tfjybj.english.provider.service.PhoneficService;
-import com.tfjybj.english.provider.service.PhoneficWordService;
-import com.tfjybj.english.provider.service.WordService;
 import com.tfjybj.english.provider.service.WordTestService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
 import com.tfjybj.english.provider.until.UploadPictureUntil;
-import org.hibernate.validator.constraints.pl.REGON;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -83,16 +79,16 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
     }
 
     /**
-     * 根据单词Id获取相关音标信息
+     * 根据音标Id获取对应Id的所有信息
      *
-     * @param wordId 单词Id
+     * @param phoneficTrueId 音标Id
      * @return 音标信息
      * @author 张凯超
      * @since 2019年6月14日22点35分
      */
     @Override
-    public WordPhoneficModel queryPhoneficAboutByWordId(String wordId) {
-        return wordPhoneficDao.queryPhoneficAboutByWordId(wordId);
+    public List<WordPhoneficModel> queryPhoneficAboutByPhoneficTrueId(String phoneficTrueId) {
+        return wordPhoneficDao.queryPhoneficAboutByPhoneficTrueId(phoneficTrueId);
     }
 
     /**
@@ -177,4 +173,16 @@ public class WordTestServiceImpl extends BaseServicePlusImpl<WordPhoneficDao, Wo
         }
         return flag;
     }
+    /**
+     * 根据单词word模糊查询单词音标对应表记录
+     *
+     * @param word 单词
+     * @return
+     * @author 白靖
+     * @since 2019年6月26日08:42:28
+     */
+    public List<WordPhoneficEntity> queryLikeWordTest(String word) {
+        return wordPhoneficDao.queryLikeWordTest(word);
+    }
+
 }

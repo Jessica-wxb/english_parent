@@ -199,12 +199,12 @@ public class PhoneficController {
      *
      * @param id 主键id
      * @return 根据id查找的音标结果
-     * @author xml
+     * @author xml -- 张凯超修改
      * @since ${version} 2019年6月11日08:33:00
      */
     @ApiOperation(value = "音标练习(看)_根据音标id查询音标信息")
     @GetMapping(value = {"/findPhoneficById/{id}"})
-    public ItooResult findPhoneficById(@ApiParam(value = "主键id", required = true) @PathVariable Integer id) {
+    public ItooResult findPhoneficById(@ApiParam(value = "主键id", required = true,example = "1") @PathVariable Integer id) {
         List<PhoneficModel> phoneficList = phoneficService.getPhoneficById(id);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficList);
     }
@@ -239,6 +239,19 @@ public class PhoneficController {
     @GetMapping(value = {"/findPhonefic"})
     public ItooResult findPhoneficById() {
         List<PhoneficModel> phoneficList = phoneficService.getPhonefic();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功",phoneficList);
+    }
+    /**
+     * 根据音标模糊查询
+     * @return 音标模糊查询结果
+     * @author 白靖
+     * @param phonefic
+     * @since ${version} 2019年6月23日09:59:49
+     */
+    @ApiOperation(value = "根据音标模糊查询")
+    @GetMapping(value = {"/queryLikePhonefic/{phonefic}"})
+    public ItooResult queryLikePhonefic(@ApiParam(value = "音标", required = true) @PathVariable String phonefic) {
+        List<PhoneficEntity> phoneficList = phoneficService.queryLikePhonefic(phonefic);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功",phoneficList);
     }
 }

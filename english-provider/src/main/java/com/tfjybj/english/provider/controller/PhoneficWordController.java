@@ -263,4 +263,18 @@ public class PhoneficWordController {
             return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
         }
     }
+    /**
+     * 根据音标phonefic模糊查询音标单词对应记录
+     * @param phonefic
+     * @return
+     * @author 白靖
+     * @since 2019年6月26日09:01:24
+     */
+    @ApiOperation(value = "根据音标phonefic模糊查询音标单词对应记录")
+    @GetMapping(value = "PhoneficWordModel/{phonefic}")
+    public ItooResult queryLikePhoneficTest(@ApiParam(name = "phonefic", value = "音标", required = true) @PathVariable String phonefic) {
+        List<PhoneficWordModel> phoneficWordModelList = phoneficWordService.queryLikePhoneficTest(phonefic);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficWordModelList);
+    }
+
 }

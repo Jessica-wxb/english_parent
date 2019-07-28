@@ -45,14 +45,14 @@ public interface WordPhoneficDao extends BaseMapper<WordPhoneficEntity> {
     WordPhoneficEntity queryWordStateByphoneficId (@Param("phoneficId") String phoneficId);
 
     /**
-     * 根据单词Id获取相关音标信息
-     * @author 张凯超
-     * @param wordId 单词Id
-     * @return 音标信息
-     * @since 2019年6月14日22点35分
+     * 根据音标Id获取对应Id的所有信息
      *
+     * @param phoneficTrueId 音标Id
+     * @return 音标信息
+     * @author 张凯超
+     * @since 2019年6月14日22点35分
      */
-    WordPhoneficModel queryPhoneficAboutByWordId(@Param("wordId") String wordId);
+    List<WordPhoneficModel> queryPhoneficAboutByPhoneficTrueId(@Param("phoneficTrueId") String phoneficTrueId);
 
     /**
      * 根据主键Id查询所有信息
@@ -62,4 +62,12 @@ public interface WordPhoneficDao extends BaseMapper<WordPhoneficEntity> {
      * @since 2019年6月16日-21点14分
      */
     List<WordPhoneficModel> queryAllById(@Param("phoneficid") String phoneficid);
+    /**
+     * 根据单词word模糊查询单词音标对应表记录
+     * @author 白靖
+     * @param word
+     * @return
+     * @since 2019年6月26日08:36:55
+     */
+    List<WordPhoneficEntity> queryLikeWordTest(@Param("word") String word);
 }
