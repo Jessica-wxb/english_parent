@@ -2,17 +2,120 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.PhoneficTestDao">
-	<!--根据PhoneficTest音标id模糊查询PhoneficTestEntity-->
-    <select id="queryLikePhoneficId" resultType="com.tfjybj.english.entity.PhoneficTestEntity">
+    <!--根据PhoneficTest音标id模糊查询PhoneficWordEntity-->
+    <select id="queryLikePhoneficId" resultType="com.tfjybj.english.entity.PhoneficWordEntity">
         SELECT
-			*
+        *
         FROM
-			tn_phonefic_test f
+        tn_phonefic_test f
         WHERE
-			f.is_delete = 0
+        f.is_delete = 0
         <if test="phoneficId !=''">
             <bind name="pattern" value="'%' + phoneficId + '%'"/>
             AND f.phonefic_id LIKE #{pattern}
+        </if>
+        ORDER BY
+        f.create_time DESC
+    </select>
+    <select id="queryWordIdAudioPicByPhoneficId" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+            tnw.id,
+            tnw.audio,
+            tnw.word_picture1,
+            tnw.word_picture2,
+            tnw.word_picture3,
+            tnw.word_picture4,
+            tnw.word_picture5
+        FROM
+            tn_word tnw
+        LEFT JOIN tn_phonefic_test tnp ON tnw.id = tnp.word_id
+        WHERE
+            tnp.phonefic_id = #{phoneficId}
+    </select>
+
+    <select id="queryAudioByPhoneficId" resultType="com.tfjybj.english.model.PhoneficWordModel">
+        SELECT
+          p.audio,
+          COUNT(1)
+        FROM
+          tn_phonefic_test pt
+        Left JOIN
+          tn_phonefic p ON pt.phonefic_id = p.id
+    </select>
+    <select id="selectWordByPhoneficId" resultType="com.tfjybj.english.model.PhoneficWordModel">
+        SELECT
+          *
+        FROM
+          tn_phonefic_test
+        WHERE
+          phonefic_id = #{phoneficId}
+    </select>
+    <select id="queryStateByWord" resultType="com.tfjybj.english.entity.PhoneficWordEntity">
+        select * from tn_phonefic_test where word = #{word}
+    </select>
+
+    <!--音标练习(听)_根据音标id查询对应正确单词_邢美玲-->
+    <select id="getPhoneficTestById" resultType="com.tfjybj.english.model.PhoneficWordModel">
+        SELECT
+	w.audio,
+	pt.word
+FROM
+	tn_phonefic_test pt
+	INNER JOIN tn_word w ON pt.word_id = w.id
+	AND pt.is_delete = 0
+	AND pt.state = 0
+	AND pt.phonefic_id = #{phoneficId}
+    </select>
+    <select id="queryAudioByUserId" resultType="com.tfjybj.english.entity.PhoneficEntity">
+   SELECT
+	*
+    FROM
+    tn_user_record tur
+    LEFT JOIN
+    tn_word tnw  ON tnw.id = tur.word_id
+    WHERE
+    tur.user_id= #{userId}
+		ORDER BY
+		tur.update_time
+		DESC
+		LIMIT #{num}
+        SELECT
+	tnp.id,
+	tnp.audio,
+	tur.create_time
+FROM
+	tn_user_record tur
+LEFT JOIN tn_phonefic tnp ON tnp.id = tur.phonefic_id
+WHERE
+	tur.user_id = #{userId}
+	ORDER BY
+	tur.create_time
+	DESC
+	LIMIT 1
+    </select>
+
+    <!--  根据音标Id(phonefic_id),获取所有信息 _冯佳兴 -->
+    <select id="selectAllById" resultType="com.tfjybj.english.model.PhoneficWordModel">
+       SELECT
+            *
+        FROM
+            tn_phonefic_word tpw
+        WHERE
+            tpw.phonefic_id = #{phoneficId}
+        and
+            tpw.is_delete = 0
+    </select>
+    <!--  根据音标(phonefic),获取所有信息 _白靖 -->
+    <select id="queryLikePhoneficTest" resultType="com.tfjybj.english.model.PhoneficWordModel">
+        SELECT
+        *
+        FROM
+        tn_phonefic_word f
+        WHERE
+        f.is_delete = 0
+        <if test="phonefic !=''">
+            <bind name="pattern" value="'%' + phonefic + '%'"/>
+            AND f.phonefic LIKE #{pattern}
         </if>
         ORDER BY
         f.create_time DESC

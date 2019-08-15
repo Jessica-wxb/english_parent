@@ -22,10 +22,22 @@ public interface UserSetDao extends BaseMapper<UserSetEntity> {
     /**
      * 根据用户id，查询用户设置
      *
-     * @param userid 用户id
+     * @param userId 用户id
      * @return 返回实体集合
      * @since 2019年6月11日18:13:01
      */
-    List<UserSetModel> getStudyNumberService(@Param("userid") Integer userid);
+    List<UserSetModel> getStudyNumberService(@Param("userId") String userId);
 
+    UserSetEntity selectByUserId(@Param("userId") String userId);
+
+    UserSetEntity updateTimesById(@Param("userId") String userId, @Param("phoneficNumber") String phoneficNumber);
+
+    /**
+     * 根据用户id修改
+     *
+     * @param model 设置model
+     * @return 返回实体集合
+     * @since 2019年6月11日18:13:01
+     */
+    void modifyInsistDays(UserSetModel model);
 }

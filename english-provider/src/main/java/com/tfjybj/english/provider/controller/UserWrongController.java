@@ -14,7 +14,6 @@ import javax.annotation.Resource;
 import java.util.List;
 
 
-
 /**
  * UserWrongController
  * userWrong表
@@ -44,16 +43,10 @@ public class UserWrongController {
     @ApiOperation(value = "添加")
     @PostMapping(value = {"/create"})
     public ItooResult create(@RequestBody UserWrongModel model) {
-		if (StringUtils.isEmpty(model.getUserId())){
+        if (StringUtils.isEmpty(model.getUserId())) {
             return ItooResult.build(ItooResult.FAIL, "userId为空");
         }
-		if (StringUtils.isEmpty(model.getPhoneficId())){
-            return ItooResult.build(ItooResult.FAIL, "phoneficId为空");
-        }
-		if (StringUtils.isEmpty(model.getWordId())){
-            return ItooResult.build(ItooResult.FAIL, "wordId为空");
-        }
-		if (StringUtils.isEmpty(model.getType())){
+        if (StringUtils.isEmpty(model.getType())) {
             return ItooResult.build(ItooResult.FAIL, "type为空");
         }
         UserWrongEntity userWrongEntity = new UserWrongEntity();
@@ -66,7 +59,7 @@ public class UserWrongController {
      * 删除
      *
      * @param id 主键id
-     * @return ItooResult 是否删除成功          
+     * @return ItooResult 是否删除成功
      * @author 马莹
      * @since ${version} 2019-06-08 14:26:23
      */
@@ -104,16 +97,16 @@ public class UserWrongController {
     @ApiOperation(value = "根据id修改userWrong")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody UserWrongModel model) {
-		if (StringUtils.isEmpty(model.getUserId())){
+        if (StringUtils.isEmpty(model.getUserId())) {
             return ItooResult.build(ItooResult.FAIL, "userId为空");
         }
-		if (StringUtils.isEmpty(model.getPhoneficId())){
+        if (StringUtils.isEmpty(model.getPhoneficId())) {
             return ItooResult.build(ItooResult.FAIL, "phoneficId为空");
         }
-		if (StringUtils.isEmpty(model.getWordId())){
+        if (StringUtils.isEmpty(model.getWordId())) {
             return ItooResult.build(ItooResult.FAIL, "wordId为空");
         }
-		if (StringUtils.isEmpty(model.getType())){
+        if (StringUtils.isEmpty(model.getType())) {
             return ItooResult.build(ItooResult.FAIL, "type为空");
         }
         UserWrongEntity userWrongEntity = new UserWrongEntity();
@@ -148,41 +141,42 @@ public class UserWrongController {
      */
     @ApiOperation(value = "分页查询所有UserWrong")
     @GetMapping(value = {"/queryPageAll/{pageNo}/{pageSize}"})
-    public ItooResult queryPageAll(@ApiParam(name = "pageNo",value = "页码",required = true,example = "1")@PathVariable Integer pageNo, 
-								   @ApiParam(name = "pageSize",value = "页数",required = true,example = "10")@PathVariable Integer pageSize) {
+    public ItooResult queryPageAll(@ApiParam(name = "pageNo", value = "页码", required = true, example = "1") @PathVariable Integer pageNo,
+                                   @ApiParam(name = "pageSize", value = "页数", required = true, example = "10") @PathVariable Integer pageSize) {
         PageInfo<UserWrongEntity> userWrongs = userWrongService.queryPageAll(pageNo, pageSize);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", userWrongs);
     }
-	
+
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
 
     /**
      * 根据用户id查询错误单词
+     *
      * @param userId 用户ID
-     * @return  该用户的错误单词
+     * @return 该用户的错误单词
      * @author 陈广晗
      * @since 2019-06-11 16:30:24
      */
-    @ApiImplicitParam(value = "根据用户id查询错误单词")
+    @ApiOperation(value = "根据用户id查询错误单词")
     @GetMapping(value = "/queryWrongWordId/{userId}")
-   public ItooResult queryWrongWordId(@PathVariable Integer userId){
-       List<UserWrongModel> userWrongs = userWrongService.queryWrongWordId(userId);
-       return ItooResult.build(ItooResult.SUCCESS, "查询成功", userWrongs);
-   }
-
+    public ItooResult queryWrongWordId(@PathVariable String userId) {
+        List<UserWrongModel> userWrongs = userWrongService.queryWrongWordId(userId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userWrongs);
+    }
 
 
     /**
      * 根据用户id查询错误音标
-     * @return  该用户的错误音标
+     *
+     * @return 该用户的错误音标
      * @author 陈广晗
      * @since 2019-06-11 16:30:24
      */
-    @ApiImplicitParam(value = "根据用户id查询错误音标")
+    @ApiOperation(value = "根据用户id查询错误音标")
     @GetMapping(value = "/queryWrongPhoneficId/{userId}")
-    public ItooResult queryWrongPhoneficId(@PathVariable Integer userId) {
+    public ItooResult queryWrongPhoneficId(@PathVariable String userId) {
         List<UserWrongModel> userWrongs = userWrongService.queryWrongPhoneficId(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", userWrongs);
     }

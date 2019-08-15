@@ -4,13 +4,11 @@ import com.tfjybj.english.entity.WordEntity;
 import com.tfjybj.english.model.WordModel;
 import com.tfjybj.english.provider.service.WordService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
-import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -165,23 +163,35 @@ public class WordController {
     /**
      * 分页查询所有Word
      *
-     * @param pageNo   页码
-     * @param pageSize 每页条数
-     * @return 分页查询的结果
+     * @return 查询word表中所有数据
      * @author 马莹
-     * @since ${version} 2019-06-08 14:26:23
+     * @since 2019-06-08 14:26:23
      */
     @ApiOperation(value = "分页查询所有Word")
-    @GetMapping(value = {"/queryPageAll/{pageNo}/{pageSize}"})
-    public ItooResult queryPageAll(@ApiParam(name = "pageNo", value = "页码", required = true, example = "1") @PathVariable Integer pageNo,
-                                   @ApiParam(name = "pageSize", value = "页数", required = true, example = "10") @PathVariable Integer pageSize) {
-        PageInfo<WordEntity> words = wordService.queryPageAll(pageNo, pageSize);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", words);
+    @GetMapping(value = "/queryWordAll")
+    public ItooResult queryWordAll() {
+        List<WordModel> wordList = wordService.queryWordAll();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordList);
     }
 
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+
+    /**
+     * 根据学习任务随机查询单词数量不包含记录表中的数据
+     *
+     * @param setNumber 设定当天学习任务量
+     * @return 任务量条数
+     * @author 谷海涛
+     * @since 2019-6-15 9:41:00
+     */
+    @ApiOperation(value = "根据学习任务随机查询单词数量不包含记录表中的数据")
+    @GetMapping(value = "/queryWordData/{setNumber}/{userId}")
+    public ItooResult queryWordData(@ApiParam(name = "setNumber", value = "任务量条数", required = true, example = "10") @PathVariable Integer setNumber,
+                                    @ApiParam(name = "userId", value = "用户id", required = true, example = "1") @PathVariable String userId) {
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.queryWordData(setNumber, userId));
+    }
 
     /**
      * 根据设定学习量查询数据条数
@@ -197,6 +207,7 @@ public class WordController {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.selDataNum(setNumber));
     }
 
+
     /**
      * 查询所有Word
      *
@@ -204,7 +215,7 @@ public class WordController {
      * @author 邢美玲
      * @since ${version} 2019年6月9日14:52:28
      */
-    @ApiOperation(value = "分页查询所有Word")
+    @ApiOperation(value = "分页查询所有Word数量")
     @GetMapping(value = {"/selectAll"})
     public ItooResult queryPageAll() {
         //int allwords;
@@ -227,16 +238,16 @@ public class WordController {
     }
 
     /**
-     * 根据目录结构插入数据
+     * 根据目录结构插入单词
      *
      * @param path 文件路径
      * @return true/false
      * @author 马莹
      * @since 2019-6-11 19:31:50
      */
-    @ApiOperation(value = "根据目录结构插入数据")
-    @GetMapping(value = "/batchInsert/{path}")
-    public ItooResult batchInsertion(String path) {
+    @ApiOperation(value = "根据目录结构插入单词")
+    @GetMapping(value = "/batchInsert")
+    public ItooResult batchInsertion(@RequestParam String path) {
         try {
             boolean flag = wordService.batchInsert(path);
             return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
@@ -247,4 +258,92 @@ public class WordController {
         }
     }
 
+
+    /**
+     * 根据单词拼写查找状态
+     *
+     * @param word 单词拼写
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日19:11:05
+     */
+    @ApiOperation(value = "根据单词拼写查找单词音频")
+    @GetMapping(value = {"/queryStateByWord/{word}"})
+    public ItooResult queryStateByWord(@ApiParam(name = "word", value = "单词", required = true) @PathVariable String word) {
+        WordEntity wordEntity = wordService.queryStateByWord(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
+    }
+
+    /**
+     * 根据单词拼写查找对应图片
+     *
+     * @param word 单词拼写
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月11日19:11:05
+     */
+    @ApiOperation(value = "根据单词拼写查找单词对应图片")
+    @GetMapping(value = {"/queryPictureByWord/{word}"})
+    public ItooResult queryPictureByWord(@ApiParam(name = "word", value = "单词", required = true) @PathVariable String word) {
+        WordEntity wordEntity = wordService.queryPictureByWord(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
+    }
+
+
+    /**
+     * 根据单词Id查询单词音频
+     *
+     * @param wordId 单词Id
+     * @return 单词音频
+     * @author 张凯超
+     */
+    @ApiOperation(value = "根据单词Id查询单词音频")
+    @GetMapping(value = {"/queryAudioBywordId/{wordId}"})
+    public ItooResult queryAudioBywordId(@ApiParam(name = "wordId", value = "单词Id", required = true) @PathVariable String wordId) {
+        WordModel wordModel = wordService.queryAudioBywordId(wordId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel.getAudio());
+    }
+
+    /**
+     * 根据用户ID获取用户记录中音标、音标Id
+     *
+     * @param userId 用户Id
+     * @return
+     * @since 2019年6月14日21:24:13
+     */
+    @ApiOperation(value = "根据用户ID获取用户记录中音标Id")
+    @GetMapping({"/queryWordAboutByUserId/{userId}"})
+    public ItooResult queryWordAboutByUserId(@ApiParam(value = "用户Id", name = "userId", required = true) @PathVariable String userId,
+                                             @ApiParam(value = "用户单词任务数", name = "num", required = true, example = "0") @PathVariable Integer num) {
+        List<WordModel> wordModel = wordService.queryWordAboutByUserId(userId, num);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel);
+    }
+
+    /**
+     * 模糊查询word
+     * @param word 单词
+     * @return
+     * @author 白靖
+     * @since 2019年6月22日09:27:28
+     */
+    @ApiOperation(value = "根据单词模糊查询单词表记录")
+    @GetMapping({"/queryLikeWord/{word}"})
+    public ItooResult queryLikeWord(@ApiParam(value = "单词",name = "word",required = true) @PathVariable String word ){
+        List<WordEntity> WordEntity = wordService.queryLikeWord(word);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",WordEntity);
+    }
+
+    /**
+     * 根据id查询数据库或者默认全部,筛选出服务器文件,并且删除服务器文件
+     *
+     * @param dataId 要删除的id
+     * @return true/false
+     * @author 马莹
+     * @since 2019-6-21 20:14:00
+     */
+    @ApiOperation(value = "根据id查询数据库或者默认全部,筛选出服务器文件,并且删除服务器文件")
+    @GetMapping(value = "/delServeFile")
+    public ItooResult delServeFile(@RequestParam(required = false, defaultValue = "") String dataId) {
+        return ItooResult.build(ItooResult.SUCCESS, "删除成功!", wordService.delServeFile(dataId));
+    }
 }

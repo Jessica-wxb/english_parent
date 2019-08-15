@@ -113,27 +113,6 @@ public class UserSetController {
     @ApiOperation(value = "根据id修改userSet")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody UserSetModel model) {
-//		if (StringUtils.isEmpty(model.getUserId())){
-//            return ItooResult.build(ItooResult.FAIL, "userId为空");
-//        }
-//		if (StringUtils.isEmpty(model.getPhoneficNumber())){
-//            return ItooResult.build(ItooResult.FAIL, "phoneficNumber为空");
-//        }
-//		if (StringUtils.isEmpty(model.getWordNumber())){
-//            return ItooResult.build(ItooResult.FAIL, "wordNumber为空");
-//        }
-//		if (StringUtils.isEmpty(model.getIsTurnAuto())){
-//            return ItooResult.build(ItooResult.FAIL, "isTurnAuto为空");
-//        }
-//		if (StringUtils.isEmpty(model.getTurnDelayTime())){
-//            return ItooResult.build(ItooResult.FAIL, "turnDelayTime为空");
-//        }
-//		if (StringUtils.isEmpty(model.getStudyNumber())){
-//            return ItooResult.build(ItooResult.FAIL, "studyNumber为空");
-//        }
-//		if (StringUtils.isEmpty(model.getIsRandom())){
-//            return ItooResult.build(ItooResult.FAIL, "isRandom为空");
-//        }
         UserSetEntity userSetEntity = new UserSetEntity();
         BeanUtils.copyProperties(model, userSetEntity);
         userSetService.updateById(userSetEntity);
@@ -199,15 +178,64 @@ public class UserSetController {
     /**
      * 根据用户id查询用户设置
      *
-     * @param userid 用户id
+     * @param userId 用户id
      * @return 返回查询用户设置实体集合
      * @author 白爱民
      * @since 2019-6-11 17:04:31
      */
     @ApiOperation(value = "根据用户id，查询用户设置")
-    @GetMapping(value = "/selStudyNumber/{userid}")
-    public ItooResult selStudyNumber(@PathVariable Integer userid) {
-        List<UserSetModel> StudyNumberList = userSetService.getStudyNumberService(userid);
+    @GetMapping(value = "/selStudyNumber/{userId}")
+    public ItooResult selStudyNumber(@PathVariable String userId) {
+        List<UserSetModel> StudyNumberList = userSetService.getStudyNumberService(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功！", StudyNumberList);
+    }
+
+    /**
+     * 根据用户id查询联播次数
+     *
+     * @param userId 用户id
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月10日09:27:14
+     */
+    @ApiOperation(value = "根据用户id查询联播次数")
+    @GetMapping(value = {"/queryTimes/{userId}"})
+    public ItooResult queryTimes(@ApiParam(name = "userId",value = "用户id",required = true)@PathVariable String userId) {
+        UserSetEntity userSetEntity = userSetService.getByUserId(userId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userSetEntity);
+    }
+
+    /**
+     * 根据用户id更新联播次数
+     *
+     * @param userId 用户id
+     * @param phoneficNumber 联播次数
+     * @author 薛帅行
+     * @since 2019年6月10日18:00:38
+     */
+    @ApiOperation(value = "根据用户id更新联播次数")
+    @PutMapping(value = "/updateTimesById/{userId}/{phoneficNumber}")
+    public ItooResult updateTimesById(@ApiParam(name = "userId",value = "用户id",required = true)@PathVariable String userId,
+                                      @ApiParam(name = "phoneficNumber",value = "音标次数",required = true)@PathVariable String phoneficNumber){
+        UserSetEntity userSetEntity = new UserSetEntity();
+        userSetEntity = userSetService.updateTimesById(userId, phoneficNumber);
+        return ItooResult.build(ItooResult.SUCCESS, "修改成功");
+    }
+
+    /**
+     * 修改坚持天数
+     *
+     * @param model UserSetModel
+     * @return 修改后的结果
+     * @author 张伟杰
+     * @since 2019-6-11 15:34:58
+     */
+    @ApiOperation(value = "根据userId修改坚持天数")
+    @PutMapping(value = {"/modifyInsistDays"})
+    public ItooResult modifyInsistDays(@RequestBody UserSetModel model){
+        UserSetEntity userSetEntity = new UserSetEntity();
+        BeanUtils.copyProperties(model,userSetEntity);
+        userSetService.modifyInsistDays(model);
+        return ItooResult.build(ItooResult.SUCCESS,"修改成功");
     }
 }

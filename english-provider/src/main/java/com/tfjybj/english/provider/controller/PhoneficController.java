@@ -6,6 +6,7 @@ import com.tfjybj.english.provider.service.PhoneficService;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +26,11 @@ import java.util.List;
 @Api(tags = {"phonefic表接口"})
 @RequestMapping(value = "/phonefic")
 @RestController
+@Slf4j
 public class PhoneficController {
 
     @Resource
     private PhoneficService phoneficService;
-
-    //region 模板生成：基本增删改
 
     /**
      * 添加
@@ -164,4 +164,94 @@ public class PhoneficController {
     /* **********************************以下为非模板生成的内容********************************* */
 
 
-}    
+    /**
+     * 通过音标phonefic选择音频audio
+     *
+     * @param phonefic 音标
+     * @return 查询结果
+     * @author 薛帅行
+     * @since 2019年6月12日11:45:42
+     */
+    @ApiOperation(value = "通过音标phonefic选择音频audio")
+    @GetMapping(value = {"/selectAudioByPhonefic/{phonefic}"})
+    public ItooResult selectAudioByPhonefic(@ApiParam(name = "phonefic", value = "音标", required = true) @PathVariable String phonefic) {
+        PhoneficEntity phoneficEntity = phoneficService.selectAudioByPhonefic(phonefic);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficEntity);
+    }
+
+
+    /**
+     * 通过音标Id查找对应图片
+     *
+     * @param phoneficId 音标ID
+     * @return 音标对应图片
+     * @Author 张凯超
+     */
+    @ApiOperation("通过音标Id查找对应图片")
+    @GetMapping(value = {"/queryPictureByPhonetic/{phoneficId}"})
+    public ItooResult queryPictureByPhoneficId(@ApiParam(value = "音标", name = "phoneficId", required = true) @PathVariable String phoneficId) {
+        List<PhoneficEntity> phoneficEntityList = phoneficService.queryPictureByPhonefic(phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficEntityList);
+    }
+
+    /**
+     * 根据id查找Phonefic
+     *
+     * @param id 主键id
+     * @return 根据id查找的音标结果
+     * @author xml -- 张凯超修改
+     * @since ${version} 2019年6月11日08:33:00
+     */
+    @ApiOperation(value = "音标练习(看)_根据音标id查询音标信息")
+    @GetMapping(value = {"/findPhoneficById/{id}"})
+    public ItooResult findPhoneficById(@ApiParam(value = "主键id", required = true,example = "1") @PathVariable Integer id) {
+        List<PhoneficModel> phoneficList = phoneficService.getPhoneficById(id);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneficList);
+    }
+
+    /**
+     * 根据目录结构插入音标
+     *
+     * @param phonePath 音标所在路径
+     * @return true/false
+     * @author 马莹
+     * @since 2019-6-14 10:02:48
+     */
+    @ApiOperation(value = "根据目录结构插入音标")
+    @GetMapping(value = "/phonePathInstert")
+    public ItooResult phonePathInstert(@RequestParam String phonePath) {
+        try {
+            boolean flag = phoneficService.phonePathInstert(phonePath);
+            return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
+
+        } catch (Exception e) {
+            log.error("错误" + e);
+            return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
+        }
+    }
+    /**
+     * 根据id查找Phonefic
+     * @return 查询所有音标
+     * @author 闫伟强
+     * @since ${version} 2019年6月11日08:33:00
+     */
+    @ApiOperation(value = "查询所有音标")
+    @GetMapping(value = {"/findPhonefic"})
+    public ItooResult findPhoneficById() {
+        List<PhoneficModel> phoneficList = phoneficService.getPhonefic();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功",phoneficList);
+    }
+    /**
+     * 根据音标模糊查询
+     * @return 音标模糊查询结果
+     * @author 白靖
+     * @param phonefic
+     * @since ${version} 2019年6月23日09:59:49
+     */
+    @ApiOperation(value = "根据音标模糊查询")
+    @GetMapping(value = {"/queryLikePhonefic/{phonefic}"})
+    public ItooResult queryLikePhonefic(@ApiParam(value = "音标", required = true) @PathVariable String phonefic) {
+        List<PhoneficEntity> phoneficList = phoneficService.queryLikePhonefic(phonefic);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功",phoneficList);
+    }
+}

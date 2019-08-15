@@ -22,14 +22,32 @@
         SELECT
             *
         FROM
-            tn_word tw
+            tn_word w
         WHERE
-            tw.is_delete = 0
+            w.is_delete = 0
+            AND (w.word_picture1 is not null or  w.word_picture2 is not null or  w.word_picture3 is not null or  w.word_picture4 is not null or  w.word_picture5 is not null or  w.audio is not null)
+        ORDER BY
+	        rand( )
             LIMIT #{setNumber}
+    </select>
+    <!--根据设定学习量从Word表查不包含记录表中的数据 -谷海涛-2019-6-15 9:41:00-->
+    <select id="queryWordData" resultType="com.tfjybj.english.model.WordModel">
+
+         SELECT
+        *
+        FROM
+        tn_word w
+        WHERE
+        w.is_delete = 0
+        AND w.id NOT IN ( SELECT word_id FROM tn_user_record usr WHERE usr.user_id = #{userId} )
+        AND (w.word_picture1 is not null or  w.word_picture2 is not null or  w.word_picture3 is not null or  w.word_picture4 is not null or  w.word_picture5 is not null or  w.audio is not null)
+        ORDER BY
+        rand( )
+        LIMIT #{setNumber}
     </select>
 
     <!--查询所有单词-邢美玲-->
-    <select id="selectAll" resultType="integer"  >
+    <select id="selectAll" resultType="integer">
         SELECT
         COUNT(*)
         FROM
@@ -45,6 +63,83 @@
         WHERE
         f.is_delete = 0
         LIMIT #{studSum}
+    </select>
+    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.model.WordPhoneficModel">
+      SELECT
+        tn_word_test.phonefic
+      FROM
+        tn_word_test
+      WHERE
+        tn_word_test.word_id = #{wordId}
+
+    </select>
+
+    <select id="queryStateByWord" resultType="com.tfjybj.english.entity.WordEntity">
+        select * from tn_word where word = #{word}
+    </select>
+    <select id="queryPictureByWord" resultType="com.tfjybj.english.entity.WordEntity">
+        select * from tn_word where word = #{word}
+    </select>
+    <!-- 无参查询word表中所有数据-2019-6-12 20:32:04-马莹-->
+    <select id="queryWordAll" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+            *
+        FROM
+            tn_word tw
+        WHERE
+            tw.is_delete = 0
+    </select>
+    <select id="queryAudioBywordId" resultType="com.tfjybj.english.model.WordModel">
+        select
+          audio
+        from
+          tn_word
+        where
+          id = #{wordId}
+    </select>
+    <select id="queryPictureByPhoneficId" resultType="com.tfjybj.english.model.WordModel">
+                SELECT
+        *
+    FROM
+        tn_word tw
+    LEFT JOIN tn_phonefic_test tpt ON tpt.word_id = tw.id
+    WHERE tpt.phonefic_id = #{phoneficId}
+    LIMIT 2
+    </select>
+    <select id="queryWordAboutByUserId" resultType="com.tfjybj.english.model.WordModel">
+            SELECT
+            		tnw.id,
+			tnw.word,
+     tnw.word_picture1,
+     tnw.word_picture2,
+     tnw.word_picture3,
+     tnw.word_picture4,
+     tnw.word_picture5,
+      tnw.audio,
+      tur.phonefic
+    FROM
+    tn_user_record tur
+    LEFT JOIN
+    tn_word tnw  ON  tur.word_id = tnw.id
+    WHERE
+    tur.user_id= #{userId}
+    ORDER BY
+        tur.create_time
+        Asc
+        LIMIT #{num}
+    </select>
+    <!--    根据id查询数据或者查询全部-马莹-2019年6月21日20:36:30-->
+    <select id="selDataWordAll" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+        *
+        FROM
+        tn_word tw
+        WHERE
+        tw.is_delete = 0
+        <if test="dataId!='' and dataId!=null">
+            AND tw.id=#{dataId}
+        </if>
+        LIMIT 3
     </select>
 
 </mapper>

@@ -29,8 +29,29 @@ public class UserSetServiceImpl extends BaseServicePlusImpl<UserSetDao, UserSetE
 
     /* **********************************以下为非模板生成的内容********************************* */
     @Override
-    public List<UserSetModel> getStudyNumberService(Integer userid) {
-        return userSetDao.getStudyNumberService(userid);
+    public List<UserSetModel> getStudyNumberService(String userId) {
+        return userSetDao.getStudyNumberService(userId);
 
+    }
+
+    @Override
+    public UserSetEntity getByUserId(String userId) {
+        return userSetDao.selectByUserId(userId);
+    }
+
+    @Override
+    public UserSetEntity updateTimesById(String userId, String phoneficNumber) {
+        return userSetDao.updateTimesById(userId, phoneficNumber);
+    }
+
+    /**
+     * 根据用户id修改坚持天数
+     * @param model
+     * @author 张伟杰
+     * @since 2019-6-16 20:17:24
+     */
+    @Override
+    public void modifyInsistDays(UserSetModel model) {
+        userSetDao.modifyInsistDays(model);
     }
 }

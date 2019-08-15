@@ -1,5 +1,6 @@
 package com.tfjybj.english.provider.service.impl;
 
+import com.dmsdbj.itoo.tool.fastdfs.FastDfsUtil;
 import com.github.tobato.fastdfs.domain.fdfs.StorePath;
 import com.github.tobato.fastdfs.service.FastFileStorageClient;
 import com.github.tobato.fastdfs.service.TrackerClient;
@@ -26,15 +27,14 @@ import java.io.IOException;
 @Slf4j
 @Service("allusersService")
 public class AllusersServiceImpl extends BaseServicePlusImpl<AllusersDao, AllusersEntity> implements AllusersService {
-
     //region 模板生成
     @Resource
     private AllusersDao allusersDao;
-
     @Resource
     private FastFileStorageClient fastFileStorageClient;
     @Resource
     private TrackerClient trackerClient;
+
     @Override
     public String upLoadPicture(MultipartFile file) throws IOException {
 
@@ -46,6 +46,5 @@ public class AllusersServiceImpl extends BaseServicePlusImpl<AllusersDao, Alluse
     }
 
     //endregion
-
     /* **********************************以下为非模板生成的内容********************************* */
 }

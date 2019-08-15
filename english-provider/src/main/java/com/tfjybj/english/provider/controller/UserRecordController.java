@@ -50,9 +50,6 @@ public class UserRecordController {
 		if (StringUtils.isEmpty(model.getWordId())){
             return ItooResult.build(ItooResult.FAIL, "wordId为空");
         }
-		if (StringUtils.isEmpty(model.getPhoneficId())){
-            return ItooResult.build(ItooResult.FAIL, "phoneficId为空");
-        }
 		if (StringUtils.isEmpty(model.getType())){
             return ItooResult.build(ItooResult.FAIL, "type为空");
         }
@@ -107,18 +104,6 @@ public class UserRecordController {
     @ApiOperation(value = "根据id修改userRecord")
     @PutMapping(value = {"/modify"})
     public ItooResult modify(@RequestBody UserRecordModel model) {
-		if (StringUtils.isEmpty(model.getUserId())){
-            return ItooResult.build(ItooResult.FAIL, "userId为空");
-        }
-		if (StringUtils.isEmpty(model.getWordId())){
-            return ItooResult.build(ItooResult.FAIL, "wordId为空");
-        }
-		if (StringUtils.isEmpty(model.getPhoneficId())){
-            return ItooResult.build(ItooResult.FAIL, "phoneficId为空");
-        }
-		if (StringUtils.isEmpty(model.getType())){
-            return ItooResult.build(ItooResult.FAIL, "type为空");
-        }
 		if (StringUtils.isEmpty(model.getStatus())){
             return ItooResult.build(ItooResult.FAIL, "status为空");
         }
@@ -168,13 +153,69 @@ public class UserRecordController {
      * *@param userid 用户id
      * @return 查询的已经学习单词总数
      * @author 邢美玲
-     * @since ${version} 2019年6月9日14:52:28
+     * @since ${version} 2019年6月16日10:38:47
      */
-    @ApiOperation(value = "根据id查询已学单词数")
-    @GetMapping(value = {"/findStudyWordById/{userid}"})
-    public ItooResult findById(@ApiParam(value = "用户id", required = true) @PathVariable int userid) {
-        int studywords;
-        studywords = userRecordService.findStudyWordById(userid);
+    @ApiOperation(value = "根据userid查询已学单词数")
+    @GetMapping(value = {"/findStudyWordById/{userId}"})
+    public ItooResult findStudyWordById(@ApiParam(value = "用户id", required = true) @PathVariable String userId) {
+        Integer studywords;
+        studywords = userRecordService.findStudyWordById(userId);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", studywords);
     }
-}    
+
+    /**
+     * 根据用户id查询未检测的单词
+     * *@param userId 用户id
+     * @return 未检测的单词
+     * @author 张伟杰
+     * @since ${version} 2019年6月9日14:52:28
+     */
+    @ApiOperation(value = "根据用户id查询未检测的单词")
+    @GetMapping(value = {"/queryNoDetected/{userId}"})
+    public ItooResult queryNoDetectedByUId(@ApiParam(value = "用户id", required = true) @PathVariable String userId) {
+        List<UserRecordModel> userRecordModels = userRecordService.queryNoDetectedByUId(userId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userRecordModels);
+    }
+
+    /**
+     * 根据用户Id和当天时间,查询音标的ID
+     * @param userId 用户ID
+     * @return 当天学习过的音标ID(phonefic_id)
+     * @since 2019年6月15日11:55:03
+     * @autor 冯佳兴
+     */
+    @ApiOperation(value="根据用户id(userId)和当天时间,获取当天学习的音标id(phoneficId)")
+    @GetMapping(value={"/selectPhoneficIdByUserIdAndcreatetime/{userId}"})
+    public ItooResult selectPhoneficIdByUserIdAndcreatetime(@ApiParam(value = "用户id", required = true) @PathVariable String userId){
+        List<UserRecordModel> userRecordModels = userRecordService.selectPhoneficIdByUserIdAndcreatetime(userId);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userRecordModels);
+    }
+    /**
+     * 根据用户id和音标id查询该音标今天是否学习过
+     * *@param userid 用户id
+     * *@param phoneficId 音标id
+     * @return true or false
+     * @author 闫伟强
+     * @since ${version} 2019年6月15日20:23:12
+     */
+    @ApiOperation(value = "根据用户id和音标id查询该音标今天是否学习过")
+    @GetMapping(value = {"/queryPhoneficByUIdAndPId/{userId}/{phoneficId}"})
+    public ItooResult queryPhoneficByUIdAndPId(@ApiParam(value = "用户id", required = true) @PathVariable String userId,
+                                               @ApiParam(value = "音标Id",required = true) @PathVariable String phoneficId) {
+        List<UserRecordModel> isStudy  = userRecordService.queryPhoneficByUIdAndPId(userId,phoneficId);
+        return ItooResult.build(ItooResult.SUCCESS, "true",isStudy);
+    }
+
+    /**
+     * 根据用户ID查询用户学习的音标学习记录
+     * @param userId
+     * @return
+     * @author 张凯超
+     */
+    @ApiOperation(value = "根据用户id查询用户学习的音标信息")
+    @GetMapping(value = "/queryphoneficIdByuserId/{userId}")
+    public  ItooResult queryphoneficIdByuserId(@ApiParam(value = "用户Id",name ="userId",required = true) @PathVariable String userId ){
+        List<UserRecordModel> userRecordModelList = userRecordService.queryphoneficIdByuserId(userId);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",userRecordModelList);
+    }
+}

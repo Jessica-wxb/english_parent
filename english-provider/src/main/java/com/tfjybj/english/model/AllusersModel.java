@@ -74,7 +74,7 @@ public class AllusersModel implements Serializable {
 	/**
 	 * 微信统一标识是否有效（0/1 有效/无效）
 	 */
-    @ApiModelProperty(value = "微信统一标识是否有效（0/1 有效/无效）"  ,example="0" )
+    @ApiModelProperty(value = "微信统一标识是否有效（0/1 有效/无效）"  , example="0" )
 	private Integer unionidValid;
 
 	/**

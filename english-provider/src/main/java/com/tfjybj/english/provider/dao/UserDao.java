@@ -2,6 +2,8 @@ package com.tfjybj.english.provider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.UserEntity;
+import com.tfjybj.english.model.UserModel;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,5 +16,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository("userDao")
 public interface UserDao extends BaseMapper<UserEntity> {
-	
+
+    UserModel queryUserByUserId(@Param("userId") String userId);
 }
