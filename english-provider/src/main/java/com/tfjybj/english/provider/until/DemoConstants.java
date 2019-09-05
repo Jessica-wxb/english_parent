@@ -3,9 +3,9 @@ package com.tfjybj.english.provider.until;
 /**
  * Demo常量类
  *
- * @author 刘亚雯
+ * @author 张凯超
  * @version 1.0.0
- * @since 1.0.0 2018-10-19 10:49:34
+ * @since 2019-08-16 08:47:57
  */
 public class DemoConstants {
     public static final String OPERATOR = "大米时代";

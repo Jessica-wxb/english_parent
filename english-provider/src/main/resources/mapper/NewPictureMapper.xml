@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tfjybj.english.provider.dao.NewPictureDao">
+
+    <resultMap id="Base_Result_Map_ITEMTYPE" type="com.tfjybj.english.model.UserNewpictureModel">
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="wordId" column="word_id" jdbcType="VARCHAR"/>
+        <result property="pictures" column="pictures" jdbcType="VARCHAR"/>
+    </resultMap>
+
+	<!--根据NewPicture用户id模糊查询NewPictureEntity-->
+    <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.NewPictureEntity">
+        SELECT
+			*
+        FROM
+			tn_new_picture f
+        WHERE
+			f.is_delete = 0
+        <if test="userId !=''">
+            <bind name="pattern" value="'%' + userId + '%'"/>
+            AND f.user_id LIKE #{pattern}
+        </if>
+        ORDER BY
+        f.create_time DESC
+    </select>
+
+    <select id="newPictureInsertRedis" resultMap="Base_Result_Map_ITEMTYPE">
+      	SELECT
+            user_id,
+            word_id,
+            GROUP_CONCAT( DISTINCT ( picture_address ) ORDER BY create_time DESC ) as pictures
+        FROM
+            tn_new_picture
+        GROUP BY
+            user_id,
+        word_id;
+    </select>
+</mapper>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tfjybj.english.provider.dao.WordWrongDao">
+    <resultMap id="Base_Result_Map_WordTem" type="com.tfjybj.english.model.WordTemplteModel">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="audio" column="audio" jdbcType="VARCHAR"/>
+        <result property="word" column="word" jdbcType="VARCHAR"/>
+        <result property="word_Picture1" column="Picture1" jdbcType="VARCHAR"/>
+        <result property="word_Picture2" column="Picture2" jdbcType="VARCHAR"/>
+        <result property="word_Picture3" column="Picture3" jdbcType="VARCHAR"/>
+        <result property="word_Picture4" column="Picture4" jdbcType="VARCHAR"/>
+    </resultMap>
+	<!--根据WordWrong用户id模糊查询WordWrongEntity-->
+<!--    <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.WordWrongEntity">-->
+<!--        SELECT-->
+<!--			*-->
+<!--        FROM-->
+<!--			tn_word_wrong f-->
+<!--        WHERE-->
+<!--			f.is_delete = 0-->
+<!--        <if test="userId !=''">-->
+<!--            <bind name="pattern" value="'%' + userId + '%'"/>-->
+<!--            AND f.user_id LIKE #{pattern}-->
+<!--        </if>-->
+<!--        ORDER BY-->
+<!--        f.create_time DESC-->
+<!--    </select>-->
+<!--根据用户ID获取用户未检测记录-->
+    <select id="queryCheckByUserId" resultMap="Base_Result_Map_WordTem" >
+ (
+ SELECT DISTINCT
+	tn_word.id,
+	tn_word.word,
+	tn_word.audio,
+	tn_word_template.right_picture AS Picture1,
+	tn_word_template.other_picture1 AS Picture2,
+	tn_word_template.other_picture2 AS Picture3,
+	tn_word_template.other_picture3 AS Picture4
+FROM
+	tn_word_template
+INNER JOIN tn_word ON tn_word.id = tn_word_template.word_id
+INNER JOIN tn_word_wrong ON tn_word_wrong.word_id = tn_word_template.word_id
+WHERE
+	tn_word_wrong.user_id = #{userId}
+AND tn_word_wrong.is_check = 0
+)
+UNION
+(
+		SELECT DISTINCT
+			tn_word.id,
+			tn_word.word,
+			tn_word.audio,
+			tn_word_template.right_picture AS Picture1,
+			tn_word_template.other_picture1 AS Picture2,
+			tn_word_template.other_picture2 AS Picture3,
+			tn_word_template.other_picture3 AS Picture4
+	FROM
+			tn_word_template
+		INNER JOIN tn_word ON tn_word.id = tn_word_template.word_id
+		INNER JOIN tn_word_record ON tn_word_record.word_id = tn_word_template.word_id
+		WHERE
+			tn_word_record.user_id = #{userId}
+		AND tn_word_record.`status` = 2
+		LIMIT #{num}
+)
+    </select>
+<!--  根据用户ID获取用户未学习记录  -->
+    <select id="queryStudyByUserId" resultType="com.tfjybj.english.model.WordModel">
+        SELECT
+        tn_word.id,
+        tn_word.word,
+        tn_word.audio,
+        tn_word.word_picture1,
+        tn_word.word_picture2,
+        tn_word.word_picture3,
+        tn_word.word_picture4
+        FROM
+        tn_word
+        INNER  JOIN
+         tn_word_wrong
+        ON tn_word.id = tn_word_wrong.word_id
+        WHERE
+        tn_word_wrong.user_id= #{userId}
+        AND
+        tn_word_wrong.is_study = 0
+    </select>
+    <select id="queryNumCheck" resultType="java.lang.Integer">
+        SELECT
+COUNT(is_check)as numCheck
+FROM
+tn_word_wrong
+WHERE
+is_check = 0
+AND user_id = #{userId}
+    </select>
+
+    <select id="queryNumStudy" resultType="java.lang.Integer">
+        SELECT
+COUNT(tn_word_wrong.is_study ) AS studyNum
+FROM
+tn_word_wrong
+WHERE
+tn_word_wrong.is_study = 0 AND
+tn_word_wrong.user_id = #{userId}
+
+    </select>
+    <select id="queryNumRecord" resultType="java.lang.Integer">
+        SELECT
+COUNT(*) as recordNum
+FROM
+tn_word_record
+WHERE
+tn_word_record.user_id = #{userId}
+AND
+tn_word_record.`status` = 2
+    </select>
+
+    <!--根据userId批量插入wrong表中-陈广晗-->
+    <insert id="insertBatch">
+        INSERT INTO tn_word_wrong
+        (id, user_id, word_id)
+        VALUES
+        <foreach collection ="list" item="wordWrong" separator =",">
+            (#{wordWrong.id}, #{wordWrong.userId}, #{wordWrong.wordId})
+        </foreach >
+    </insert>
+
+    <!--根据id批量修改wrong表中isStudy-陈广晗-->
+    <update id="updateStudy">
+        <foreach collection ="list" item="wordWrong" index="index" open="" close="" separator =";">
+        update tn_word_wrong
+            set is_study=1
+            where user_id = #{wordWrong.userId} and word_id =  #{wordWrong.wordId}
+        </foreach >
+    </update>
+
+    <!--根据id批量修改wrong表中isCheck-陈广晗-->
+    <update id="updateCheck">
+        <foreach collection ="list" item="wordWrong" index="index" open="" close="" separator =";">
+            update tn_word_wrong
+             set  is_check = #{wordWrong.isCheck}
+            where user_id = #{wordWrong.userId} and word_id = #{wordWrong.wordId}
+        </foreach >
+    </update>
+
+    <!--根据userId-->
+    <update id="updateStudyByUserId">
+        UPDATE tn_word_wrong
+        SET is_study = 1
+        WHERE
+            user_id = #{userId}
+        AND word_id = #{wordId}
+            </update>
+
+    <update id="updateCheckByUserId">
+                        UPDATE tn_word_wrong
+        SET is_check = 1
+        WHERE
+            user_id = #{userId}
+        AND word_id = #{wordId}
+    </update>
+</mapper>

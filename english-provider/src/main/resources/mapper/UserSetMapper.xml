@@ -2,20 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.UserSetDao">
-    <update id="modifyInsistDays">
-        UPDATE tn_user_set
-        SET insist_days = insist_days + 1
-        WHERE
-	        user_id = #{userId}
-    </update>
-    <!--根据UserSet用户id模糊查询UserSetEntity-->
+	<!--根据UserSet用户id模糊查询UserSetEntity-->
     <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.UserSetEntity">
         SELECT
-        *
+			*
         FROM
-        tn_user_set f
+			tn_user_set f
         WHERE
-        f.is_delete = 0
+			f.is_delete = 0
         <if test="userId !=''">
             <bind name="pattern" value="'%' + userId + '%'"/>
             AND f.user_id LIKE #{pattern}
@@ -24,36 +18,35 @@
         f.create_time DESC
     </select>
 
-    <!--根据用户id，查询用户设置——白爱民2019年6月11日18:13:01-->
-    <select id="getStudyNumberService" resultType="com.tfjybj.english.model.UserSetModel">
+    <!--根据userid查询该用户的设置信息-->
+    <select id="findUserSetById" resultType="com.tfjybj.english.entity.UserSetEntity">
         SELECT
-            *
+        *
         FROM
-            tn_user_set
+        tn_user_set
         WHERE
-            is_delete = 0
-            AND user_id = #{userId}
-        ORDER BY
-            update_time DESC
+        user_id=#{userId}
     </select>
 
-    <!--根据UserSet用户id查询UserSetEntity-->
-    <select id="selectByUserId" resultType="com.tfjybj.english.entity.UserSetEntity">
-        SELECT
-          *
-        FROM
-          tn_user_set
-        WHERE
-          user_id = #{userId}
-    </select>
-
-    <!--根据用户id更新联播次数-->
-    <select id="updateTimesById" resultType="com.tfjybj.english.entity.UserSetEntity">
+    <!--根据userid修改该用户的设置信息-->
+    <update id="modifyById">
         UPDATE
           tn_user_set
         SET
-          phonefic_number = #{phoneficNumber}
+          play_nums = #{palyNums},
+          is_turn_auto = #{isTurnAuto},
+          turn_delay_time = #{tuenDelayTime},
+          study_number = #{studyNumber}
         WHERE
-          user_id = #{userId}
+	      user_id =#{userId}
+    </update>
+
+    <select id="queryStudyNumByUserId" resultType="int">
+        SELECT
+            study_number
+        FROM
+            tn_user_set
+        where
+            user_id = #{userId}
     </select>
 </mapper>

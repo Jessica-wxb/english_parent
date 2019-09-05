@@ -2,144 +2,142 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="com.tfjybj.english.provider.dao.WordDao">
+
+    <resultMap id="Base_Result_Map_ITEMTYPE" type="com.tfjybj.english.model.UserNewpictureModel">
+        <result property="userId" column="user_id" jdbcType="VARCHAR"/>
+        <result property="wordId" column="word_id" jdbcType="VARCHAR"/>
+        <result property="pictures" column="pictures" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <insert id="insertNewPicturea" >
+        INSERT INTO tn_new_picture (id, user_id, word_id, picture_address)VALUES(#{id},#{userId},#{wordId},#{pictureAddress})
+    </insert>
+
+    <!--插入新图到新图表中;邢美玲;2019年8月18日-->
+    <!--<insert id="insertNewPicturea">-->
+        <!--INSERT INTO tn_new_picture ( user_id, word_id, picture_address)VALUES(#{userId},#{newPictureAddress.wordId},#{newPictureAddress.pictureAddress})-->
+    <!--</insert>-->
+
     <!--根据Word单词模糊查询WordEntity-->
-    <select id="queryLikeWord" resultType="com.tfjybj.english.entity.WordEntity">
+    <select id="findWordByName" resultType="com.tfjybj.english.model.WordModel">
         SELECT
-        *
+			*
         FROM
-        tn_word f
+			tn_word f
         WHERE
-        f.is_delete = 0
-        <if test="word !=''">
+        <if test="word !=null and type == 1">
             <bind name="pattern" value="'%' + word + '%'"/>
-            AND f.word LIKE #{pattern}
+             f.word LIKE #{pattern}
         </if>
-        ORDER BY
-        f.create_time DESC
-    </select>
-    <!--根据设定学习量查询数据条数 -马莹-2019-6-9 19:41:00-->
-    <select id="selDataNum" resultType="com.tfjybj.english.model.WordModel">
-        SELECT
-            *
-        FROM
-            tn_word w
-        WHERE
-            w.is_delete = 0
-            AND (w.word_picture1 is not null or  w.word_picture2 is not null or  w.word_picture3 is not null or  w.word_picture4 is not null or  w.word_picture5 is not null or  w.audio is not null)
-        ORDER BY
-	        rand( )
-            LIMIT #{setNumber}
-    </select>
-    <!--根据设定学习量从Word表查不包含记录表中的数据 -谷海涛-2019-6-15 9:41:00-->
-    <select id="queryWordData" resultType="com.tfjybj.english.model.WordModel">
 
-         SELECT
-        *
-        FROM
-        tn_word w
-        WHERE
-        w.is_delete = 0
-        AND w.id NOT IN ( SELECT word_id FROM tn_user_record usr WHERE usr.user_id = #{userId} )
-        AND (w.word_picture1 is not null or  w.word_picture2 is not null or  w.word_picture3 is not null or  w.word_picture4 is not null or  w.word_picture5 is not null or  w.audio is not null)
-        ORDER BY
-        rand( )
-        LIMIT #{setNumber}
+        <if test="word !=null and type == 2">
+            <bind name="pattern" value="word + '%'"/>
+             f.word LIKE #{pattern}
+        </if>
+--         ORDER BY
+--         f.create_time DESC
     </select>
-
-    <!--查询所有单词-邢美玲-->
-    <select id="selectAll" resultType="integer">
-        SELECT
-        COUNT(*)
-        FROM
-        tn_word
-    </select>
-
-    <!--根据Id查询图片-任嘉颖-2019年6月11日09:16:06-->
-    <select id="selectPhoneficPictureById" resultType="com.tfjybj.english.model.WordModel">
-        SELECT
-        *
-        FROM
-        tn_word f
-        WHERE
-        f.is_delete = 0
-        LIMIT #{studSum}
-    </select>
-    <select id="queryPhoneticByWordId" resultType="com.tfjybj.english.model.WordPhoneficModel">
+    <select id="findWordnumsById" resultType="java.lang.Integer">
       SELECT
-        tn_word_test.phonefic
-      FROM
-        tn_word_test
-      WHERE
-        tn_word_test.word_id = #{wordId}
-
-    </select>
-
-    <select id="queryStateByWord" resultType="com.tfjybj.english.entity.WordEntity">
-        select * from tn_word where word = #{word}
-    </select>
-    <select id="queryPictureByWord" resultType="com.tfjybj.english.entity.WordEntity">
-        select * from tn_word where word = #{word}
-    </select>
-    <!-- 无参查询word表中所有数据-2019-6-12 20:32:04-马莹-->
-    <select id="queryWordAll" resultType="com.tfjybj.english.model.WordModel">
-        SELECT
-            *
+        (SELECT study_number  FROM tn_user_set as ui WHERE id = #{userId})
+        -( SELECT count(id) FROM tn_word_record as wr where user_id = #{userId} and create_time > current_date)
+ </select>
+    <select id="findWordPicture" resultMap="Base_Result_Map_ITEMTYPE">
+      	SELECT
+            user_id,
+            word_id,
+            GROUP_CONCAT( DISTINCT ( picture_address ) ORDER BY create_time DESC ) as pictures
         FROM
-            tn_word tw
-        WHERE
-            tw.is_delete = 0
+            tn_new_picture
+        GROUP BY
+            user_id,
+        word_id;
     </select>
-    <select id="queryAudioBywordId" resultType="com.tfjybj.english.model.WordModel">
-        select
-          audio
-        from
-          tn_word
-        where
-          id = #{wordId}
+    <select id="findWordIdByWordnums" resultType="com.tfjybj.english.model.WordPartModel">
+     SELECT
+		id,
+        audio,
+        word,
+        word_picture1,
+        word_picture2,
+        word_picture3,
+        word_picture4
+	FROM
+		tn_word as tw
+	WHERE
+		id NOT IN ( SELECT word_id FROM tn_word_record twr WHERE user_id = #{userId} AND create_time > CURRENT_DATE )
+		LIMIT #{wordNums}
     </select>
-    <select id="queryPictureByPhoneficId" resultType="com.tfjybj.english.model.WordModel">
-                SELECT
-        *
-    FROM
-        tn_word tw
-    LEFT JOIN tn_phonefic_test tpt ON tpt.word_id = tw.id
-    WHERE tpt.phonefic_id = #{phoneficId}
-    LIMIT 2
-    </select>
-    <select id="queryWordAboutByUserId" resultType="com.tfjybj.english.model.WordModel">
-            SELECT
-            		tnw.id,
-			tnw.word,
-     tnw.word_picture1,
-     tnw.word_picture2,
-     tnw.word_picture3,
-     tnw.word_picture4,
-     tnw.word_picture5,
-      tnw.audio,
-      tur.phonefic
-    FROM
-    tn_user_record tur
-    LEFT JOIN
-    tn_word tnw  ON  tur.word_id = tnw.id
-    WHERE
-    tur.user_id= #{userId}
-    ORDER BY
-        tur.create_time
-        Asc
-        LIMIT #{num}
-    </select>
-    <!--    根据id查询数据或者查询全部-马莹-2019年6月21日20:36:30-->
-    <select id="selDataWordAll" resultType="com.tfjybj.english.model.WordModel">
-        SELECT
-        *
-        FROM
-        tn_word tw
-        WHERE
-        tw.is_delete = 0
-        <if test="dataId!='' and dataId!=null">
-            AND tw.id=#{dataId}
-        </if>
-        LIMIT 3
+    <select id="findOtherworsById" resultType="java.lang.Integer">
+        SELECT(SELECT Count(id)  FROM tn_word )-( SELECT count(id) FROM tn_word_record as wr where user_id= #{userId})
     </select>
 
+    <select id="findWordIDByToStudyWords" resultType="com.tfjybj.english.model.WordPartModel">
+      	SELECT
+            word,
+            id,
+            word_picture1,
+            word_picture2,
+            word_picture3,
+            word_picture4,
+            word_picture5,
+            audio,
+            create_time
+        FROM
+            tn_word
+        WHERE
+            id IN ( SELECT word_id FROM tn_word_record WHERE user_id = #{userId} ORDER BY create_time DESC ) LIMIT #{limit}
+            id IN ( SELECT min( id ) FROM tn_word GROUP BY word )
+    </select>
+
+    <select id="queryPageAll" resultType="java.lang.String">
+      	SELECT
+            word
+        FROM
+            tn_word
+        ORDER BY
+            id
+            LIMIT #{pageNo},
+            #{pageSize};
+    </select>
+    <select id="findUserSetById" resultType="com.tfjybj.english.entity.UserSetEntity">
+         SELECT study_number  FROM tn_user_set  WHERE id = #{userId}
+    </select>
+
+    <select id="wordInsertRedis" resultType="com.tfjybj.english.model.WordModel">
+      	SELECT
+            word,
+            id,
+            word_picture1,
+            word_picture2,
+            word_picture3,
+            word_picture4,
+            word_picture5,
+            audio,
+            create_time
+        FROM
+            tn_word
+        WHERE
+            id IN ( SELECT min( id ) FROM tn_word GROUP BY word )
+    </select>
+
+    <!-- 查询所有单词的id 和四个图片-陈广晗 -->
+    <select id="findAllWord" resultType="com.tfjybj.english.entity.WordEntity">
+         SELECT id,word,word_picture1,word_picture2,word_picture3,word_picture4 FROM `tn_word`;
+    </select>
+    <!-- 查询所有单词的id 和四个图片插入到tn_word_template表中-陈广晗 -->
+    <insert id="insertBatch">
+        INSERT INTO `english`.`tn_word_template`(`word_id`, `right_picture`, `other_picture1`, `other_picture2`, `other_picture3`)
+        VALUES
+        <foreach collection ="list" item="item" separator =",">
+            (#{item.id}, #{item.wordPicture1}, #{item.wordPicture2}, #{item.wordPicture3}, #{item.wordPicture4})
+        </foreach >
+    </insert>
+    <select id="query" resultType="com.tfjybj.english.entity.WordEntity">
+        SELECT
+			*
+        FROM
+			tn_word
+		limit 501
+    </select>
 </mapper>

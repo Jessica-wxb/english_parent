@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tfjybj.english.provider.dao.WordRecordDao">
+    <resultMap id="Base_Result_Map_WordDetection" type="com.tfjybj.english.model.WordDetection">
+        <result property="id" column="id" jdbcType="VARCHAR"/>
+        <result property="audio" column="audio" jdbcType="VARCHAR"/>
+        <result property="picture1" column="word_picture1" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="Base_Result_Map_RandomWord" type="com.tfjybj.english.model.RandomWord">
+        <result property="picture2" column="word_picture2" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="Base_Result_Map_WordTemplate" type="com.tfjybj.english.model.WordTemplate">
+        <result property="wordId" column="word_id" jdbcType="VARCHAR"/>
+        <result property="rightPicture" column="right_picture" jdbcType="VARCHAR"/>
+        <result property="otherPicture1" column="other_picture1" jdbcType="VARCHAR"/>
+        <result property="otherPicture2" column="other_picture2" jdbcType="VARCHAR"/>
+        <result property="otherPicture3" column="other_picture3" jdbcType="VARCHAR"/>
+    </resultMap>
+	<!--根据WordRecord用户id模糊查询WordRecordEntity-->
+    <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.WordRecordEntity">
+        SELECT
+			*
+        FROM
+			tn_word_record f
+        WHERE
+			f.is_delete = 0
+        <if test="userId !=''">
+            <bind name="pattern" value="'%' + userId + '%'"/>
+            AND f.user_id LIKE #{pattern}
+        </if>
+        ORDER BY
+        f.create_time DESC
+    </select>
+
+    <!--根据userId批量插入record表中-陈广晗-->
+    <insert id="insertBatch">
+        INSERT INTO tn_word_record
+        (id, user_id, word_id,create_time)
+        VALUES
+        <foreach collection ="list" item="wordRecord" separator =",">
+            (#{wordRecord.id}, #{wordRecord.userId}, #{wordRecord.wordId},now())
+        </foreach >
+    </insert>
+
+    <!--根据id批量修改record表中status-陈广晗-->
+    <update id="updateStatus">
+        <foreach collection ="list" item="wordRecord" index="index" open="" close="" separator =";">
+            update tn_word_record
+            <set>
+                status=#{wordRecord.status}
+            </set>
+            where word_id = #{wordRecord.wordId}and user_id=#{wordRecord.userId}
+        </foreach >
+    </update>
+
+    <!--根据userId在tn_word_record中查询出今日已学单词数量-董可-->
+    <select id="queryLearnNumByuserId" resultType="int">
+        SELECT
+            count(*)
+        FROM
+            tn_word_record
+        where
+            user_id = #{userId}
+        and
+            create_time >= #{toDay}
+        LIMIT #{limit}
+    </select>
+
+    <!--根据userId在tn_word_record中查询出用户所有已学单词数量-董可-->
+    <select id="queryAllWordNumByuserId" resultType="int">
+        SELECT
+            count(*)
+        FROM
+            tn_word_record
+        where
+            user_id = #{userId}
+    </select>
+
+    <!--根据userId在tn_word_record中查询出待检测单词数量-董可-->
+    <select id="queryToCheckWordsByUserId" resultType="int">
+        SELECT count(word_id) as tochecknum
+        FROM tn_word_record
+        where
+        user_id= #{userId}
+        and
+        status = 0
+        LIMIT #{limit}
+    </select>
+
+    <!--根据userId在tn_word_record中查询出【单词归仓】的待检测单词数量-董可-->
+    <select id="queryStoreNumsByUserId" resultType="int">
+       SELECT
+            count( * )
+        FROM
+            tn_word_wrong
+        WHERE
+            user_id = #{userId}
+            AND is_study = '0'
+        LIMIT #{limit}
+    </select>
+
+    <!--根据userId在tn_word_record中查询出【归仓检测】待检测单词数量-董可-->
+    <select id="queryStoreCheckNumsByUserId" resultType="int">
+        SELECT
+            count( * )
+        FROM
+            tn_word_wrong
+        WHERE
+            user_id = #{userId}
+            AND is_check	= '0'
+        LIMIT #{limit}
+    </select>
+
+    <!--根据userId在tn_word_record中查询出待检测单词-陈广晗-->
+    <select id="selectWord" parameterType="string" resultMap="Base_Result_Map_WordDetection">
+        SELECT
+            id,w.audio
+        FROM
+            tn_word w
+        WHERE
+            id IN ( SELECT word_id FROM tn_word_record r WHERE r.`status` = 0 AND r.user_id = #{userId} ) LIMIT 500
+  </select>
+    <!--随机取出图片-陈广晗-->
+    <select id="randomWord" parameterType="string" resultMap="Base_Result_Map_RandomWord">
+        SELECT
+            word_picture2
+        FROM
+            tn_word w
+        WHERE
+            id NOT IN (
+            SELECT
+                word_id
+            FROM
+                tn_word_record r
+            WHERE
+            r.`status` = 0
+            AND r.user_id = #{userId} )LIMIT 1500
+
+    </select>
+
+    <!--查询tn_word_template-->
+    <select id="selectWordTemplate" parameterType="string" resultMap="Base_Result_Map_WordTemplate">
+        SELECT
+            *
+        FROM
+            tn_word_template
+        WHERE
+            word_id = #{wordId};
+  </select>
+
+
+
+</mapper>

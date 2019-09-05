@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tfjybj.english.provider.dao.UserInfoDao">
+
+
+    <resultMap id="Base_Result_Map_ITEMTYPE" type="com.tfjybj.english.model.MineModel">
+        <result property="userId" column="id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="insistDays" column="insist_days" jdbcType="VARCHAR"/>
+        <result property="wordNum" column="word_num" jdbcType="VARCHAR"/>
+        <result property="eNowNum" column="e_now_num" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <resultMap id="Base_Result_Map_ITEM_USER" type="com.tfjybj.english.model.RankModel">
+        <result property="userId" column="id" jdbcType="VARCHAR"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="eAllNum" column="e_all_num" jdbcType="VARCHAR"/>
+        <result property="rank" column="rank" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <resultMap id="Base_Result_Map_User_ITEMTYPE" type="com.tfjybj.english.model.UserPartModel">
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="insistDays" column="insist_days" jdbcType="VARCHAR"/>
+        <result property="wordNum" column="word_num" jdbcType="VARCHAR"/>
+        <result property="eAllNum" column="e_all_num" jdbcType="VARCHAR"/>
+        <result property="eNowNum" column="e_now_num" jdbcType="VARCHAR"/>
+        <result property="playNums" column="play_nums" jdbcType="INTEGER"/>
+        <result property="isTurnAuto" column="is_turn_auto" jdbcType="INTEGER"/>
+        <result property="turnDelayTime" column="turn_delay_time" jdbcType="INTEGER"/>
+        <result property="studyNumber" column="study_number" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--根据UserInfo用户code模糊查询UserInfoEntity-->
+    <select id="queryLikeUserCode" resultType="com.tfjybj.english.entity.UserInfoEntity">
+        SELECT
+			*
+        FROM
+			tn_user_info f
+        WHERE
+			f.is_delete = 0
+        <if test="userCode !=''">
+            <bind name="pattern" value="'%' + userCode + '%'"/>
+            AND f.user_code LIKE #{pattern}
+        </if>
+        ORDER BY
+        f.create_time DESC
+    </select>
+
+    <!--根据userId查询所有用户、E币数量、排名-董可-邱慕夏-2019年8月15日20:08:48-->
+    <select id="queryUserIdEAllNum" resultMap="Base_Result_Map_ITEM_USER">
+        SELECT
+            u.id,u.user_name,u.e_all_num,@rownum := @rownum + 1 AS rank
+        FROM
+             tn_user_info u
+             ,( SELECT @rownum := 0 ) r
+        WHERE e_all_num > 0
+        ORDER BY
+             e_all_num + 0 DESC
+    </select>
+
+    <!--根据userId查询“我的”相关信息-董可-2019年8月16日15:32:16-->
+    <select id="queryMineByUserId" resultMap="Base_Result_Map_ITEMTYPE">
+        SELECT
+            id,user_name,insist_days,word_num,e_now_num
+        FROM
+            tn_user_info
+        where
+            id = #{userId}
+    </select>
+
+    <!--登录-->
+    <!--<select id="login" resultType="com.tfjybj.english.entity.UserInfoEntity">
+        SELECT
+        *
+        FROM
+        tn_user_info
+        WHERE
+        is_delete = 0
+        AND
+        user_code=#{userCode}
+    </select>-->
+
+    <select id="login" resultMap="Base_Result_Map_User_ITEMTYPE">
+        SELECT
+            user_name,
+            insist_days,
+            word_num,
+            e_all_num,
+            e_now_num,
+            play_nums,
+            is_turn_auto,
+            turn_delay_time,
+            study_number
+        FROM
+            `tn_user_info`
+            LEFT JOIN tn_user_set ON tn_user_info.id = tn_user_set.user_id
+        WHERE
+            tn_user_info.user_code = #{userCode}
+            AND tn_user_info.is_delete = '0'
+    </select>
+
+    <update id="modflyEB">
+        <foreach collection ="list" item="userInfo" index="index" open="" close="" separator =";">
+            update tn_user_info
+            <set>
+                e_all_num=#{userInfo.eAllNum},
+                e_now_num=#{userInfo.eAllNum},
+                word_num=#{userInfo.wordNum}
+            </set>
+            where id = #{userInfo.userId}
+        </foreach >
+    </update>
+<!--    修改数据库中的坚持天数-董可;2019年8月29日-->
+    <update id="updateInsistDay">
+            update tn_user_info
+        <set>
+            insist_days = insist_days + 1,
+            update_time = now()
+
+        </set>
+
+        where id =#{userId}
+    </update>
+    <!--根据userId查询当前登录用户的user_name,e_all_num-->
+    <select id="queryUserIdAddE" resultMap="Base_Result_Map_ITEM_USER">
+        SELECT
+            u.id,u.user_name,u.e_all_num,@rownum := @rownum + 1 AS rank
+        FROM
+            tn_user_info u
+            ,( SELECT @rownum := 0 ) r
+        WHERE
+            id = #{userId}
+    </select>
+<!--    获取updatetime-->
+    <select id="selectNowDay" resultType="java.lang.String">
+        SELECT  update_time FROM  tn_user_info WHERE id = #{userId}
+    </select>
+
+    <!--获取坚持天数-->
+    <select id="selectInsistDays" resultType="java.lang.String">
+        SELECT  insist_days FROM  tn_user_info WHERE id = #{userId}
+    </select>
+</mapper>

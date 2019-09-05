@@ -4,30 +4,28 @@ import com.tfjybj.english.entity.UserSetEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 import com.tfjybj.english.model.UserSetModel;
 
-import java.util.List;
-
 
 /**
  * UserSetService接口
  * userSet表
  *
- * @author 马莹
- * @version ${version}
- * @since ${version} 2019-06-08 14:26:23
+ * @author 张凯超
+ * @version 1.0.0
+ * @since 2019-08-16 08:47:57
  */
 public interface UserSetService extends BaseServicePlus<UserSetEntity> {
-    // 根据用户id，查询用户设置——白爱民2019年6月11日18:13:01
-    List<UserSetModel> getStudyNumberService(String userId);
-
-    UserSetEntity getByUserId(String userId);
-
-    UserSetEntity updateTimesById(String userId, String phoneficNumber);
 
     /**
-     * 根据userId修改坚持天数
-     * @param model
-     * @author 张伟杰
-     * @since 2019-6-16 20:17:46
+     * 通过userid查询用户的设置信息
+     * @author 闫伟强
+     * @return
      */
-    void modifyInsistDays(UserSetModel model);
+    UserSetEntity findUserSetById();
+
+    /**
+     * 通过userid修改用户的设置信息
+     * @author 闫伟强
+     * @return
+     */
+    UserSetEntity modifyById(Integer palyNums,Integer isTurnAuto, Integer tuenDelayTime, Integer studyNumber);
 }

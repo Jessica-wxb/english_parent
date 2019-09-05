@@ -6,38 +6,32 @@ import com.tfjybj.english.model.UserSetModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * UserSetDao接口
  * userSet表
  *
- * @author 马莹
- * @version ${version}
- * @since ${version} 2019-06-08 14:26:23
+ * @author 张凯超
+ * @version 1.0.0
+ * @since 2019-08-16 08:47:57
  */
 @Repository("userSetDao")
 public interface UserSetDao extends BaseMapper<UserSetEntity> {
 
     /**
-     * 根据用户id，查询用户设置
-     *
-     * @param userId 用户id
-     * @return 返回实体集合
-     * @since 2019年6月11日18:13:01
+     * 通过userid查询用户的设置信息
+     * @author 闫伟强
+     * @return
      */
-    List<UserSetModel> getStudyNumberService(@Param("userId") String userId);
-
-    UserSetEntity selectByUserId(@Param("userId") String userId);
-
-    UserSetEntity updateTimesById(@Param("userId") String userId, @Param("phoneficNumber") String phoneficNumber);
+    UserSetEntity findUserSetById(String userId);
 
     /**
-     * 根据用户id修改
-     *
-     * @param model 设置model
-     * @return 返回实体集合
-     * @since 2019年6月11日18:13:01
+     * 通过userid修改用户的设置信息
+     * @author 闫伟强
+     * @return
      */
-    void modifyInsistDays(UserSetModel model);
+    void modifyById(@Param("userId")String userId,@Param("palyNums") Integer palyNums,@Param("isTurnAuto") Integer isTurnAuto,@Param("tuenDelayTime") Integer tuenDelayTime,@Param("studyNumber") Integer studyNumber);
+
+    //查询用户设置的 学单词数量--董可
+    int queryStudyNumByUserId(String userId);
+
 }

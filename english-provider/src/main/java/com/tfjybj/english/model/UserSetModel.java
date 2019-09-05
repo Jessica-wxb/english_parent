@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.*;
-
 import java.io.Serializable;
 import javax.persistence.Column;
 
@@ -12,9 +11,9 @@ import javax.persistence.Column;
  * UserSetModel
  * 用户设置
  *
- * @author 马莹
- * @version ${version}
- * @since ${version} 2019-06-08 14:26:23
+ * @author 张凯超
+ * @version 1.0.0
+ * @since 2019-08-16 08:47:57
  */
 @ApiModel(value = "UserSetModel:用户设置")
 @Data
@@ -24,61 +23,43 @@ import javax.persistence.Column;
 public class UserSetModel implements Serializable {
 
     //region 模板逆向生产来自UserSetEntity的属性
-    /**
-     * id
-     */
-    @ApiModelProperty(value = "userSet主键")
-    @Column(name = "id")
-    private String id;
-    /**
-     * 用户id
-     */
-    @ApiModelProperty(value = "用户id", required = true)
-    private String userId;
+	/**
+	 * id
+	 */
+	@ApiModelProperty(value = "userSet主键")
+	@Column(name = "id")
+	private String id;
+   	/**
+	 * 用户id
+	 */
+	@ApiModelProperty(value = "用户id",required = true )
+	private String userId;
 
-    /**
-     * 音标次数
-     */
-    @ApiModelProperty(value = "音标次数", required = true, example = "0")
-    private Integer phoneficNumber;
+	/**
+	 * 单词播放次数
+	 */
+	@ApiModelProperty(value = "单词播放次数",required = true  ,example="0" )
+	private Integer playNums;
 
-    /**
-     * 单词次数
-     */
-    @ApiModelProperty(value = "单词次数", required = true, example = "0")
-    private Integer wordNumber;
+	/**
+	 * 是否自动跳转0否，1是
+	 */
+	@ApiModelProperty(value = "是否自动跳转0否，1是",required = true  ,example="0" )
+	private Integer isTurnAuto;
 
-    /**
-     * 是否自动跳转
-     */
-    @ApiModelProperty(value = "是否自动跳转", required = true, example = "0")
-    private Integer isTurnAuto;
+	/**
+	 * 跳转延迟（ms）
+	 */
+	@ApiModelProperty(value = "跳转延迟（ms）",required = true  ,example="0" )
+	private Integer turnDelayTime;
 
-    /**
-     * 跳转延迟（ms）
-     */
-    @ApiModelProperty(value = "跳转延迟（ms）", required = true, example = "0")
-    private Integer turnDelayTime;
-
-    /**
-     * 每次学习数量
-     */
-    @ApiModelProperty(value = "每次学习数量", required = true, example = "0")
-    private Integer studyNumber;
-
-    /**
-     * 是否随机选词
-     */
-    @ApiModelProperty(value = "是否随机选词", required = true, example = "0")
-    private Integer isRandom;
-
-    /**
-     * 坚持天数
-     */
-    @ApiModelProperty(value = "坚持天数", required = true, example = "0")
-    private Integer insistDays;
+	/**
+	 * 每次学习数量
+	 */
+	@ApiModelProperty(value = "每次学习数量",required = true  ,example="0" )
+	private Integer studyNumber;
 
     //endregion
 
-    /* *****************************以下是非模板生成的内容************************************ */
+     /* *****************************以下是非模板生成的内容************************************ */
 }

@@ -1,15 +1,23 @@
 package com.tfjybj.english.provider.controller;
 
-import com.tfjybj.english.entity.WordEntity;
-import com.tfjybj.english.model.WordModel;
+import com.alibaba.fastjson.JSONObject;
+import com.dmsdbj.itoo.sso.utils.UserUtil;
+import com.tfjybj.english.model.*;
 import com.tfjybj.english.provider.service.WordService;
+import com.tfjybj.english.model.UserNewpictureModel;
+import com.tfjybj.english.model.WordModel;
 import com.dmsdbj.itoo.tool.business.ItooResult;
+import com.tfjybj.english.provider.service.common.WordListService;
+import com.tfjybj.english.utils.cache.RedisUtil;
+import groovy.util.logging.Slf4j;
 import io.swagger.annotations.*;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -17,224 +25,225 @@ import java.util.List;
  * WordController
  * word表
  *
- * @author 马莹
- * @version ${version}
- * @since ${version} 2019-06-08 14:26:23
+ * @author 张凯超
+ * @version 1.0.0
+ * @since  2019-08-16 08:47:57
  */
 @Api(tags = {"word表接口"})
-@RequestMapping(value = "/word")
 @Slf4j
+@RequestMapping(value = "/word")
 @RestController
 public class WordController {
 
-    @Resource
-    private WordService wordService;
+    @Autowired
+    private WordListService wordListService;
 
-    //region 模板生成：基本增删改
+    @Autowired
+    private WordService wordOtherService;
+    @Autowired
+    RedisUtil redisUtil;
+
+    @Autowired
+    WordService wordService;
+
+    private static String ENGLISH_WORDTODO = "English:WordTODO";
+
+    //获取当天的时间
+    Calendar cal = Calendar.getInstance();
+    String day = String.valueOf(cal.get(Calendar.MONTH) + 1) + cal.get(Calendar.DAY_OF_MONTH);
 
     /**
-     * 添加
+     * 根据wordId查找属于它的图片
      *
-     * @param model WordModel
-     * @return 添加的结果
-     * @author 马莹
-     * @since ${version} 2019-06-08 14:26:23
+     * @param wordId 单词Id
+     * @author 闫伟强
+     * @since 2019-08-16 08:47:57
      */
-    @ApiOperation(value = "添加")
-    @PostMapping(value = {"/create"})
-    public ItooResult create(@RequestBody WordModel model) {
-        if (StringUtils.isEmpty(model.getWord())) {
-            return ItooResult.build(ItooResult.FAIL, "word为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture1())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture1为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture2())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture2为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture3())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture3为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture4())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture4为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture5())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture5为空");
-        }
-        if (StringUtils.isEmpty(model.getAudio())) {
-            return ItooResult.build(ItooResult.FAIL, "audio为空");
-        }
-        if (StringUtils.isEmpty(model.getPhonefic())) {
-            return ItooResult.build(ItooResult.FAIL, "phonefic为空");
-        }
-        WordEntity wordEntity = new WordEntity();
-        BeanUtils.copyProperties(model, wordEntity);
-        wordService.save(wordEntity);
-        return ItooResult.build(ItooResult.SUCCESS, "添加成功");
+    @ApiOperation(value = "根据wordId查找属于它的图片")
+    @GetMapping(value = {"/findById"})
+    public ItooResult findWordPicture(String wordId,String word) {
+        WordModel userNewpictureModel = wordListService.findWordPicture(wordId,word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userNewpictureModel);
+    }
+
+
+    /**
+     * 通过单词拼写模糊查询单词 包含就可以
+     *
+     * @param word 单词拼写
+     * @author 闫伟强
+     * @since 2019-08-16 08:47:57
+     */
+    @ApiOperation(value = "通过单词拼写模糊查询单词 包含就可以")
+    @GetMapping(value = {"/findByIdLR"})
+    public ItooResult findWordLR(String word) {
+        List<WordModel> wordModels = wordListService.findWordByNameLR(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModels);
     }
 
     /**
-     * 删除
+     * 通过单词拼写模糊查询单词 以A-Z打头
      *
-     * @param id 主键id
-     * @return ItooResult 是否删除成功
-     * @author 马莹
-     * @since ${version} 2019-06-08 14:26:23
+     * @param word 单词拼写
+     * @author 闫伟强
+     * @since 2019-08-16 08:47:57
      */
-    @ApiOperation(value = "根据id删除（单个）")
-    @DeleteMapping(value = {"/delete/{id}"})
-    public ItooResult delete(@ApiParam(value = "主键id", required = true) @PathVariable String id) {
-        wordService.removeById(id);
-        return ItooResult.build(ItooResult.SUCCESS, "删除成功");
+    @ApiOperation(value = "通过单词拼写模糊查询单词 以A-Z打头")
+    @GetMapping(value = {"/findByIdR"})
+    public ItooResult findWordR(String word) {
+        List<WordModel> wordModels = wordListService.findWordByNameR(word);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModels);
     }
 
-    /**
-     * 批量删除
-     *
-     * @param ids ids
-     * @return ItooResult 批量删除是否成功结果
-     * @author 马莹
-     * @since ${version} 2019-06-08 14:26:23
-     */
-    @ApiOperation(value = "根据id批量删除")
-    @DeleteMapping(value = {"/deleteByIds"})
-    @ApiImplicitParam(name = "ids", value = "ids", dataType = "List<String>", required = true)
-    public ItooResult deleteByIds(@RequestBody List<String> ids) {
-        wordService.removeByIds(ids);
-        return ItooResult.build(ItooResult.SUCCESS, "批量删除成功");
-    }
 
     /**
-     * 修改
+     * 将word表插入Redis
      *
-     * @param model WordModel
-     * @return 修改后的结果
-     * @author 马莹
-     * @since ${version} 2019-06-08 14:26:23
+     * @author 闫伟强
+     * @since 2019-08-16 08:47:57
      */
-    @ApiOperation(value = "根据id修改word")
-    @PutMapping(value = {"/modify"})
-    public ItooResult modify(@RequestBody WordModel model) {
-        if (StringUtils.isEmpty(model.getWord())) {
-            return ItooResult.build(ItooResult.FAIL, "word为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture1())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture1为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture2())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture2为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture3())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture3为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture4())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture4为空");
-        }
-        if (StringUtils.isEmpty(model.getWordPicture5())) {
-            return ItooResult.build(ItooResult.FAIL, "wordPicture5为空");
-        }
-        if (StringUtils.isEmpty(model.getAudio())) {
-            return ItooResult.build(ItooResult.FAIL, "audio为空");
-        }
-        if (StringUtils.isEmpty(model.getPhonefic())) {
-            return ItooResult.build(ItooResult.FAIL, "phonefic为空");
-        }
-        WordEntity wordEntity = new WordEntity();
-        BeanUtils.copyProperties(model, wordEntity);
-        wordService.updateById(wordEntity);
-        return ItooResult.build(ItooResult.SUCCESS, "修改成功");
-    }
-
-    /**
-     * 根据id查找Word
-     *
-     * @param id 主键id
-     * @return 根据id查找的结果
-     * @author 马莹
-     * @since ${version} 2019-06-08 14:26:23
-     */
-    @ApiOperation(value = "根据id查询")
-    @GetMapping(value = {"/findById/{id}"})
-    public ItooResult findById(@ApiParam(value = "主键id", required = true) @PathVariable String id) {
-        WordEntity wordEntity = wordService.getById(id);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
-    }
-
-    /**
-     * 分页查询所有Word
-     *
-     * @return 查询word表中所有数据
-     * @author 马莹
-     * @since 2019-06-08 14:26:23
-     */
-    @ApiOperation(value = "分页查询所有Word")
-    @GetMapping(value = "/queryWordAll")
-    public ItooResult queryWordAll() {
-        List<WordModel> wordList = wordService.queryWordAll();
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordList);
+    @ApiOperation(value = "将word表插入Redis")
+    @GetMapping(value = {"/wordInsertRedis"})
+    public ItooResult wordInsertRedis() {
+        List<WordModel> wordModels = wordListService.wordInsertRedis();
+        return ItooResult.build(ItooResult.SUCCESS, "插入成功", wordModels);
     }
 
     //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
-
     /**
-     * 根据学习任务随机查询单词数量不包含记录表中的数据
-     *
-     * @param setNumber 设定当天学习任务量
-     * @return 任务量条数
-     * @author 谷海涛
-     * @since 2019-6-15 9:41:00
+     * 进入学单词页面初始化加载 根据用户ID，查询需学习的单词ID，audio，picture
+     * @param
+     * @return 根据id查找的结果
+     * @author 邢美玲
+     * @version 1.0.0
+     * @since 2019-08-16 08:47:57
      */
-    @ApiOperation(value = "根据学习任务随机查询单词数量不包含记录表中的数据")
-    @GetMapping(value = "/queryWordData/{setNumber}/{userId}")
-    public ItooResult queryWordData(@ApiParam(name = "setNumber", value = "任务量条数", required = true, example = "10") @PathVariable Integer setNumber,
-                                    @ApiParam(name = "userId", value = "用户id", required = true, example = "1") @PathVariable String userId) {
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.queryWordData(setNumber, userId));
+    @ApiOperation(value = "进入学单词页面初始化加载")
+    @GetMapping(value = {"/queryWordNewPicture"})
+    public ItooResult findWordsById() {
+        WordPartModel listwords = wordOtherService.findWordsById();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", listwords);
+    }
+    /**
+     * 学单词点击下一步，查询需要学习的单词的ID，audio,picture
+     * @param
+     * @return 根据id查找的结果
+     * @author 邢美玲
+     * @version 1.0.0
+     * @since 2019-08-16 08:47:57
+     */
+    @ApiOperation(value = "点击下一步，顺序查询需要学习的内容")
+    @GetMapping(value = {"/getNextWord"})
+    public ItooResult getNextWord() {
+        WordPartModel nextwords = wordOtherService.getNextWord();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", nextwords);
+    }
+    /**
+     * 点击字母查询字母开头的单词学习列表
+     * @param
+     * @return 根据id查找的结果
+     * @author 邢美玲
+     * @version 1.0.0
+     * @since 2019-08-16 08:47:57
+     */
+    @ApiOperation(value = "点击字母查询字母开头的单词学习列表")
+    @GetMapping(value = {"/queryLetterAll"})
+    public ItooResult getWordList(@ApiParam(value = "开头字母拼写", required = true) String word) {
+//        System.out.println(UserUtil.getCurrentUser().getUserId());
+        wordOtherService.undateWordList(word);
+       return ItooResult.build(ItooResult.SUCCESS, "查询成功");
+    }
+    /**
+     * 根据学生id和图片插入到新图表
+     * @return
+     * @author 邢美玲
+     * @version 2.0.0
+     * @since 2019年8月17日21:02:00
+     */
+    @ApiOperation(value = "长按添加图片")
+    @PostMapping(value = {"/insertNewPicture"})
+    public ItooResult createNewPicture(@RequestBody NewPictureAddress newPictureAddress) {
+        //        System.out.println(UserUtil.getCurrentUser().getUserId());
+        //        String userId = UserUtil.getCurrentUser().getUserId();
+        if(newPictureAddress.getWordId() == null || newPictureAddress.getPictureAddress() == null){
+            return ItooResult.build(ItooResult.FAIL, "报错了！");
+        }
+        wordOtherService.insertPicture(newPictureAddress);
+        return ItooResult.build(ItooResult.SUCCESS, "添加成功");
     }
 
     /**
-     * 根据设定学习量查询数据条数
-     *
-     * @param setNumber 设定当天学习任务量
-     * @return 查询任务量条数
-     * @author 马莹
-     * @since 2019-6-9 19:41:00
+     * 添加新图到图片数据库
+     * @return
+     * @author 邢美玲
+     * @version 1.0.0
+     * @since 2019年8月21日19:47:53
      */
-    @ApiOperation(value = "根据设定学习量查询数据条数")
-    @GetMapping(value = "/selDataNum/{setNumber}")
-    public ItooResult selDataNum(@PathVariable Integer setNumber) {
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.selDataNum(setNumber));
+    @ApiOperation(value = "上传图片到fastdfs")
+    @PostMapping(value = "/upLoad")
+    public ItooResult upLoad(@RequestBody MultipartFile multfile) {
+//      System.out.println(UserUtil.getCurrentUser().getUserId());
+//        String userId = "123";
+        try {
+//            NewPictureAddress newPictureAddress = new NewPictureAddress();
+//            newPictureAddress.setWordId(word);
+//            newPictureAddress.setWord(wordId);
+//            if (StringUtils.isEmpty(word) || StringUtils.isEmpty(wordId)) {
+//                return ItooResult.build("1111", "参数错误！");
+//            }
+            String s = wordOtherService.upLoadPicture(multfile);
+            return ItooResult.build("0000","上传成功",s);
+        } catch (Exception e) {
+            return ItooResult.build("1111", "上传失败");
+        }
     }
 
+    /**
+     * 进度条，查询redis中该用户还待学习的数量：
+     * @param
+     * @return 根据id和日期查找
+     * @author 邢美玲
+     * @version 1.0.0
+     * @since 2019年8月25日21:49:13
+     */
+    @ApiOperation(value = "查询redis中该用户还待学习的数量")
+    @GetMapping(value = {"/queryWordNums"})
+    public ItooResult queryWordNums(){
+        System.out.println(UserUtil.getCurrentUser().getUserId());
+        long redisNums  = wordOtherService.queryWordNumsBar();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功",redisNums);
+    }
+
+    /**
+     * 分页查询所有Word
+     *
+     * @return 分页查询的结果
+     * @author 闫伟强
+     * @version 1.0.0
+     * @since 2019-08-16 08:47:57
+     */
+    @ApiOperation(value = "分页查询所有Word")
+    @GetMapping(value = {"/queryPageAll"})
+    public ItooResult queryPageAll( Integer pageNo,Integer pageSize) {
+        List<WordModel> wordModel = wordListService.queryPageAll(pageNo,pageSize);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel);
+    }
 
     /**
      * 查询所有Word
      *
-     * @return 查询的单词总数
-     * @author 邢美玲
-     * @since ${version} 2019年6月9日14:52:28
+     * @return 查询的结果
+     * @author 闫伟强
+     * @version 1.0.0
+     * @since 2019-08-16 08:47:57
      */
-    @ApiOperation(value = "分页查询所有Word数量")
+    @ApiOperation(value = "查询所有Word")
     @GetMapping(value = {"/selectAll"})
-    public ItooResult queryPageAll() {
-        //int allwords;
-        Integer allwords = wordService.selectAll();
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", allwords);
-    }
-
-    /**
-     * 根据当天学习任务量查询
-     *
-     * @param studSum 当天学习任务量
-     * @return Id 返回一个Id值
-     * @author 任嘉颖
-     * @since 2019年6月10日15:13:41
-     */
-    @ApiOperation(value = "根据当天学习任务量查询")
-    @GetMapping(value = "/selectPhoneficPictureById/{studSum}")
-    public ItooResult selectPhoneficPictureById(@PathVariable Integer studSum) {
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功!", wordService.selectPhoneficPictureById(studSum));
+    public ItooResult selectAll() {
+        List<WordModel> wordModel = wordListService.selectAll();
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel);
     }
 
     /**
@@ -242,8 +251,8 @@ public class WordController {
      *
      * @param path 文件路径
      * @return true/false
-     * @author 马莹
-     * @since 2019-6-11 19:31:50
+     * @author 陈广晗
+     * @since 2019-08-30 10:05:18
      */
     @ApiOperation(value = "根据目录结构插入单词")
     @GetMapping(value = "/batchInsert")
@@ -251,99 +260,8 @@ public class WordController {
         try {
             boolean flag = wordService.batchInsert(path);
             return ItooResult.build(ItooResult.SUCCESS, "上传成功!", flag);
-
         } catch (Exception e) {
-            log.error("错误" + e);
             return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
         }
-    }
-
-
-    /**
-     * 根据单词拼写查找状态
-     *
-     * @param word 单词拼写
-     * @return 查询结果
-     * @author 薛帅行
-     * @since 2019年6月11日19:11:05
-     */
-    @ApiOperation(value = "根据单词拼写查找单词音频")
-    @GetMapping(value = {"/queryStateByWord/{word}"})
-    public ItooResult queryStateByWord(@ApiParam(name = "word", value = "单词", required = true) @PathVariable String word) {
-        WordEntity wordEntity = wordService.queryStateByWord(word);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
-    }
-
-    /**
-     * 根据单词拼写查找对应图片
-     *
-     * @param word 单词拼写
-     * @return 查询结果
-     * @author 薛帅行
-     * @since 2019年6月11日19:11:05
-     */
-    @ApiOperation(value = "根据单词拼写查找单词对应图片")
-    @GetMapping(value = {"/queryPictureByWord/{word}"})
-    public ItooResult queryPictureByWord(@ApiParam(name = "word", value = "单词", required = true) @PathVariable String word) {
-        WordEntity wordEntity = wordService.queryPictureByWord(word);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordEntity);
-    }
-
-
-    /**
-     * 根据单词Id查询单词音频
-     *
-     * @param wordId 单词Id
-     * @return 单词音频
-     * @author 张凯超
-     */
-    @ApiOperation(value = "根据单词Id查询单词音频")
-    @GetMapping(value = {"/queryAudioBywordId/{wordId}"})
-    public ItooResult queryAudioBywordId(@ApiParam(name = "wordId", value = "单词Id", required = true) @PathVariable String wordId) {
-        WordModel wordModel = wordService.queryAudioBywordId(wordId);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel.getAudio());
-    }
-
-    /**
-     * 根据用户ID获取用户记录中音标、音标Id
-     *
-     * @param userId 用户Id
-     * @return
-     * @since 2019年6月14日21:24:13
-     */
-    @ApiOperation(value = "根据用户ID获取用户记录中音标Id")
-    @GetMapping({"/queryWordAboutByUserId/{userId}"})
-    public ItooResult queryWordAboutByUserId(@ApiParam(value = "用户Id", name = "userId", required = true) @PathVariable String userId,
-                                             @ApiParam(value = "用户单词任务数", name = "num", required = true, example = "0") @PathVariable Integer num) {
-        List<WordModel> wordModel = wordService.queryWordAboutByUserId(userId, num);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel);
-    }
-
-    /**
-     * 模糊查询word
-     * @param word 单词
-     * @return
-     * @author 白靖
-     * @since 2019年6月22日09:27:28
-     */
-    @ApiOperation(value = "根据单词模糊查询单词表记录")
-    @GetMapping({"/queryLikeWord/{word}"})
-    public ItooResult queryLikeWord(@ApiParam(value = "单词",name = "word",required = true) @PathVariable String word ){
-        List<WordEntity> WordEntity = wordService.queryLikeWord(word);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",WordEntity);
-    }
-
-    /**
-     * 根据id查询数据库或者默认全部,筛选出服务器文件,并且删除服务器文件
-     *
-     * @param dataId 要删除的id
-     * @return true/false
-     * @author 马莹
-     * @since 2019-6-21 20:14:00
-     */
-    @ApiOperation(value = "根据id查询数据库或者默认全部,筛选出服务器文件,并且删除服务器文件")
-    @GetMapping(value = "/delServeFile")
-    public ItooResult delServeFile(@RequestParam(required = false, defaultValue = "") String dataId) {
-        return ItooResult.build(ItooResult.SUCCESS, "删除成功!", wordService.delServeFile(dataId));
     }
 }
