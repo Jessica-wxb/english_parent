@@ -125,9 +125,9 @@ public class WordDetectionService {
             redisUtil.sSet(EnglishRedis.Record + userId + RecordDate.Date() + EnglishRedis.CheckWrong,
                     FastJsonWrapper.toJson(checkWord.getId()));
        }
-//        else {
-//           boolean flag = rankService.addE(userId,1);
-//        }
+        else {
+           boolean flag = rankService.addE(userId,1);
+        }
         redisUtil.sSet(EnglishRedis.Record + userId + RecordDate.Date() + EnglishRedis.CheckWord,
                     FastJsonWrapper.toJson(checkWord));
         WordModel wordModel = new WordModel();

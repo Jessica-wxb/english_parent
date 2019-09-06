@@ -66,6 +66,7 @@ public class RankService {
             item.setRank(rankNewList.indexOf(item) + 1);
         });
 
+        System.out.println(rankNewList);
         return rankNewList;
     }
 

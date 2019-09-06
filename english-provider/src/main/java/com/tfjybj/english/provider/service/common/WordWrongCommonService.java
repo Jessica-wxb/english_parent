@@ -30,6 +30,8 @@ public class WordWrongCommonService {
     RedisToDbService redisToDbService;
 
     @Autowired
+    RankService rankService;
+    @Autowired
     WordWrongDao wordWrongDao;
 
     @Autowired
@@ -139,6 +141,8 @@ public class WordWrongCommonService {
 
         }
         if(isCheck == 1){
+            //归仓检测判断正确 E币增加
+            rankService.addE(userId,2);
             redisUtil.rightPop(EnglishRedis.Record + userId + RecordDate.Date() +":StoreCheckToDo");
             StoreCheckWord storeCheckWord = new StoreCheckWord();
             storeCheckWord.setId(wordId);
