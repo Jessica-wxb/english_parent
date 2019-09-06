@@ -113,7 +113,7 @@ public class WordWrongCommonService {
         }
         redisUtil.lSetAll(EnglishRedis.Record + userId + RecordDate.Date()+":StoreCheckToDo",wordModelList);
         WordTemplteModel wordModel = JSON.parseObject(String.valueOf(redisUtil.leftPop(EnglishRedis.Record + userId+RecordDate.Date()+":StoreCheckToDo")), WordTemplteModel.class);
-//        redisUtil.rghitSet(EnglishRedis.Record + userId+RecordDate.Date()+":StoreCheckToDo",JSON.toJSONString(wordModel));
+        redisUtil.rghitSet(EnglishRedis.Record + userId+RecordDate.Date()+":StoreCheckToDo",JSON.toJSONString(wordModel));
 //        wordModel.setCountWord(wordWrongDao.queryNumCheck(userId)) ;
 
         return wordModel;
@@ -133,6 +133,7 @@ public class WordWrongCommonService {
                 redisUtil.rghitSet(EnglishRedis.Record + userId+RecordDate.Date()+":StoreCheckToDo",JSON.toJSONString(wordWrongModel));
 //                redisUtil.lSet(EnglishRedis.Record + userId + RecordDate.Date() +":StoreCheckToDo",JSON.toJSONString(wordWrongModel));
 
+
 //                WordCheckAndTypeModel wordTemplteModel = new WordCheckAndTypeModel();
 //                BeanUtils.copyProperties(wordWrongModel,wordTemplteModel);
 //                wordTemplteModel.setType("0");
@@ -149,14 +150,15 @@ public class WordWrongCommonService {
             storeCheckWord.setCheck(isCheck);
             redisUtil.sSet(EnglishRedis.Record + userId+RecordDate.Date()+":StoreCheckDone",JSON.toJSONString(storeCheckWord));
             if(redisUtil.hasKey(EnglishRedis.Record + userId + RecordDate.Date() +":StoreCheckToDo")){
+//            if(redisUtil.leftPop(EnglishRedis.Record+userId+RecordDate.Date() +":StoreCheckToDo").toString().isEmpty()){
                 wordWrongModel = JSON.parseObject(String.valueOf( redisUtil.leftPop(EnglishRedis.Record + userId + RecordDate.Date() +":StoreCheckToDo")),WordTemplteModel.class);
-                redisUtil.rghitSet(EnglishRedis.Record + userId+RecordDate.Date()+":StoreCheckToDo",JSON.toJSONString(wordWrongModel));
+                    redisUtil.rghitSet(EnglishRedis.Record + userId+RecordDate.Date()+":StoreCheckToDo",JSON.toJSONString(wordWrongModel));
 //                WordCheckAndTypeModel wordTemplteModel = new WordCheckAndTypeModel();
 //                BeanUtils.copyProperties(wordWrongModelNext,wordTemplteModel);
 //                wordTemplteModel.setType("0");
-                return wordWrongModel;
+                    return wordWrongModel;
+                }
             }
-        }
         return null;
     }
 
