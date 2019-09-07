@@ -62,8 +62,10 @@ UNION
 		WHERE
 			tn_word_record.user_id = #{userId}
 		AND tn_word_record.`status` = 2
+		AND DATE_SUB(CURDATE(),INTERVAL 3 DAY)
 		LIMIT #{num}
 )
+		ORDER BY RAND()
     </select>
 <!--  根据用户ID获取用户未学习记录  -->
     <select id="queryStudyByUserId" resultType="com.tfjybj.english.model.WordModel">
@@ -84,6 +86,7 @@ UNION
         tn_word_wrong.user_id= #{userId}
         AND
         tn_word_wrong.is_study = 0
+        ORDER BY RAND()
     </select>
     <select id="queryNumCheck" resultType="java.lang.Integer">
         SELECT
