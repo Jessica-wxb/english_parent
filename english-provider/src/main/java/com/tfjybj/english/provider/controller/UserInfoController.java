@@ -129,6 +129,21 @@ public class UserInfoController {
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",RankModels);
     }
 
+    /**
+     * @param
+     * @return 从redis的Rank中查询出【我的】用户头像右侧的E币数
+     * @author 王小波
+     * @since 2019年9月8日21:17:38
+     */
+    @ApiOperation(value = "从redis的Rank中查询出【我的】用户头像右侧的E币数")
+    @GetMapping(value = {"/UserRank"})
+    public  ItooResult findUserENum(){
+//        String userId = "2";
+        String userId1 = UserUtil.getCurrentUser().getUserId();
+        RankLocalModel RankModels = rankService.findRankByUserId(userId1);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",RankModels);
+    }
+
 
 
 }

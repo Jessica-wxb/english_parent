@@ -66,6 +66,7 @@ public class RankService {
             item.setRank(rankNewList.indexOf(item) + 1);
         });
 
+        System.out.println(rankNewList);
         return rankNewList;
     }
 
@@ -200,7 +201,7 @@ public class RankService {
             Map<String, Object> map = mineModels.stream().collect(Collectors.toMap(MineModel::getUserId, MineModel -> JSON.toJSONString(MineModel)));
             redisUtil.hmset(EnglishRedis.UserInfo, map);
         }
-//        addInsistDays(userCode);
+        addInsistDays(userCode);
         //MineModel mineModelnew = JSON.parseObject(redisUtil.hget(ENGLISH_USERINFO, userCode), MineModel.class);
         String json = redisUtil.get(EnglishRedis.UserInfo + userCode);
 
@@ -219,7 +220,7 @@ public class RankService {
         // 判断数据库updatetime是否是今天
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
         String timenow = format2.format(Calendar.getInstance().getTime());
-       String timeDate = userInfoDao.selectNowDay(userId);
+        String timeDate = userInfoDao.selectNowDay(userId);
         String[] timeDateNews = timeDate.split(" ");
         timeDate =  timeDateNews[0];
 
@@ -244,5 +245,14 @@ public class RankService {
         } else {
             return ;
         }
+    }
+
+    public RankLocalModel findRankByUserId(String userId) {
+        // 从redis中取数据
+        String EAllNum = redisUtil.hget(EnglishRedis.Rank ,userId);
+        //转类型
+        RankLocalModel RankLocalModel = JSON.parseObject(EAllNum,RankLocalModel.class);
+        return RankLocalModel;
+
     }
 }

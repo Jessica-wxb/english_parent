@@ -49,6 +49,11 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
     // 获取updatetime
     String selectNowDay(String userId);
 
+    // 获取createtime
+        String selectCreateDay(String userId);
+
+
+
     //获取坚持天数
     String selectInsistDays(String userId);
 }
