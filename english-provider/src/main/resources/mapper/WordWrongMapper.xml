@@ -122,10 +122,10 @@ tn_word_record.`status` = 2
     <!--根据userId批量插入wrong表中-陈广晗-->
     <insert id="insertBatch">
         INSERT INTO tn_word_wrong
-        (id, user_id, word_id)
+        (id, user_id, word_id,create_time)
         VALUES
         <foreach collection ="list" item="wordWrong" separator =",">
-            (#{wordWrong.id}, #{wordWrong.userId}, #{wordWrong.wordId})
+            (#{wordWrong.id}, #{wordWrong.userId}, #{wordWrong.wordId},now())
         </foreach >
     </insert>
 
