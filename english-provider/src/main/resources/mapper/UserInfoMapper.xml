@@ -137,6 +137,11 @@
         SELECT  update_time FROM  tn_user_info WHERE id = #{userId}
     </select>
 
+    <!--    获取createtime-->
+    <select id="selectCreateDay" resultType="java.lang.String">
+        SELECT  create_time FROM  tn_user_info WHERE id = #{userId}
+    </select>
+
     <!--获取坚持天数-->
     <select id="selectInsistDays" resultType="java.lang.String">
         SELECT  insist_days FROM  tn_user_info WHERE id = #{userId}
