@@ -142,14 +142,16 @@
 
     <!--查询tn_word_template-->
     <select id="selectWordTemplate" parameterType="string" resultMap="Base_Result_Map_WordTemplate">
-        SELECT
-            *
+SELECT
+           DISTINCT
+					 tn_word_template.word_id,
+					 tn_word_template.right_picture,
+					 tn_word_template.other_picture1,
+					  tn_word_template.other_picture2,
+						 tn_word_template.other_picture3
         FROM
             tn_word_template
-        WHERE
+               WHERE
             word_id = #{wordId};
   </select>
-
-
-
 </mapper>
