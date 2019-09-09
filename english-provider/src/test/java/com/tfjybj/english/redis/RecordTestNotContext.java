@@ -19,7 +19,7 @@ public class RecordTestNotContext {
         UserNewpictureModel userNewpictureModel = new UserNewpictureModel();
         userNewpictureModel.setUserId("123");
         userNewpictureModel.setWordId("234");
-        userNewpictureModel.setPictures("456");
+        userNewpictureModel.setPictureAddress("456");
         userNewpictureModels.add(userNewpictureModel);
 
         Map<String,Object> map= userNewpictureModels.stream().collect(Collectors.toMap(UserNewpictureModel -> UserNewpictureModel.getUserId() + UserNewpictureModel.getWordId() , UserNewpictureModel::toString));
