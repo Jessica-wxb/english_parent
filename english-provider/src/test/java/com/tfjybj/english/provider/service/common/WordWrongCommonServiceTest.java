@@ -44,18 +44,24 @@ public class WordWrongCommonServiceTest extends TestBaseProject {
     public void queryStoreCheckWord() {
 //        WordModel wordWrongModel = wordWrongCommonService.queryStoreCheckWord("1");
 //        System.out.println(wordWrongModel.toString());
-    }
-
-    @Test
-    public void queryNextStoreCheckWord() {
-//        WordTemplteModel wordWrongModel = wordWrongCommonService.queryNextStoreCheckWord("1");
-//        System.out.println(wordWrongModel.toString());
-}
-
-//    @Test
-//    public void updateStoreWord() {
-//        WordModel falg = wordWrongCommonService.updateStoreWord("1","1140955044372324359");
-//        WordModel falg1 = wordWrongCommonService.updateStoreCheckWord("1","1140955044372324359",false);
-//        System.out.println(falg + " --- " + falg1);
 //    }
+//
+//    @Test
+//    public void queryStoreCheckWord() {
+////        WordModel wordWrongModel = wordWrongCommonService.queryStoreCheckWord("1");
+////        System.out.println(wordWrongModel.toString());
+//    }
+//
+//    @Test
+//    public void queryNextStoreCheckWord() {
+////        WordTemplteModel wordWrongModel = wordWrongCommonService.queryNextStoreCheckWord("1");
+////        System.out.println(wordWrongModel.toString());
+//}
+//
+////    @Test
+////    public void updateStoreWord() {
+////        WordModel falg = wordWrongCommonService.updateStoreWord("1","1140955044372324359");
+////        WordModel falg1 = wordWrongCommonService.updateStoreCheckWord("1","1140955044372324359",false);
+////        System.out.println(falg + " --- " + falg1);
+    }
 }
