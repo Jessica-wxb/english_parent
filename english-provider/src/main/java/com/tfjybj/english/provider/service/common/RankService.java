@@ -224,10 +224,11 @@ public class RankService {
         String[] timeDateNews = timeDate.split(" ");
         timeDate =  timeDateNews[0];
 
+        boolean time = timeDate.equals(timenow);
 
 
 
-        if (needStudyNums <= 0 && timenow != timeDate ) {//根据时间和剩余学习单词数量判断是否 坚持天数加1
+        if (needStudyNums <= 0 && !time ) {//根据时间和剩余学习单词数量判断是否 坚持天数加1
 
             // insistday +1
             userInfoDao.updateInsistDay(userId);

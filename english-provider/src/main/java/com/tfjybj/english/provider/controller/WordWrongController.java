@@ -195,7 +195,7 @@ public class WordWrongController {
         WordTemplteModel wordModel = wordWrongCommonService.queryNextStoreCheckWord(userId,wordId,isCheck);
         if (wordModel==null)
             {
-                redisToDbService.StoreCheckDoneToDB(model.getId());
+//                redisToDbService.StoreCheckDoneToDB(model.getId());
                 return ItooResult.build("2222","记录为空");
             }
 
