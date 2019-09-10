@@ -250,12 +250,19 @@ public class RankService {
         }
     }
 
+
+    /**
+     * @param
+     * @return 从redis的Rank中查询出【我的】用户头像右侧的E币数
+     * @author 王小波
+     * @since 2019年9月8日21:17:38
+     */
     public RankLocalModel findRankByUserId(String userId) {
         // 从redis中取数据
         String EAllNum = redisUtil.hget(EnglishRedis.Rank ,userId);
         //转类型
-        RankLocalModel RankLocalModel = JSON.parseObject(EAllNum,RankLocalModel.class);
-        return RankLocalModel;
+        RankLocalModel RankByUserIdModel = JSON.parseObject(EAllNum,RankLocalModel.class);
+        return RankByUserIdModel;
 
     }
 }
