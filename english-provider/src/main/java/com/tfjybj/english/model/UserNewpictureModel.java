@@ -16,11 +16,16 @@ public class UserNewpictureModel {
      */
     @ApiModelProperty(value = "单词id" )
     private String wordId;
+    /**
+     * 单词id
+     */
+    @ApiModelProperty(value = "单词" )
+    private String word;
 
     /**
      * 图片id
      */
-    @ApiModelProperty(value = "图片id" )
-    private String pictures;
+    @ApiModelProperty(value = "图片" )
+    private String pictureAddress;
 
 }

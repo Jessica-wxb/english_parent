@@ -179,7 +179,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     /**
      * 学单词-点击下一步
      * xml
-     *
      * @param
      * @return
      */
@@ -194,7 +193,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                 return null;
             }
         }
-
         // 从redis中按照顺序取出需要学习的单词
         WordPartModel wordPartModel = JSON.parseObject((String) redisUtil.leftPop(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo), WordPartModel.class);
 
@@ -204,7 +202,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         //根据当前用户的wordId把学习完的插入到doneWords
         String wordId = wordPartModel.getId();
         redisUtil.sSet(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.Done, wordId);
-
         // 判断是否有新图，将新图表中的数据替换旧的
         if (!redisUtil.hasKey(EnglishRedis.NewPicture + UserUtil.getCurrentUser().getUserId() + "_" + wordId)) {
             return wordPartModel;
@@ -213,7 +210,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         if (userNewPicture == null) {
             return wordPartModel;
         }
-        String[] pictureStr = userNewPicture.getPictures().split(",");
+        String[] pictureStr = userNewPicture.getPictureAddress().split(",");
         List<String> pictures = new ArrayList<>();
         for (int i = 0; i < pictureStr.length; i++) {
             pictures.add(pictureStr[i]);
@@ -281,19 +278,18 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         String userId = UserUtil.getCurrentUser().getUserId();
         // String  userId = "1";
         newPictureAddress.setUserId(userId);
-
         boolean flag = true;
         // 判断新图缓存中是否有这个用户的新图ID
         // 如果有,取出来做对比
         // 如果没有，直接插入到数据库中，带着三个参数 userId ,word, wordId
         if (redisUtil.hasKey(EnglishRedis.NewPicture + userId + "_" + newPictureAddress.getWordId())) {
-            // 取出这个单词下的图片
-            UserNewpictureModel address = JSON.parseObject(redisUtil.get(EnglishRedis.NewPicture + userId + "_" + newPictureAddress.getWordId()), UserNewpictureModel.class);
-            String addresses = address.getPictures();
-            String[] addressList = addresses.split(",");
+            // 取出这个单词下的图片 string类型转换成model类型
+            UserNewpictureModel  address = JSON.parseObject(redisUtil.get(EnglishRedis.NewPicture + userId + "_" + newPictureAddress.getWordId()), UserNewpictureModel.class);
+            String addresses = address.getPictureAddress();
+           String[] addressList = addresses.split(",");
             List<String> addressArray = Arrays.asList(addressList);
             // 以上是对获取的图片转格式
-            //  判断图片地址是否是空的
+            // 判断图片地址是否是空的
             if (!CollectionUtils.isEmpty(addressArray)) {
                 // 不是空的，循环遍历做对比
                 for (int i = 0; i < addressArray.size(); i++) {
@@ -313,11 +309,11 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                     addresses = addresses + "," + newPictureAddress.getPictureAddress();
                     UserNewpictureModel userNewpictureModel = new UserNewpictureModel();
                     userNewpictureModel.setWordId(newPictureAddress.getWordId());
-                    userNewpictureModel.setPictures(addresses);
-                    redisUtil.set(EnglishRedis.NewPicture + userId + "_" + userNewpictureModel.getWordId(), JSON.toJSONString(addresses));
+                    userNewpictureModel.setWord(newPictureAddress.getWord());
+                    userNewpictureModel.setPictureAddress(addresses);
+                    redisUtil.set(EnglishRedis.NewPicture + userId + "_" + userNewpictureModel.getWordId(), JSON.toJSONString(userNewpictureModel));
                 }
             }
-
         } else {
             // 带着参数，把单词插入到数据库中
             wordDao.insertNewPicturea(IdWorker.getIdStr(), newPictureAddress.getUserId(), newPictureAddress.getWordId(), newPictureAddress.getPictureAddress());
