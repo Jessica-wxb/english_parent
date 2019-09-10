@@ -129,9 +129,9 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         }
         // 判断 Redis中的todo是否有数据
         // 如果有数据，就需要return next
-        if (redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo)) {
-            return getNextWord();
-        } else {
+//        if (redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo)) {
+//            return getNextWord();
+//        } else {
             //获取今天要学习的单词数量：
             //获取该用户的setting数量和今天已学单词的数量，相减(count)
             //count:如果数值小于等于0，为setting值；如果大于0，为该数量
@@ -151,7 +151,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                 }
             }
             int needStudyNums = wordDao.findWordnumsById(UserUtil.getCurrentUser().getUserId()); //今天还需要的学习数量 = 今天设置的单词数 - 今天已学单词
-            // 判断是否全部学完
+            // 判断所有单词是否全部学完
             int unStudyNums = wordDao.findOtherworsById(UserUtil.getCurrentUser().getUserId());// 未学习的单词数量 = 所有单词 - 该用户已学单词
             List<WordPartModel> listWord = new ArrayList<>();// 当天待学习的单词ID
             List<WordPartModel> listOldWord = new ArrayList<>();// 第一轮完成或许学过的待学习单词ID
@@ -171,9 +171,10 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                 listWord.addAll(listOldWord);
             }
             // 把所有待学习的单词和图片放入到redis中
+            redisUtil.del(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()+day+EnglishRedis.WordToDo);
             redisUtil.lSetAll(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo, listWord, 24 * 3600);
             return getNextWord();
-        }
+//        }
     }
 
     /**
