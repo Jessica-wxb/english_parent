@@ -170,8 +170,14 @@ public class WordController {
         if(newPictureAddress.getWordId() == null || newPictureAddress.getPictureAddress() == null){
             return ItooResult.build(ItooResult.FAIL, "报错了！");
         }
-        wordOtherService.insertPicture(newPictureAddress);
-        return ItooResult.build(ItooResult.SUCCESS, "添加成功");
+        boolean flag = wordOtherService.insertPicture(newPictureAddress);
+        if(flag){
+            return ItooResult.build(ItooResult.SUCCESS, "添加成功");
+        }
+        else {
+            return ItooResult.build(ItooResult.FAIL,"添加失败");
+        }
+
     }
 
     /**

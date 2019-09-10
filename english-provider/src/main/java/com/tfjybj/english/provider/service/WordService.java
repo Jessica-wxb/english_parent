@@ -30,7 +30,7 @@ public interface WordService extends BaseServicePlus<WordEntity> {
     void undateWordList(String word);
 
     //插入图片地址--邢美玲
-    void insertPicture(NewPictureAddress newPictureAddress);
+    boolean  insertPicture(NewPictureAddress newPictureAddress);
 
     //插入fastdfs---邢美玲--2019年8月21日
     String upLoadPicture(MultipartFile file) throws IOException;

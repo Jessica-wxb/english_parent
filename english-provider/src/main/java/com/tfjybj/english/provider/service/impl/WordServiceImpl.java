@@ -272,7 +272,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
      * @return
      */
     @Override
-    public void insertPicture(NewPictureAddress newPictureAddress) {
+    public boolean insertPicture(NewPictureAddress newPictureAddress) {
         //从所有图片的redis中查询，对应图片word的pictureaddress放入到list中
         System.out.println(UserUtil.getCurrentUser().getUserId());
         String userId = UserUtil.getCurrentUser().getUserId();
@@ -320,6 +320,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
             // 把新添加的图片set到缓存中
             redisUtil.set(EnglishRedis.NewPicture + userId + "_" + newPictureAddress.getWordId(), JSON.toJSONString(newPictureAddress));
         }
+        return flag;
     }
 
     // 插入fastdfs---邢美玲--2019年8月21日
