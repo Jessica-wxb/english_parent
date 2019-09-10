@@ -181,7 +181,18 @@ public class RankService {
     public MineModel Mine(String userCode){
         //从Token中获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
+        //redis中查询是否有userInfo
+        boolean flag = redisUtil.hasKey(EnglishRedis.UserInfo + userCode);
+        if (!flag) {
+            List<MineModel> mineModels = userInfoDao.queryMineByUserId(userId);
+            Map<String, Object> map = mineModels.stream().collect(Collectors.toMap(MineModel::getUserId, MineModel -> JSON.toJSONString(MineModel)));
+            redisUtil.hmset(EnglishRedis.UserInfo, map);
+        }
 
+        //从数据库中查询出用户学过的所有单词数量--为了让数据库更新
+        int allWordNum1 = wordRecordDao.queryAllWordNumByuserId(userId);
+        //先刷新一遍数据库，避免数据错误
+        int needStudyNums = wordDao.findWordnumsById(UserUtil.getCurrentUser().getUserId());
         //从数据库中查询出用户学过的所有单词数量
         int allWordNum = wordRecordDao.queryAllWordNumByuserId(userId);
         //从redis中获取
@@ -193,18 +204,9 @@ public class RankService {
         //转Json存到redis中
         redisUtil.set(EnglishRedis.UserInfo+userCode, JSON.toJSONString(allWordNumModel));
 
-        //redis中查询是否有userInfo
-        boolean flag = redisUtil.hasKey(EnglishRedis.UserInfo + userCode);
-
-        if (!flag) {
-            List<MineModel> mineModels = userInfoDao.queryMineByUserId(userId);
-            Map<String, Object> map = mineModels.stream().collect(Collectors.toMap(MineModel::getUserId, MineModel -> JSON.toJSONString(MineModel)));
-            redisUtil.hmset(EnglishRedis.UserInfo, map);
-        }
         addInsistDays(userCode);
         //MineModel mineModelnew = JSON.parseObject(redisUtil.hget(ENGLISH_USERINFO, userCode), MineModel.class);
         String json = redisUtil.get(EnglishRedis.UserInfo + userCode);
-
         MineModel mineModelnew = JSON.parseObject(json,MineModel.class);
         return mineModelnew;
     }
