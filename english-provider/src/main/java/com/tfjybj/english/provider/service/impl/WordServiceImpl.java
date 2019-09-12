@@ -120,7 +120,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
      * @since 2019-08-16 08:47:57
      */
     @Override
-    public WordPartModel findWordsById() {
+    public WordPartModel findWordsById(String userCode) {
         System.out.println(UserUtil.getCurrentUser().getUserId());
         //从redis中Done数据同步到数据库中
         Boolean flag = redisToDbService.doneToDB(UserUtil.getCurrentUser().getUserId());
@@ -173,7 +173,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
             // 把所有待学习的单词和图片放入到redis中
             redisUtil.del(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()+day+EnglishRedis.WordToDo);
             redisUtil.lSetAll(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo, listWord, 24 * 3600);
-            return getNextWord();
+            return getNextWord(userCode);//董可有修改
 //        }
     }
 
@@ -183,7 +183,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
      * @param
      * @return
      */
-    public WordPartModel getNextWord() {
+    public WordPartModel getNextWord(String userCode) { //董可 添加了userCode
         System.out.println(UserUtil.getCurrentUser().getUserId());
 
         // 判断缓存中是否有待学习的内容
@@ -198,7 +198,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         WordPartModel wordPartModel = JSON.parseObject((String) redisUtil.leftPop(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo), WordPartModel.class);
 
         // E 币数量加1-
-        rankService.addE(UserUtil.getCurrentUser().getUserId(), 1);
+        rankService.addE(UserUtil.getCurrentUser().getUserId(),userCode,1);
 
         //根据当前用户的wordId把学习完的插入到doneWords
         String wordId = wordPartModel.getId();

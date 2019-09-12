@@ -21,10 +21,10 @@ public interface WordService extends BaseServicePlus<WordEntity> {
 
 
     //根据userid查询返回需要学习的words-邢美玲
-    WordPartModel findWordsById();
+    WordPartModel findWordsById(String userCode);//董可增加了userCode
 
     // 学单词点击下一步---邢美玲
-    WordPartModel getNextWord();
+    WordPartModel getNextWord(String userCode);
 
     //点击字母更新学习列表---邢美玲
     void undateWordList(String word);

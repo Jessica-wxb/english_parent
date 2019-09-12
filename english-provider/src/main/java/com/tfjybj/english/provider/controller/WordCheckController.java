@@ -44,7 +44,7 @@ public class WordCheckController {
      */
     @ApiOperation(value = "修改单词状态,返回下一条数据")
     @PutMapping ( value = {"/modify"})
-    public ItooResult modify(@RequestBody CheckWord model) {
+    public ItooResult modify(@RequestBody CheckWord model,String userCode) {
         if (StringUtils.isEmpty(model.getId())){
             return ItooResult.build(ItooResult.FAIL, "单词Id为空");
         }
@@ -52,7 +52,7 @@ public class WordCheckController {
             return ItooResult.build(ItooResult.FAIL, "单词检测状态为空");
         }
         String userId=UserUtil.getCurrentUser().getUserId();
-        WordModel wordModel=wordDetectionService.DetectNext(model,userId);
+        WordModel wordModel=wordDetectionService.DetectNext(model,userId,userCode);
         if (wordModel.getId()==null){
             return ItooResult.build("2222", "记录为空",wordModel);
         }
