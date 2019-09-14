@@ -95,7 +95,6 @@ public class WordController {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModels);
     }
 
-
     /**
      * 将word表插入Redis
      *
@@ -177,7 +176,6 @@ public class WordController {
         else {
             return ItooResult.build(ItooResult.FAIL,"添加失败");
         }
-
     }
 
     /**

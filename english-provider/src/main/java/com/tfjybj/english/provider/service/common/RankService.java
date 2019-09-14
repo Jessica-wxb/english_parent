@@ -138,7 +138,7 @@ public class RankService {
         boolean flag = redisUtil.hasKey(EnglishRedis.Rank);
         if (!flag) {//如果redis中没有数据，则从数据库中拿数据
             List<RankModel> rankModelList = userInfoDao.queryUserIdEAllNum();
-            Map<String, Object> map = rankModelList.stream().collect(Collectors.toMap(RankModel::getUserId, RankModel::toString));
+            Map<String, Object> map = rankModelList.stream().collect(Collectors.toMap(RankModel::getUserId, RankModel->JSON.toJSONString(RankModel)));
             redisUtil.hmset(EnglishRedis.Rank, map);
         }
         //从redis中拿数据
