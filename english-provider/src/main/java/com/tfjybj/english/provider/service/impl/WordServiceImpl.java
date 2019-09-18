@@ -437,5 +437,12 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         }
         return flag;
     }
+
+    @Override
+    public boolean deleteNull() throws IOException {
+        return wordDao.deleteNull();
+    }
+
+
 }
 

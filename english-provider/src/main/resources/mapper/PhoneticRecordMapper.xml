@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tfjybj.english.provider.dao.PhoneticRecordDao">
+    <!--将已经学习完的音标同步到DB-->
+    <insert id="insertList">
+        INSERT INTO tn_phonetic_record
+        (id, user_id, phonetic,is_check,create_time)
+        VALUES
+        <foreach collection="list" item="PhoneticRecord" separator=",">
+            (#{PhoneticRecord.id}, #{PhoneticRecord.userId}, #{PhoneticRecord.phonetic},0,now())
+        </foreach>
+    </insert>
+
+    <select id="findPhoneticCheck" resultType="java.lang.String">
+        SELECT
+           DISTINCT phonetic
+        FROM
+            tn_phonetic_record
+        WHERE
+            user_id = #{userId}
+            AND create_time > DATE( CURDATE( ) ) -1
+            AND is_check = 0
+</select>
+    <update id="modfiyIsCheck">
+        <foreach collection="list" item="phoneticRecord" index="index" open="" close="" separator=";">
+            update tn_phonetic_record
+            <set>
+                is_check=#{phoneticRecord.isCheck}
+            </set>
+            where phonetic = #{phoneticRecord.phonetic}and user_id=#{phoneticRecord.userId}
+        </foreach>
+    </update>
+
+    <select id="checkPhoneticNums" resultType="java.lang.Integer">
+        SELECT
+            Count( * ) AS phonetic_check_nums
+        FROM
+            tn_phonetic_record
+        WHERE
+            user_id = #{userId}
+            and is_check=0
+            and create_time > DATE( CURDATE( ) ) -1
+    </select>
+</mapper>

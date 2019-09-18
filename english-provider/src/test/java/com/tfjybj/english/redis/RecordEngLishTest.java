@@ -10,6 +10,9 @@ import com.tfjybj.english.model.WordDetection;
 import com.tfjybj.english.provider.service.UserSetService;
 import com.tfjybj.english.provider.service.common.UserInfoAndSetService;
 import com.tfjybj.english.provider.service.common.WordDetectionService;
+import com.tfjybj.english.provider.service.impl.PhoneticServiceImpl;
+import com.tfjybj.english.provider.service.impl.PhoneticWordServiceImpl;
+import com.tfjybj.english.provider.service.impl.WordPhoneticServiceImpl;
 import com.tfjybj.english.utils.cache.RedisUtil;
 import com.tfjybj.english.utils.http.HttpUtils;
 import com.tfjybj.english.utils.http.ResponseWrap;
@@ -40,6 +43,17 @@ public class RecordEngLishTest extends TestBaseProject {
 
     @Autowired
     WordDetectionService wordDetectionService;
+
+
+    @Autowired
+    PhoneticWordServiceImpl phoneticWordService;
+
+    @Autowired
+    WordPhoneticServiceImpl wordPhoneticService;
+
+    @Autowired
+    PhoneticServiceImpl phoneticService;
+
 
     @Test
     public void test(){
@@ -108,11 +122,27 @@ public class RecordEngLishTest extends TestBaseProject {
 
     }
 
-//    @Test
+    @Test
+    public void daoru(){
+        wordDetectionService.toWordTemplate();
+    }
+
+
+    @Test
+    public void PhoneticWordInsertRedis(){
+        phoneticWordService.PhoneticWordInsertRedis();
+    }
+    @Test
+    public void WordPhoneticInsertRedis(){
+        wordPhoneticService.WordPhoneticInsertRedis();
+    }
+    @Test
+    public void PhoneticInsertRedis(){
+        phoneticService.PhoneticInsertRedis();
+    }
+    //    @Test
 //    public void daoru(){
 //        wordDetectionService.toWordTemplate();
 //    }
-
-
 
 }

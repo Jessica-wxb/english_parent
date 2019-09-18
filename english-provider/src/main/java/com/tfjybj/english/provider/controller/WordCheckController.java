@@ -58,4 +58,19 @@ public class WordCheckController {
         }
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", wordModel);
     }
+
+    /**
+     * 导入单词检测所需信息
+     * @return 单词信息
+     */
+    @ApiOperation(value="将单词检测的数据导入")
+    @GetMapping(value={"/toWordTemplate"})
+    public ItooResult toWordTemplate(String english){
+
+        if (english.equals("english")){
+            wordDetectionService.toWordTemplate();
+            return ItooResult.build(ItooResult.SUCCESS, "操作成功");
+        }
+        return ItooResult.build(ItooResult.SUCCESS, "操作失败");
+    }
 }

@@ -9,6 +9,8 @@ public class EnglishRedis {
     public static String Detection="ENGLISH:DETECTION:";
     public static String Rank="ENGLISH:RANK:";
     public static String NewPicture="ENGLISH:NEWPICTURE:";
+    public static String Phonetic = "ENGLISH:RECORD:PHONETIC:";
+    public static String ToDo=":ToDo";
     public static String Done=":Done";
     public static String CheckWord=":CheckWord";
     public static String CheckWrong=":CheckWrong";
@@ -18,4 +20,10 @@ public class EnglishRedis {
     public static String WordToDo=":TODOWords";
     public static String StoreDone=":StoreDone";
     public static String StoreCheckDone=":StoreCheckDone";
+    public static String allPhonetic="ENGLISH:PHONETIC:";
+    public static String wordPhonetic="ENGLISH:WORD_PHONETIC:";
+    public static String phnoeticWord="ENGLISH:PHONETIC_WORD:";
+    public static String CheckDone=":CheckDone";
+    public static String PHONETICID="ENGLISH:PHONETIC:";
+
 }

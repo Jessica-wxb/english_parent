@@ -269,4 +269,25 @@ public class WordController {
             return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
         }
     }
+    /**
+     * 删除空值
+     *
+     * @param path 密码
+     * @return true/false
+     * @author 陈广晗
+     * @since 2019-08-30 10:05:18
+     */
+    @ApiOperation(value = "删除空值")
+    @GetMapping(value = "/deletenull")
+    public ItooResult deletenull(@RequestParam String path) {
+        try {
+            if(path.equals("english")){
+                boolean flag = wordService.deleteNull();
+                return ItooResult.build(ItooResult.SUCCESS, "操作成功!", flag);
+            }
+            return ItooResult.build(ItooResult.SUCCESS, "操作失败!");
+        } catch (Exception e) {
+            return ItooResult.build(ItooResult.FAIL, "操作失败!");
+        }
+    }
 }

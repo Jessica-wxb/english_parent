@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tfjybj.english.provider.dao.PhoneticDao">
+
+    <insert id="phonePathInstert" parameterType="com.tfjybj.english.entity.PhoneticEntity">
+        INSERT into tn_phonetic
+        (phonetic,phonetic_audio,phonetic_pic,video,knack,word_audio1,word_audio2,word_audio3)
+        VALUES
+        (#{phonetic},#{phoneticAudio},#{phoneticPic},#{video},#{knack},#{wordAudio1},#{wordAudio2},#{wordAudio3})
+    </insert>
+
+    <select id="PhoneticInsertRedis" resultType="com.tfjybj.english.entity.PhoneticEntity">
+        SELECT
+            *
+        FROM
+            tn_phonetic
+    </select>
+
+
+</mapper>

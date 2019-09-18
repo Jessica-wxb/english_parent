@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tfjybj.english.provider.dao.WordPhoneticDao">
+    <!-- 将单词选音标导入数据库-陈广晗-2019-09-06 20:31:41-->
+    <insert id="phonePathInstert" parameterType="com.tfjybj.english.entity.WordPhoneticEntity">
+        INSERT into tn_word_phonetic
+        (phonetic,word_audio,correct_audio,correct_pic,false_audio,false_pic)
+        VALUES
+        (#{phonetic},#{wordAudio},#{correctAudio},#{correctPic},#{falseAudio},#{falsePic})
+    </insert>
+
+
+
+	<select id="WordPhoneticInsertRedis" resultType="com.tfjybj.english.entity.WordPhoneticEntity">
+		SELECT
+			*
+		FROM
+			tn_word_phonetic
+	</select>
+</mapper>
