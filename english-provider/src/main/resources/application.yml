@@ -264,3 +264,5 @@ fdfs:
 logging:
   level:
     ROOT: WARN,DEBUG,ERROR,INFO
+sso-access: true
+auth-login: https://dmsdbj.com/auth-web/access/login

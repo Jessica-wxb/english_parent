@@ -1,8 +1,10 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.dmsdbj.itoo.sso.utils.UserUtil;
 import com.github.pagehelper.util.StringUtil;
 import com.google.common.collect.Maps;
+import com.tfjybj.english.entity.PhoneticWordEntity;
 import com.tfjybj.english.entity.PhoneticWrongEntity;
 import com.tfjybj.english.model.PhoneticStoreModel;
 import com.tfjybj.english.model.PhoneticWordModel;
@@ -81,5 +83,15 @@ public class PhoneticWrongServiceImpl extends BaseServicePlusImpl<PhoneticWrongD
             redisUtil.rghitSet(EnglishRedis.Phonetic + phoneticWrongModel.getUserId()+":" + RecordDate.Date() + EnglishRedis.StoreCheckToDo, FastJsonWrapper.toJson(map));
         }
         return this.Initialisation(phoneticWrongModel.getUserId());
+    }
+    /**
+     * 查询是否有需要音标归仓的数据
+     *
+     * @author 闫伟强
+     * @since 2019年9月17日10:05:49
+     */
+    public Boolean FindStoreNums(){
+        String userId= UserUtil.getCurrentUser().getUserId();
+        return redisUtil.hasKey(EnglishRedis.Phonetic + userId + ":" + RecordDate.Date() + EnglishRedis.StoreCheckToDo);
     }
 }

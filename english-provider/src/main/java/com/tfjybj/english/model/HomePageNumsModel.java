@@ -22,5 +22,5 @@ public class HomePageNumsModel {
 
     private Integer phoneticCheckNums;
     //音标归仓
-    private Integer phoneticStore;
+    private Boolean phoneticStoreToDo;
 }

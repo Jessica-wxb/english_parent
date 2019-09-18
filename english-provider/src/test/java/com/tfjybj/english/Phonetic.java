@@ -19,4 +19,11 @@ public class Phonetic {
         String url = uploadPictureUntil.uploadPicture(file);
         System.out.println(url);
     }
+
+    @Test
+    public void upload(){
+        File file = new File("D:\\桌面\\no sound.mp3");
+        String uploadPath = uploadPictureUntil.uploadPicture(file);
+        System.out.println(uploadPath);
+    }
 }

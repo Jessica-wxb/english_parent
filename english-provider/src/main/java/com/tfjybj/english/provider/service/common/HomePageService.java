@@ -8,6 +8,7 @@ import com.tfjybj.english.provider.dao.UserSetDao;
 import com.tfjybj.english.provider.dao.WordRecordDao;
 import com.tfjybj.english.provider.dao.WordWrongDao;
 import com.tfjybj.english.provider.service.*;
+import com.tfjybj.english.provider.service.impl.PhoneticWrongServiceImpl;
 import com.tfjybj.english.utils.EnglishRedis;
 import com.tfjybj.english.utils.RecordDate;
 import com.tfjybj.english.utils.cache.RedisUtil;
@@ -44,6 +45,9 @@ public class HomePageService  {
 
     @Autowired
     PhoneticRecordDao phoneticRecordDao;
+
+    @Autowired
+    PhoneticWrongServiceImpl phoneticWrongService;
 //    private RedisUtil<Object> redisUtil;
 @Autowired
 WordWrongDao wordWrongDao;
@@ -139,6 +143,7 @@ WordWrongDao wordWrongDao;
         redisToDbService.PhoneticCheckDoneToDB(userId);
         redisToDbService.PhoneticToDoToDB(userId, RecordDate.Date());
         homePageNumsModel.setPhoneticCheckNums(phoneticRecordDao.checkPhoneticNums(userId));
+        homePageNumsModel.setPhoneticStoreToDo(phoneticWrongService.FindStoreNums());
         return homePageNumsModel;
     }
 
