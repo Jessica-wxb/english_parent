@@ -119,7 +119,7 @@ public class WordWrongCommonService {
      * @param userId 用户ID
      * @return
      */
-    public WordTemplteModel queryNextStoreCheckWord(String userId,String wordId , Integer isCheck){
+    public WordTemplteModel queryNextStoreCheckWord(String userId,String userCode,String wordId , Integer isCheck){
         WordTemplteModel wordWrongModel = new WordTemplteModel();
         //需要在检测
         if (isCheck == 0){
@@ -136,7 +136,7 @@ public class WordWrongCommonService {
         }
         if(isCheck == 1){
             //归仓检测判断正确 E币增加
-            rankService.addE(userId,2);
+            rankService.addE(userId,userCode,2);//董可加了userCode
             redisUtil.rightPop(EnglishRedis.Record + userId + RecordDate.Date() +":StoreCheckToDo");
             StoreCheckWord storeCheckWord = new StoreCheckWord();
             storeCheckWord.setId(wordId);
@@ -173,11 +173,11 @@ public class WordWrongCommonService {
      * @param isCheck 是否正确
      * @return
      */
-    public WordTemplteModel updateStoreCheckWord(String userId,String wordId,Integer isCheck){
+    public WordTemplteModel updateStoreCheckWord(String userId,String userCode,String wordId,Integer isCheck){
         if(isCheck  == 1 ){
           wordWrongDao.updateCheckByUserId(userId,wordId);
         }
-        return  queryNextStoreCheckWord(userId,wordId,isCheck);
+        return  queryNextStoreCheckWord(userId,userCode ,wordId,isCheck);//董可加了userCode
     }
 
 
