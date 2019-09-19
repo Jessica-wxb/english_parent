@@ -1,8 +1,8 @@
 spring:
   profiles:
- #  active: @profileActive@
-    active: dev
-auth-login: http://192.168.22.52:8081/auth-web/access/login
+   active: prod
+auth-login: https://dmsdbj.com/auth-web/access/login
+#auth-login: http://192.168.22.52:8081/auth-web/access/login
 ---
 
 server:
@@ -251,6 +251,7 @@ xxl:
 
 # fastdfs-prod
 fdfs:
+  groupName: group1
   so-timeout: 1500
   connect-timeout: 600
   tracker-list: 192.168.22.99:22122
@@ -258,6 +259,7 @@ fdfs:
   replace-ip:
     source: 192.168.22.99
     dest: 192.168.22.99
+
     #pool:
     #jmx-enabled:false
 
