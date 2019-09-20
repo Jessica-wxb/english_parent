@@ -2,11 +2,9 @@ package com.tfjybj.english.provider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.UserInfoEntity;
-import com.tfjybj.english.model.UserPartModel;
+import com.tfjybj.english.model.*;
 import org.springframework.stereotype.Repository;
 
-import com.tfjybj.english.model.MineModel;
-import com.tfjybj.english.model.RankModel;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -56,4 +54,14 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
 
     //获取坚持天数
     String selectInsistDays(String userId);
+
+    //获取用户当前宠物列表
+    UserPetListModel qureyPetListByUserId(@Param("userId") String userId);
+
+    /**
+     * 根据userId在tn_user_info表中查询当前宠物
+     * @param  userId
+     * @return usePet
+     */
+    List<UsePetModel> getUsePet(String userId);
 }

@@ -1,6 +1,7 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.tfjybj.english.entity.UserInfoEntity;
+import com.tfjybj.english.model.UserPetListModel;
 import com.tfjybj.english.provider.dao.UserInfoDao;
 import com.tfjybj.english.provider.service.UserInfoService;
 import com.dmsdbj.itoo.tool.base.service.impl.BaseServicePlusImpl;
@@ -21,8 +22,16 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao,UserInf
 	//region 模板生成
     @Resource
     private UserInfoDao userInfoDao;
-	
-	//endregion
+
+
+    @Override
+    public UserPetListModel qureyPetListByUserId(String userId) {
+        return userInfoDao.qureyPetListByUserId(userId);
+    }
+
+    //endregion
 
     /* **********************************以下为非模板生成的内容********************************* */
+
+
 }

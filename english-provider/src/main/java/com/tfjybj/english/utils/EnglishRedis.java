@@ -18,4 +18,5 @@ public class EnglishRedis {
     public static String WordToDo=":TODOWords";
     public static String StoreDone=":StoreDone";
     public static String StoreCheckDone=":StoreCheckDone";
+    public static String UsePet="ENGLISH:USEPET:";
 }

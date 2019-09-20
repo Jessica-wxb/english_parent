@@ -21,4 +21,9 @@ public class MineModel {
     private String insistDays;
     private String wordNum;
     private String eNowNum;
+
+    public String getENowNum(String valueOf){
+        return eNowNum;
+
+    }
 }

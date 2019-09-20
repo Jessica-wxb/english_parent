@@ -5,21 +5,25 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dmsdbj.itoo.sso.utils.UserUtil;
 import com.google.common.collect.Maps;
+import com.tfjybj.english.Enum.PetListEnumUntil;
 import com.tfjybj.english.model.*;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 
+import com.tfjybj.english.provider.service.common.UsePetService;
 import com.tfjybj.english.provider.service.common.UserInfoAndSetService;
 import com.tfjybj.english.model.MineModel;
 import com.tfjybj.english.model.RankLocalModel;
 import com.tfjybj.english.model.RankModel;
 
 import com.tfjybj.english.provider.service.common.RankService;
+import com.tfjybj.english.provider.service.UserInfoService;
 import io.swagger.annotations.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +45,12 @@ public class UserInfoController {
 
     @Autowired
     private UserInfoAndSetService userInfoAndSetService;
+
+    @Autowired
+    private UserInfoService userInfoService;
+
+    @Autowired
+    private UsePetService usePetService;
 
     /**
      * 用户登录
@@ -143,6 +153,94 @@ public class UserInfoController {
         RankLocalModel RankModels = rankService.findRankByUserId(userId1);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",RankModels);
     }
+
+    /**
+     *     E币商城页面初始化的时候判断宠物是否带锁
+     *         1、根据userId获取用户的宠物列表pet_list.
+     *         2、将pet_list与PetListEnumUtil遍历对比。
+     *         3、将petName相同的petUrl传到前端
+     * @Param userId
+     * @return 用户所拥有宠物前端文件地址（pet_list）
+     * @author
+     * @since 2019年9月18日
+     */
+
+    @ApiOperation(value = "E币商城页面初始化的时候判断宠物是否带锁")
+    @GetMapping(value = "/queryPetListByUserId")
+    public ItooResult queryPetListByUserId(){
+        String userId = UserUtil.getCurrentUser().getUserId();
+        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
+        // 截取；号前的数据
+        String [] urls = userPetListModel.getPetUrl().split(";");
+        List<String> list = new ArrayList<>();
+        // 将截取的数据于枚举对比获得宠物地址
+        for (String url:urls){
+            if (PetListEnumUntil.PET_DOG.getPetName().equals(url)){
+                list.add(PetListEnumUntil.PET_DOG.getPetUrl());
+            }
+            if (PetListEnumUntil.PET_CAT.getPetName().equals(url)){
+                list.add(PetListEnumUntil.PET_CAT.getPetUrl());
+            }
+            if (PetListEnumUntil.PET_RABBIT.getPetName().equals(url)){
+                list.add(PetListEnumUntil.PET_RABBIT.getPetUrl());
+            }
+            if (PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(url)){
+                list.add(PetListEnumUntil.PET_RABBIT.getPetUrl());
+            }
+        }
+        // 将对比的宠物地址设置
+        userPetListModel.setPetUrls(list);
+        if(userPetListModel == null){
+            return ItooResult.build(ItooResult.FAIL,"查询失败",userPetListModel);
+        }
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",userPetListModel);
+    }
+
+    /**
+     * @param
+     * @return 查询当前使用宠物
+     * @author
+     * @since 2019年9月19日15:13:33
+     */
+    @ApiOperation(value = "查询当前正在使用的宠物")
+    @GetMapping(value = "/queryUsePetByUserId")
+    public ItooResult queryUsePetByUserId(){
+        UsePetModel usePetModelNew = usePetService.queryUsePetByUserId();
+        // 获取当前正在使用的宠物usePet
+        String urls = usePetModelNew.getUsePet();
+//        String usePetUrl;
+        List<String> list = new ArrayList<>();
+        // 将查询到的用户当前正在使用的宠物与枚举对比获取当前宠物地址
+        if(PetListEnumUntil.PET_DOG.getPetName().equals(urls)){
+            String usePetUrl = PetListEnumUntil.PET_DOG.getPetUrl();
+            return ItooResult.build(ItooResult.SUCCESS,"查询成功",usePetUrl);
+
+        }
+        else if(PetListEnumUntil.PET_CAT.getPetName().equals(urls)){
+            String usePetUrl = PetListEnumUntil.PET_CAT.getPetUrl();
+            return ItooResult.build(ItooResult.SUCCESS,"查询成功",usePetUrl);
+
+        }
+        else if(PetListEnumUntil.PET_RABBIT.getPetName().equals(urls)){
+            String usePetUrl = PetListEnumUntil.PET_RABBIT.getPetUrl();
+            return ItooResult.build(ItooResult.SUCCESS,"查询成功",usePetUrl);
+
+        }
+        else if(PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(urls)){
+            String usePetUrl = PetListEnumUntil.PET_SUPER_RABBIT.getPetUrl();
+            return ItooResult.build(ItooResult.SUCCESS,"查询成功",usePetUrl);
+        }
+
+        // 如何将查询出的当前宠物路径返回给前端？？？？？
+        if(usePetModelNew == null){
+            return ItooResult.build(ItooResult.FAIL,"查询失败",usePetModelNew);
+        }
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",usePetModelNew);
+    }
+
+
+
+
 
 
 
