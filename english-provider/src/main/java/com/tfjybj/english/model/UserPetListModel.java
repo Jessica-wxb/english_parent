@@ -6,6 +6,7 @@ import java.util.ArrayList;
 @Data
 public class UserPetListModel {
     private String petName;
-    private String petUrl;
+//    private String petUrl;
+    private String petList;
     private List<String> petUrls;
 }

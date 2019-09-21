@@ -63,5 +63,11 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
      * @param  userId
      * @return usePet
      */
-    List<UsePetModel> getUsePet(String userId);
+    UsePetModel getUsePet(String userId);
+
+
+    UserInfoModel buyPet(@Param("userId") String userId, @Param("PetList") String PetList,@Param("usePet") String usePet);
+
+
+    UserInfoModel changeUsePet(String userId, String usePet);
 }

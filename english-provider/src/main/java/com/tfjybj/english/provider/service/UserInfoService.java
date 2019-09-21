@@ -3,6 +3,7 @@ package com.tfjybj.english.provider.service;
 import com.tfjybj.english.entity.UserInfoEntity;
 import com.dmsdbj.itoo.tool.base.service.BaseServicePlus;
 import com.tfjybj.english.model.RankModel;
+import com.tfjybj.english.model.UserInfoModel;
 import com.tfjybj.english.model.UserPetListModel;
 
 import java.util.List;
@@ -27,4 +28,7 @@ public interface UserInfoService extends BaseServicePlus<UserInfoEntity> {
     UserPetListModel qureyPetListByUserId(String userId);
 
 
+    UserInfoModel buyPet(String userId, String PetList,String usePet);
+
+    UserInfoModel changeUsePet(String userId,String usePet);
 }

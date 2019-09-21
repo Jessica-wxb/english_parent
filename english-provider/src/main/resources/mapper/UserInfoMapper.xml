@@ -122,6 +122,31 @@
 
         where id =#{userId}
     </update>
+
+    <!--根据userId去更新用户的petList-->
+    <update id="buyPet">
+        update tn_user_info
+        <set>
+            pet_list =#{PetList},
+            use_pet =#{usePet}
+        </set>
+        where id =#{userId}
+
+
+    </update>
+    <!--根据userId去更新用户的petList和usePet-->
+    <update id="changeUsePet">
+        update tn_user_info
+        <set>
+            pet_list =#{PetList},
+            use_pet =#{UsePet}
+        </set>
+        where id =#{userId}
+
+    </update>
+    <!--    <update id="buyPet">-->
+<!--        -->
+<!--    </update>-->
     <!--根据userId查询当前登录用户的user_name,e_all_num-->
     <select id="queryUserIdAddE" resultMap="Base_Result_Map_ITEM_USER">
         SELECT
@@ -153,12 +178,12 @@
         FROM
             tn_user_info
         WHERE
-             tn_user_info.id = # {userId}
+             tn_user_info.id = #{userId}
 
     </select>
     <select id="getUsePet" resultType="com.tfjybj.english.model.UsePetModel">
        SELECT
-           id,use_pet
+           use_pet
        FROM
            tn_user_info
         WHERE

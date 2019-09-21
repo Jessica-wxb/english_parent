@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 
-@Service("EStoreUpdateENowNumService")
+@Service("eStoreUpdateENowNumService")
 public class EStoreUpdateENowNumService{
 
     @Autowired
@@ -35,7 +35,9 @@ public class EStoreUpdateENowNumService{
 
     public String UpdateENum(String userCode,String expensedENum){
         // 获取userId
-        String userId = UserUtil.getCurrentUser().getUserId();
+//        String userId = UserUtil.getCurrentUser().getUserId();
+        String userId = "1071008933394640898";
+//        String userCode ="1233213";
         // 在redis中查询是否有userInfo
         boolean flag = redisUtil.hasKey(EnglishRedis.UserInfo + userCode);
         // 判断redis里面是否存在有e_now_num,如果redis中有数据则查询成功，
