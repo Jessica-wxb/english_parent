@@ -61,5 +61,8 @@ public class UserPartModel {
      */
     @ApiModelProperty(value = "每次学习数量",required = true)
     private Integer studyNumber;
+    public String getENowNum(String valueOf){
+        return eNowNum;
 
+    }
 }

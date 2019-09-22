@@ -261,7 +261,7 @@ public class UserInfoController {
     public ItooResult buyPet(String userCode,String expensedENum,String description,String usePet){
         // 获取userId
 //        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008930534125570";
+        String userId = "1071008933394640898";
 
          // 购买成功之后往E币消费记录表tn_e_expensed_record中插入一条消费记录
        insertExpensedRecordService.InsertExpensedRecord(IdWorker.getIdStr(),userId,description,expensedENum);
@@ -283,31 +283,13 @@ public class UserInfoController {
 
         UserInfoModel userInfoModel=userInfoService.buyPet(userId,PetList,usePet);
 
-
-        return ItooResult.build(ItooResult.SUCCESS,"宠物购买成功");
+        return ItooResult.build(ItooResult.SUCCESS,"宠物购买成功",userInfoModel);
     }
 
     public ItooResult changeUsePet(String usePet){
         // 获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
-//        UserInfoModel userInfoModel=userInfoService.buyPet(userId,PetList,usePet);
         UserInfoModel userInfoModel = userInfoService.changeUsePet(userId,usePet);
-        // 查询出当前的宠物列表
-        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
-        // 截取；号前的数据
-//        String [] urls = userPetListModel.getPetUrl().split(";");
-        String [] urls =userPetListModel.getPetList().split(";");
-        // 将替换的宠物于查询出的pet_list进行对比，如果有相同的则将改宠物的位置换到第一位
-
-
-//        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
-
-//        String PetList = userPetListModel.getPetList();
-//        StringBuilder sb = new StringBuilder(PetList);
-//        sb.insert(0,usePet+";"); // 在执行的位置0，插入指定的字符串
-//        PetList = sb.toString();
-
-//        UserInfoModel userInfoModel=userInfoService.buyPet(userId,PetList,usePet);
         return ItooResult.build(ItooResult.SUCCESS,"更换宠物成功");
     }
 

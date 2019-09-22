@@ -2,6 +2,7 @@ package com.tfjybj.english.provider.service.common;
 
 import com.alibaba.fastjson.JSON;
 import com.dmsdbj.itoo.sso.utils.UserUtil;
+import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.tfjybj.english.model.MineModel;
 import com.tfjybj.english.provider.dao.UserInfoDao;
 import com.tfjybj.english.utils.EnglishRedis;
@@ -33,7 +34,7 @@ public class EStoreUpdateENowNumService{
      *@Version 1.0
      **/
 
-    public String UpdateENum(String userCode,String expensedENum){
+    public  String UpdateENum(String userCode,String expensedENum){
         // 获取userId
 //        String userId = UserUtil.getCurrentUser().getUserId();
         String userId = "1071008933394640898";
@@ -59,8 +60,8 @@ public class EStoreUpdateENowNumService{
         // 将用户当前的eNowNum减去被消费的E币数expensedENum，将得出最新可用的eNowNum值set到mineModel里面
         mineModel.setENowNum(String.valueOf(Integer.valueOf(mineModel.getENowNum())-Integer.valueOf(expensedENum)) );
        // 将得出的ENowNum保存到redis里面
-        redisUtil.sSet(EnglishRedis.UserInfo+userCode,JSON.toJSONString(mineModel));
-        return  eNowNum;
+        redisUtil.set(EnglishRedis.UserInfo+userCode,JSON.toJSONString(mineModel));
+        return mineModel.getENowNum();
 
     }
 

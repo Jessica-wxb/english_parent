@@ -132,14 +132,13 @@
         </set>
         where id =#{userId}
 
-
     </update>
     <!--根据userId去更新用户的petList和usePet-->
     <update id="changeUsePet">
         update tn_user_info
         <set>
-            pet_list =#{PetList},
-            use_pet =#{UsePet}
+--             pet_list =#{PetList},
+            use_pet =#{usePet}
         </set>
         where id =#{userId}
 

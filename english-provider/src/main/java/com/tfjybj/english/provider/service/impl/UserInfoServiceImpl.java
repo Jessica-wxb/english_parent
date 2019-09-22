@@ -50,9 +50,24 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao,UserInf
 
     @Override
     public UserInfoModel changeUsePet(String userId,String usePet) {
+        // 更新redis中ENGLISH:USEPET:userId的value值
+        redisUtil.sSet(EnglishRedis.UsePet+UserUtil.getCurrentUser().getUserId(), JSON.toJSONString(usePet));
+
         // 查询出用户的宠物列表pet_list
         UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
-        redisUtil.sSet(EnglishRedis.UsePet+UserUtil.getCurrentUser().getUserId(), JSON.toJSONString(usePet));
+        // 截取；号前的数据
+        String [] PetList = userPetListModel.getPetName().split(";");
+        String usePetUrl = null;
+//        // 将查询到的用户当前正在使用的宠物与枚举对比获取当前宠物地址
+//        if(PetList.equals(usePet)){
+////            usePetUrl = PetListEnumUntil.PET_DOG.getPetUrl();
+//            String usePetSplit = remove.(PetList.equals(usePet));
+//        }
+        // 将查询出的pet_list和用户刚刚更换的usePet进行对比，如果相等就删掉，存到一个变量usePetSplit里面
+
+        // 将刚更换的usePet插入到usePetSplit里面的第0个位置，存到petListNew里面
+
+
         return userInfoDao.changeUsePet(userId,usePet);
     }
 
