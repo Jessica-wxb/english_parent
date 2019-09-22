@@ -230,6 +230,9 @@
             <properties>
                 <profileActive>dev</profileActive>
             </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
 
         </profile>
         <profile>
@@ -244,9 +247,6 @@
             <properties>
                 <profileActive>prod</profileActive>
             </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
         </profile>
     </profiles>
 </project>
