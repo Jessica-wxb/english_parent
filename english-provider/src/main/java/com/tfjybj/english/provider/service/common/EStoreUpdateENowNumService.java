@@ -36,8 +36,8 @@ public class EStoreUpdateENowNumService{
 
     public  String UpdateENum(String userCode,String expensedENum){
         // 获取userId
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008933394640898";
+        String userId = UserUtil.getCurrentUser().getUserId();
+//        String userId = "1071008933394640898";
 //        String userCode ="1233213";
         // 在redis中查询是否有userInfo
         boolean flag = redisUtil.hasKey(EnglishRedis.UserInfo + userCode);

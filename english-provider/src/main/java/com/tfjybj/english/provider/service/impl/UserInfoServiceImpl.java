@@ -1,9 +1,7 @@
 package com.tfjybj.english.provider.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.dmsdbj.itoo.sso.utils.UserUtil;
 import com.tfjybj.english.entity.UserInfoEntity;
-import com.tfjybj.english.model.UserInfoModel;
 import com.tfjybj.english.model.UserPetListModel;
 import com.tfjybj.english.provider.dao.UserInfoDao;
 import com.tfjybj.english.provider.service.UserInfoService;
@@ -40,7 +38,7 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao,UserInf
     }
 
     @Override
-    public UserInfoModel buyPet(String userId, String PetList,String usePet) {
+    public boolean buyPet(String userId, String PetList, String usePet) {
 //        System.out.println(UserUtil.getCurrentUser().getUserId());
 //        String userId = "1071008933394640898";
         redisUtil.set(EnglishRedis.UsePet+userId, JSON.toJSONString(usePet));
@@ -49,15 +47,15 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao,UserInf
     }
 
     @Override
-    public UserInfoModel changeUsePet(String userId,String usePet) {
+    public boolean changeUsePet(String userId, String usePet) {
         // 更新redis中ENGLISH:USEPET:userId的value值
-        redisUtil.sSet(EnglishRedis.UsePet+UserUtil.getCurrentUser().getUserId(), JSON.toJSONString(usePet));
+        redisUtil.set(EnglishRedis.UsePet+ userId, JSON.toJSONString(usePet));
 
         // 查询出用户的宠物列表pet_list
-        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
-        // 截取；号前的数据
-        String [] PetList = userPetListModel.getPetName().split(";");
-        String usePetUrl = null;
+//        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
+//        // 截取；号前的数据
+//        String [] PetList = userPetListModel.getPetName().split(";");
+//        String usePetUrl = null;
 //        // 将查询到的用户当前正在使用的宠物与枚举对比获取当前宠物地址
 //        if(PetList.equals(usePet)){
 ////            usePetUrl = PetListEnumUntil.PET_DOG.getPetUrl();

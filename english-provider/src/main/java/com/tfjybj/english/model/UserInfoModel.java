@@ -65,6 +65,17 @@ public class UserInfoModel implements Serializable {
 	@ApiModelProperty(value = "当前持有E币数量",required = true )
 	private String eNowNum;
 
+	/**
+	 * 用户当前使用宠物
+	 */
+	@ApiModelProperty(value = "用户当前使用宠物",required = true)
+	private String usePet;
+
+	/**
+	 *用户当前拥有宠物
+	 */
+	@ApiModelProperty(value = "用户当前拥有宠物",required = true)
+	private String petList;
     //endregion
 
      /* *****************************以下是非模板生成的内容************************************ */

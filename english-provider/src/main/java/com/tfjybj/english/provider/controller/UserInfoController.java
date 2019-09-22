@@ -260,8 +260,8 @@ public class UserInfoController {
     @GetMapping(value = "/buyPet/userCode/expensedENum/description/usePet")
     public ItooResult buyPet(String userCode,String expensedENum,String description,String usePet){
         // 获取userId
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008933394640898";
+        String userId = UserUtil.getCurrentUser().getUserId();
+//        String userId = "1071008933394640898";
 
          // 购买成功之后往E币消费记录表tn_e_expensed_record中插入一条消费记录
        insertExpensedRecordService.InsertExpensedRecord(IdWorker.getIdStr(),userId,description,expensedENum);
@@ -281,15 +281,26 @@ public class UserInfoController {
         sb.insert(0,usePet+";"); // 在执行的位置0，插入指定的字符串
         PetList = sb.toString();
 
-        UserInfoModel userInfoModel=userInfoService.buyPet(userId,PetList,usePet);
-
-        return ItooResult.build(ItooResult.SUCCESS,"宠物购买成功",userInfoModel);
+//        UserInfoModel userInfoModel=userInfoService.buyPet(userId,PetList,usePet);
+        boolean userInfoModel=userInfoService.buyPet(userId,PetList,usePet);
+//        return ItooResult.build(ItooResult.SUCCESS,"宠物购买成功",userInfoModel);
+        return ItooResult.build(ItooResult.SUCCESS,"宠物购买成功");
     }
 
-    public ItooResult changeUsePet(String usePet){
+    /**
+     * @param
+     * @return 购买宠物
+     * @author
+     * @since 2019年9月19日15:13:33
+     */
+    @ApiOperation(value = "更换宠物形象")
+    @GetMapping(value = "/changeUsePet/userCode/usePet")
+    public ItooResult changeUsePet(String userCode,String usePet){
+//        String userId = "1071008933394640898";
         // 获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
-        UserInfoModel userInfoModel = userInfoService.changeUsePet(userId,usePet);
+        boolean userInfoModel = userInfoService.changeUsePet(userId,usePet);
+
         return ItooResult.build(ItooResult.SUCCESS,"更换宠物成功");
     }
 

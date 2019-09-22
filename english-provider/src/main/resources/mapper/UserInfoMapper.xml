@@ -137,7 +137,6 @@
     <update id="changeUsePet">
         update tn_user_info
         <set>
---             pet_list =#{PetList},
             use_pet =#{usePet}
         </set>
         where id =#{userId}

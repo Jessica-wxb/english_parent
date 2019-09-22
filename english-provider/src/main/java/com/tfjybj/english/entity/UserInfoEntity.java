@@ -68,5 +68,18 @@ public class UserInfoEntity extends BaseEntity implements Serializable {
 	@Column(name = "e_now_num")
 	private String eNowNum;
 
+	/**
+	 * 用户当前使用宠物
+	 */
+	@ApiModelProperty(value = "" ,required = true)
+	@Column(name = "use_pet")
+	private String usePet;
+
+	/**
+	 * 用户当前拥有宠物
+	 */;
+	@ApiModelProperty(value ="" ,required = true)
+	@Column(name = "pet_list")
+	private String petLisl;
 
 }
