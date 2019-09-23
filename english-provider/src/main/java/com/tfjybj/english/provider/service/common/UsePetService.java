@@ -28,22 +28,22 @@ public class UsePetService {
      * @Date 2019年9月20日14:05:56
      */
     public String queryUsePetByUserId(){
+        /*
+            0.先从redis中查询UsePet
+            判断redis里面是否存在UsePet
+            1.是->查询成功
+            2.不是->从数据库查
+                2.1 数据库存在,从库中查，并将得出的ENowNum同步到redis
+                    2.1.1 从redis中取出数据 UsePet
+        */
         // 从taken中获取userId
-        String userId = "1071008929686876162";
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        // 从redis中查询是否有UsePet
+        String userId = UserUtil.getCurrentUser().getUserId();
         boolean flag = redisUtil.hasKey(EnglishRedis.UsePet + userId);
         if (!flag) {
             UsePetModel usePetModels = userInfoDao.getUsePet(userId);
-//            Map<String, Object> map = usePetModels.stream().collect(Collectors.toMap(UsePetModel::getUsePet, UsePetModel -> JSON.toJSONString(UsePetModel)));
             redisUtil.set(EnglishRedis.UsePet+userId,usePetModels.getUsePet() );
         }
-        // 从redis中获取
         String userPetJson = redisUtil.get(EnglishRedis.UsePet + userId);
-        // 转实体
-//        UsePetModel usePetModelNew = JSON.parseObject(userPetJson,UsePetModel.class);
-
-
         return userPetJson;
     }
 

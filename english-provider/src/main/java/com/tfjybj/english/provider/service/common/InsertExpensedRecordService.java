@@ -18,8 +18,9 @@ public class InsertExpensedRecordService {
 
 
     public String InsertExpensedRecord(String id,String userId, String description, String expensedENum){
-        // 获取userID
-      //  String userId = UserUtil.getCurrentUser().getUserId();
+        /*
+            0.往E表消费记录表中插入数据，如果返货的b>0则插入成功，否则插入失败
+        */
          int b= eExpensedRecordDao.InsertExpensedRecord(id,userId,description,expensedENum);
          if(b>0) {
              return ItooResult.SUCCESS;

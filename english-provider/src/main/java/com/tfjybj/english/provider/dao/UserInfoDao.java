@@ -6,7 +6,6 @@ import com.tfjybj.english.model.*;
 import org.springframework.stereotype.Repository;
 
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -69,6 +68,6 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
 //    UserInfoModel buyPet(@Param("userId") String userId, @Param("PetList") String PetList,@Param("usePet") String usePet);
     boolean buyPet(@Param("userId") String userId, @Param("PetList") String PetList,@Param("usePet") String usePet);
 
+//    boolean changeUsePet(@Param("userId") String userId, @Param("usePet") String usePet, @Param("petList") String petList);
     boolean changeUsePet(@Param("userId") String userId, @Param("usePet") String usePet);
-
 }

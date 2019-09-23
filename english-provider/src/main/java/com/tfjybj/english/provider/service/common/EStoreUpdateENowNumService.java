@@ -35,31 +35,29 @@ public class EStoreUpdateENowNumService{
      **/
 
     public  String UpdateENum(String userCode,String expensedENum){
+        /*
+          0.先从redis中查询e_now_num
+            判断redis里面是否存在e_now_num
+            1.是->查询成功
+            2.不是->从数据库查
+                2.1 数据库存在,从库中查，并将得出的ENowNum同步到redis
+            3. 从redis中取出数据
+               3.1.并将取出的数据转化成实体
+               3.2从实体中取出ENowNum
+               3.3 将ENowNum的值减去消费的E币数=新的ENowNum,并存到redis中
+         */
         // 获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
-//        String userId = "1071008933394640898";
-//        String userCode ="1233213";
-        // 在redis中查询是否有userInfo
         boolean flag = redisUtil.hasKey(EnglishRedis.UserInfo + userCode);
-        // 判断redis里面是否存在有e_now_num,如果redis中有数据则查询成功，
-        // 如果redis里面不存在e_now_num，就到数据库中的tn_user_info表中去查，
-        // 如果数据库中有数据，就将tn_user_info中的e_now_num存到redis中，
-        // 然后从redis中查询出e_now_num，并更新redis的e_now_num
         if(!flag){
             List<MineModel> mineModels = userInfoDao.queryMineByUserId(userId);
             Map<String,Object> map = mineModels.stream().collect(Collectors.toMap(MineModel::getUserId,MineModel -> JSON.toJSONString(MineModel)));
             redisUtil.hmset(EnglishRedis.UserInfo,map);
         }
-        // 从redis中获取
         String MineModelJson = redisUtil.get(EnglishRedis.UserInfo + userCode);
-        // 转实体
         MineModel mineModel = JSON.parseObject(MineModelJson,MineModel.class);
-        // 获取e_now_num
-        // 在MineModel中添加了个getENowNum的方法
         String eNowNum = mineModel.getENowNum(String.valueOf(mineModel));
-        // 将用户当前的eNowNum减去被消费的E币数expensedENum，将得出最新可用的eNowNum值set到mineModel里面
         mineModel.setENowNum(String.valueOf(Integer.valueOf(mineModel.getENowNum())-Integer.valueOf(expensedENum)) );
-       // 将得出的ENowNum保存到redis里面
         redisUtil.set(EnglishRedis.UserInfo+userCode,JSON.toJSONString(mineModel));
         return mineModel.getENowNum();
 

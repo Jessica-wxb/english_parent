@@ -182,8 +182,8 @@ public class UserInfoController {
     @ApiOperation(value = "E币商城页面初始化的时候判断宠物是否带锁")
     @GetMapping(value = "/queryPetListByUserId")
     public ItooResult queryPetListByUserId(){
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008929686876162";
+        String userId = UserUtil.getCurrentUser().getUserId();
+//        String userId = "1071008929686876162";
         UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
         // 截取；号前的数据
        String[] urls = userPetListModel.getPetList().split(";");
@@ -229,24 +229,23 @@ public class UserInfoController {
         if(userPetJson == null){
             return ItooResult.build(ItooResult.FAIL,"查询失败");
         }
-        // 获取当前正在使用的宠物usePet的路径给前端返回去
-        String usePetUrl = null;
-        // 将查询到的用户当前正在使用的宠物与枚举对比获取当前宠物地址
-        if(PetListEnumUntil.PET_DOG.getPetName().equals(userPetJson)){
-            usePetUrl = PetListEnumUntil.PET_DOG.getPetUrl();
-        }
-
-        if (PetListEnumUntil.PET_CAT.getPetName().equals(userPetJson)){
-            usePetUrl = PetListEnumUntil.PET_CAT.getPetUrl();
-        }
-         if(PetListEnumUntil.PET_RABBIT.getPetName().equals(userPetJson)){
-             usePetUrl = PetListEnumUntil.PET_RABBIT.getPetUrl();
-        }
-         if(PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(userPetJson)){
-             usePetUrl = PetListEnumUntil.PET_SUPER_RABBIT.getPetUrl();
-        }
-
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",usePetUrl);
+//        // 获取当前正在使用的宠物usePet的路径给前端返回去
+//        String usePetUrl = null;
+//        // 将查询到的用户当前正在使用的宠物与枚举对比获取当前宠物地址
+//        if(PetListEnumUntil.PET_DOG.getPetName().equals(userPetJson)){
+//            usePetUrl = PetListEnumUntil.PET_DOG.getPetUrl();
+//        }
+//
+//        if (PetListEnumUntil.PET_CAT.getPetName().equals(userPetJson)){
+//            usePetUrl = PetListEnumUntil.PET_CAT.getPetUrl();
+//        }
+//         if(PetListEnumUntil.PET_RABBIT.getPetName().equals(userPetJson)){
+//             usePetUrl = PetListEnumUntil.PET_RABBIT.getPetUrl();
+//        }
+//         if(PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(userPetJson)){
+//             usePetUrl = PetListEnumUntil.PET_SUPER_RABBIT.getPetUrl();
+//        }
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",userPetJson);
     }
 
 
@@ -259,14 +258,21 @@ public class UserInfoController {
     @ApiOperation(value = "购买宠物")
     @GetMapping(value = "/buyPet/userCode/expensedENum/description/usePet")
     public ItooResult buyPet(String userCode,String expensedENum,String description,String usePet){
+
+        /*
+            购买宠物->成功之后：
+            0.往E币消费记录表tn_e_expensed_record中插入一条消费记录
+            1.更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
+            2.更新数据库中的usePet和petList
+            3.用户在E币商城消费后，更新用户当前可用的ENowNum
+            购买宠物->失败之后：提示插入失败
+        */
+
+
         // 获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
-//        String userId = "1071008933394640898";
-
          // 购买成功之后往E币消费记录表tn_e_expensed_record中插入一条消费记录
        insertExpensedRecordService.InsertExpensedRecord(IdWorker.getIdStr(),userId,description,expensedENum);
-
-
         // 从redis中查询当前用户正在使用的宠物，如果没有从tn_user_info表中查询当前宠物，然后同步到redis中
         usePetService.queryUsePetByUserId();
 
@@ -281,15 +287,13 @@ public class UserInfoController {
         sb.insert(0,usePet+";"); // 在执行的位置0，插入指定的字符串
         PetList = sb.toString();
 
-//        UserInfoModel userInfoModel=userInfoService.buyPet(userId,PetList,usePet);
         boolean userInfoModel=userInfoService.buyPet(userId,PetList,usePet);
-//        return ItooResult.build(ItooResult.SUCCESS,"宠物购买成功",userInfoModel);
         return ItooResult.build(ItooResult.SUCCESS,"宠物购买成功");
     }
 
     /**
      * @param
-     * @return 购买宠物
+     * @return  更换宠物形象
      * @author
      * @since 2019年9月19日15:13:33
      */
