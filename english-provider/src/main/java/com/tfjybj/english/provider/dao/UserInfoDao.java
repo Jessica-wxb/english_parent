@@ -55,7 +55,7 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
     String selectInsistDays(String userId);
 
     //获取用户当前宠物列表
-    UserPetListModel qureyPetListByUserId(@Param("userId") String userId);
+    UserPetListModel queryPetListByUserId(@Param("userId") String userId);
 
     /**
      * 根据userId在tn_user_info表中查询当前宠物

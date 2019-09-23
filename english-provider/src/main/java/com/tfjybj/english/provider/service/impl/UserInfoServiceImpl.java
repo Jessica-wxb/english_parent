@@ -30,9 +30,9 @@ import java.util.stream.Stream;
  * @since 2019-08-16 08:47:57
  */
 @Service("userInfoService")
-public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserInfoEntity> implements UserInfoService {
-
-    //region 模板生成
+public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao,UserInfoEntity> implements UserInfoService {
+	
+	//region 模板生成
     @Resource
     private UserInfoDao userInfoDao;
     @Autowired
@@ -41,13 +41,13 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
     private UserInfoService userInfoService;
     @Autowired
     private UsePetService usePetService;
-    @Resource
-    private UserUtil userUtil;
+//    @Resource
+//    private UserUtil userUtil;
 
 
     @Override
-    public UserPetListModel qureyPetListByUserId(String userId) {
-        return userInfoDao.qureyPetListByUserId(userId);
+    public UserPetListModel queryPetListByUserId(String userId) {
+            return userInfoDao.queryPetListByUserId(userId);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
         // 查询当前宠物usePet
         String userPetJson = usePetService.queryUsePetByUserId();
         // 查询出用户的宠物列表pet_list
-        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
+        UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
 
         /**
          *  1、 截取；号前的数据

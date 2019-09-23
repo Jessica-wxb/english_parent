@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.dmsdbj.itoo.sso.utils.UserUtil;
 import com.google.common.collect.Maps;
 import com.tfjybj.english.Enum.PetListEnumUntil;
-import com.tfjybj.english.entity.EExpensedRecordEntity;
 import com.tfjybj.english.model.*;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 
@@ -46,6 +45,10 @@ import java.util.Map;
 @RequestMapping(value = "/userInfo")
 @RestController
 public class UserInfoController {
+
+
+    @Autowired
+    private RankService rankService;
 
     @Autowired
     private UserInfoAndSetService userInfoAndSetService;
@@ -90,9 +93,6 @@ public class UserInfoController {
         }
         return ItooResult.build("401", "登录失败,请重新登录!");
     }
-
-    @Autowired
-    private RankService rankService;
 
 
     /**
@@ -184,34 +184,31 @@ public class UserInfoController {
     public ItooResult queryPetListByUserId(){
         String userId = UserUtil.getCurrentUser().getUserId();
 //        String userId = "1071008929686876162";
-        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
+        UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
         // 截取；号前的数据
-       String[] urls = userPetListModel.getPetList().split(";");
+       String[] names = userPetListModel.getPetList().split(";");
         List<String> list = new ArrayList<>();
 
         // 将截取的数据于枚举对比获得宠物地址
-        for (String url:urls){
-            if (PetListEnumUntil.PET_DOG.getPetName().equals(url)){
-                list.add(PetListEnumUntil.PET_DOG.getPetUrl());
+        for (String name:names){
+            if (PetListEnumUntil.PET_DOG.getPetName().equals(name)){
+                list.add(PetListEnumUntil.PET_DOG.getPetName());
             }
-            if (PetListEnumUntil.PET_CAT.getPetName().equals(url)){
-                list.add(PetListEnumUntil.PET_CAT.getPetUrl());
+            if (PetListEnumUntil.PET_CAT.getPetName().equals(name)){
+                list.add(PetListEnumUntil.PET_CAT.getPetName());
             }
-            if (PetListEnumUntil.PET_RABBIT.getPetName().equals(url)){
-                list.add(PetListEnumUntil.PET_RABBIT.getPetUrl());
+            if (PetListEnumUntil.PET_RABBIT.getPetName().equals(name)){
+                list.add(PetListEnumUntil.PET_RABBIT.getPetName());
             }
-            if (PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(url)){
-                list.add(PetListEnumUntil.PET_RABBIT.getPetUrl());
+            if (PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(name)){
+                list.add(PetListEnumUntil.PET_SUPER_RABBIT.getPetName());
             }
         }
 
 //        String userPetJson = usePetService.queryUsePetByUserId();
 
         // 将对比的宠物地址设置
-        userPetListModel.setPetUrls(list);
-        if(userPetListModel == null){
-            return ItooResult.build(ItooResult.FAIL,"查询失败",userPetListModel);
-        }
+        userPetListModel.setPetNames(list);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",userPetListModel);
     }
 
@@ -277,7 +274,7 @@ public class UserInfoController {
         usePetService.queryUsePetByUserId();
 
         // 更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
-        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
+        UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
         // 用户在E币商城消费后，更新用户当前可用的ENowNum
         eStoreUpdateENowNumService.UpdateENum(userCode, expensedENum);
 

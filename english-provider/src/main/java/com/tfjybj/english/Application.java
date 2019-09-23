@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@MapperScan({"com.tfjybj.english.provider.dao","com.tfjybj.english.provider.service.common.*"})
+@MapperScan({"com.tfjybj.english.provider.dao","com.tfjybj.english.proider.service.common.*"})
 @Import(FdfsClientConfig.class)
 @EnableMBeanExport(registration = RegistrationPolicy.IGNORE_EXISTING)
 @ImportResource({"classpath*:spring-shiro.xml"})

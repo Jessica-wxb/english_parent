@@ -21,7 +21,7 @@ public interface UserInfoService extends BaseServicePlus<UserInfoEntity> {
      *
      */
 
-    UserPetListModel qureyPetListByUserId(String userId);
+    UserPetListModel queryPetListByUserId(String userId);
 
 
     boolean buyPet(String userId, String PetList, String usePet);
