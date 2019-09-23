@@ -8,6 +8,7 @@ import com.tfjybj.english.utils.EnglishRedis;
 import com.tfjybj.english.utils.cache.RedisUtil;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,8 @@ public class UsePetService {
     @Autowired
     UserInfoDao userInfoDao;
 
+    @Autowired
+    RedisTemplate redisTemplate;
     /**
      * @return 查询用户当前正在使用的宠物
      * @Date 2019年9月20日14:05:56
@@ -38,13 +41,14 @@ public class UsePetService {
         */
         // 从taken中获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
+//        String userId = "QaYhn2Wq9uvVp6vE1ptizH";
         boolean flag = redisUtil.hasKey(EnglishRedis.UsePet + userId);
         if (!flag) {
             UsePetModel usePetModels = userInfoDao.getUsePet(userId);
             redisUtil.set(EnglishRedis.UsePet+userId,usePetModels.getUsePet() );
         }
-        String userPetJson = redisUtil.get(EnglishRedis.UsePet + userId);
-        return userPetJson;
+//        return  redisUtil.get(EnglishRedis.UsePet + userId);
+        return (String) redisTemplate.opsForValue().get(EnglishRedis.UsePet+userId);
     }
 
 }
