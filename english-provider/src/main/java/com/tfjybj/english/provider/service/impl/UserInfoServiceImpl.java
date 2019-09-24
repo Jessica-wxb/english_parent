@@ -44,6 +44,8 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
     private UserInfoService userInfoService;
     @Autowired
     private UsePetService usePetService;
+//    @Resource
+//    private UserUtil userUtil;
     @Autowired
     private InsertExpensedRecordService insertExpensedRecordService;
     @Autowired
@@ -53,27 +55,9 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
 
 
     @Override
-    public UserPetListModel qureyPetListByUserId(String userId) {
-        return userInfoDao.qureyPetListByUserId(userId);
+    public UserPetListModel queryPetListByUserId(String userId) {
+            return userInfoDao.queryPetListByUserId(userId);
     }
-
-    /**
-     * --------------------------------购买宠物--------------------------------------
-     * @param userCode
-     * @param usePet       宠物
-     * @param description  类型描述：购物购买 + Dog
-     * @param expensedENum 消费的E币数
-     * @return
-     *
-     *
-     *             购买宠物->成功之后：
-     *             0.往E币消费记录表tn_e_expensed_record中插入一条消费记录
-     *             1.更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
-     *             2.更新数据库中的usePet和petList
-     *             3.用户在E币商城消费后，更新用户当前可用的ENowNum
-     *             购买宠物->失败之后：提示插入失败
-     *
-     */
 
     @Override
     public boolean buyPet(String userCode, String usePet,String description,String expensedENum) {
@@ -81,7 +65,7 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
         String userId = UserUtil.getCurrentUser().getUserId();
         insertExpensedRecordService.InsertExpensedRecord(IdWorker.getIdStr(),userId,description,expensedENum);
         // 更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
-        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
+        UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
         // 用户在E币商城消费后，更新用户当前可用的ENowNum
         eStoreUpdateENowNumService.UpdateENum(userCode, expensedENum);
         // 从redis中查询当前用户正在使用的宠物，如果没有从tn_user_info表中查询当前宠物，然后同步到redis中
@@ -111,7 +95,7 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
         // 查询当前宠物usePet
         String userPetJson = usePetService.queryUsePetByUserId();
         // 查询出用户的宠物列表pet_list
-        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
+        UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
 
         /**
          *  1、 截取；号前的数据

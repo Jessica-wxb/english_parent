@@ -169,16 +169,6 @@
     <select id="selectInsistDays" resultType="java.lang.String">
         SELECT  insist_days FROM  tn_user_info WHERE id = #{userId}
     </select>
-    <select id="qureyPetListByUserId" resultType="com.tfjybj.english.model.UserPetListModel">
-        SELECT
-            tn_user_info.use_pet,
-            tn_user_info.pet_list
-        FROM
-            tn_user_info
-        WHERE
-             tn_user_info.id = #{userId}
-
-    </select>
     <select id="getUsePet" resultType="com.tfjybj.english.model.UsePetModel">
        SELECT
            use_pet
@@ -187,5 +177,14 @@
         WHERE
            id = #{userId}
 
+    </select>
+    <select id="queryPetListByUserId" resultType="com.tfjybj.english.model.UserPetListModel">
+                SELECT
+            tn_user_info.use_pet,
+            tn_user_info.pet_list
+        FROM
+            tn_user_info
+        WHERE
+             tn_user_info.id = #{userId}
     </select>
 </mapper>

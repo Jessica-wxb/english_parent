@@ -8,6 +8,7 @@ import com.tfjybj.english.utils.EnglishRedis;
 import com.tfjybj.english.utils.cache.RedisUtil;
 import io.jsonwebtoken.impl.crypto.MacProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,8 +38,7 @@ public class UsePetService {
                     2.1.1 从redis中取出数据 UsePet
         */
         // 从taken中获取userId
-        String userId = "1071008924553048065";
-//        String userId = UserUtil.getCurrentUser().getUserId();
+        String userId = UserUtil.getCurrentUser().getUserId();
         boolean flag = redisUtil.hasKey(EnglishRedis.UsePet + userId);
         if (!flag) {
             UsePetModel usePetModels = userInfoDao.getUsePet(userId);
