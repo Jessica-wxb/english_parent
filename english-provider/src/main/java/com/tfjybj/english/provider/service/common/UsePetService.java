@@ -37,7 +37,8 @@ public class UsePetService {
                     2.1.1 从redis中取出数据 UsePet
         */
         // 从taken中获取userId
-        String userId = UserUtil.getCurrentUser().getUserId();
+        String userId = "1071008924553048065";
+//        String userId = UserUtil.getCurrentUser().getUserId();
         boolean flag = redisUtil.hasKey(EnglishRedis.UsePet + userId);
         if (!flag) {
             UsePetModel usePetModels = userInfoDao.getUsePet(userId);
