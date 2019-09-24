@@ -65,13 +65,14 @@ public class UserSetServiceImpl extends BaseServicePlusImpl<UserSetDao,UserSetEn
      * @return
      */
     @Override
-    public UserSetEntity modifyById(Integer palyNums, Integer isTurnAuto, Integer tuenDelayTime, Integer studyNumber) {
-          userSetDao.modifyById(UserUtil.getCurrentUser().getUserId(),palyNums, isTurnAuto, tuenDelayTime, studyNumber);
+    public UserSetEntity modifyById(Integer palyNums, Integer isTurnAuto, Integer tuenDelayTime, Integer studyNumber, Integer isShowWord) {
+        userSetDao.modifyById(UserUtil.getCurrentUser().getUserId(),palyNums, isTurnAuto, tuenDelayTime, studyNumber,isShowWord);
         UserSetEntity userSetEntity = new UserSetEntity();
         userSetEntity.setPlayNums(palyNums);
         userSetEntity.setIsTurnAuto(isTurnAuto);
         userSetEntity.setTurnDelayTime(tuenDelayTime);
         userSetEntity.setStudyNumber(studyNumber);
+        userSetEntity.setIsShowWord(isShowWord);
         String json = JSON.toJSONString(userSetEntity);
         redisUtil.set(EnglishRedis.Set+UserUtil.getCurrentUser().getUserId(),json);
         return userSetEntity;

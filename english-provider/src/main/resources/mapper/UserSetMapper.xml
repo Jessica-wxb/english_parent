@@ -22,7 +22,8 @@
           play_nums = #{palyNums},
           is_turn_auto = #{isTurnAuto},
           turn_delay_time = #{tuenDelayTime},
-          study_number = #{studyNumber}
+          study_number = #{studyNumber},
+          is_show_word = #{isShowWord}
         WHERE
 	      user_id =#{userId}
     </update>

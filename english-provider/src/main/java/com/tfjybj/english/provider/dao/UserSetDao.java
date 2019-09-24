@@ -29,7 +29,7 @@ public interface UserSetDao extends BaseMapper<UserSetEntity> {
      * @author 闫伟强
      * @return
      */
-    void modifyById(@Param("userId")String userId,@Param("palyNums") Integer palyNums,@Param("isTurnAuto") Integer isTurnAuto,@Param("tuenDelayTime") Integer tuenDelayTime,@Param("studyNumber") Integer studyNumber);
+    void modifyById(@Param("userId")String userId,@Param("palyNums") Integer palyNums,@Param("isTurnAuto") Integer isTurnAuto,@Param("tuenDelayTime") Integer tuenDelayTime,@Param("studyNumber") Integer studyNumber,@Param("isShowWord") Integer isShowWord);
 
     //查询用户设置的 学单词数量--董可
     int queryStudyNumByUserId(String userId);

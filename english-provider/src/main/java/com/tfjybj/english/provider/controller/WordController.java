@@ -155,6 +155,7 @@ public class WordController {
         wordOtherService.undateWordList(word);
        return ItooResult.build(ItooResult.SUCCESS, "查询成功");
     }
+
     /**
      * 根据学生id和图片插入到新图表
      * @return

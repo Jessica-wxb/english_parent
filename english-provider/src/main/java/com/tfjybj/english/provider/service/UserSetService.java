@@ -27,5 +27,5 @@ public interface UserSetService extends BaseServicePlus<UserSetEntity> {
      * @author 闫伟强
      * @return
      */
-    UserSetEntity modifyById(Integer palyNums,Integer isTurnAuto, Integer tuenDelayTime, Integer studyNumber);
+    UserSetEntity modifyById(Integer palyNums,Integer isTurnAuto, Integer tuenDelayTime, Integer studyNumber,Integer isShowWord);
 }

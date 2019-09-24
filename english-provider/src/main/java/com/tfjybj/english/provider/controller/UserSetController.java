@@ -197,7 +197,8 @@ public class UserSetController {
         Integer isTurnAuto = userSetModel.getIsTurnAuto();
         Integer tuenDelayTime = userSetModel.getTurnDelayTime();
         Integer studyNumbe = userSetModel.getStudyNumber();
-        userSetService.modifyById(palyNums,isTurnAuto ,tuenDelayTime ,studyNumbe );
+        Integer isShowWord = userSetModel.getIsShowWord();
+        userSetService.modifyById(palyNums,isTurnAuto ,tuenDelayTime ,studyNumbe ,isShowWord);
         return ItooResult.build(ItooResult.SUCCESS, "修改成功");
     }
 }
