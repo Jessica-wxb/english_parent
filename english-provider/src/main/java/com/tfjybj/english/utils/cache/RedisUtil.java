@@ -607,6 +607,23 @@ public final class RedisUtil<V> {
             return false;
         }
     }
+
+    /**
+     * 向队列右侧放入缓存
+     *
+     * @param key   键
+     * @param value 值
+     * @return
+     */
+    public boolean leftSet(String key, String value) {
+        try {
+            redisTemplate.opsForList().leftPush(key, value);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 //
 //    /**
 //     * 将list放入缓存

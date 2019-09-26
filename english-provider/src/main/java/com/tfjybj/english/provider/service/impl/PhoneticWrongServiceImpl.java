@@ -47,6 +47,7 @@ public class PhoneticWrongServiceImpl extends BaseServicePlusImpl<PhoneticWrongD
     @Override
     public PhoneticStoreModel Initialisation(String userId) {
         String correctPicture = (String) redisUtil.leftPop(EnglishRedis.Phonetic + userId+":" + RecordDate.Date() + EnglishRedis.StoreCheckToDo);
+        redisUtil.leftSet(EnglishRedis.Phonetic + userId+":" + RecordDate.Date() + EnglishRedis.StoreCheckToDo, correctPicture);
         if (StringUtil.isEmpty(correctPicture)){
             redisToDbService.phoneticStoreToDB(userId);
             return null;
@@ -76,6 +77,7 @@ public class PhoneticWrongServiceImpl extends BaseServicePlusImpl<PhoneticWrongD
     @Override
     public PhoneticStoreModel Modity(PhoneticWrongModel phoneticWrongModel) {
         redisUtil.sSet(EnglishRedis.Phonetic + phoneticWrongModel.getUserId()+":" + RecordDate.Date() + EnglishRedis.StoreDone,JSON.toJSONString(phoneticWrongModel));
+        redisUtil.leftPop(EnglishRedis.Phonetic + phoneticWrongModel.getUserId()+":" + RecordDate.Date() + EnglishRedis.StoreCheckToDo);
         if (phoneticWrongModel.getIsStore()==0){
             Map<String, String> map = Maps.newHashMap();
             map.put("phonetic", phoneticWrongModel.getPhonetic());
