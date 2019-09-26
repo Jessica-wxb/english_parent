@@ -5,6 +5,8 @@ import com.tfjybj.english.entity.EExpensedRecordEntity;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
+
 /**
  * EExpensedRecordDao接口
  * eExpensedRecord表
@@ -17,6 +19,6 @@ import org.springframework.stereotype.Repository;
 public interface EExpensedRecordDao extends BaseMapper<EExpensedRecordEntity> {
 
 
-    int InsertExpensedRecord(@Param("id") String id,@Param("userId") String userId, @Param("description") String description, @Param("expensedENum") String expensedENum );
+    int InsertExpensedRecord(@Param("id") String id, @Param("userId") String userId, @Param("description") String description, @Param("expensedENum") String expensedENum, @Param("date") Date date);
 
 }

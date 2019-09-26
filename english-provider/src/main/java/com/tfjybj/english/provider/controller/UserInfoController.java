@@ -23,10 +23,13 @@ import com.tfjybj.english.provider.service.common.RankService;
 import com.tfjybj.english.provider.service.UserInfoService;
 import io.swagger.annotations.*;
 
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.util.logging.PlatformLogger;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -187,7 +190,7 @@ public class UserInfoController {
 //        String userId = "1071008929686876162";
         UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
         // 截取；号前的数据
-       String[] names = userPetListModel.getPetList().split(";");
+        String[] names = userPetListModel.getPetList().split(";");
         List<String> list = new ArrayList<>();
 
         // 将截取的数据于枚举对比获得宠物地址
@@ -224,25 +227,9 @@ public class UserInfoController {
     public ItooResult queryUsePetByUserId(){
         // 获取当前正在使用的宠物usePet
         String userPetJson = usePetService.queryUsePetByUserId();
-        if(userPetJson == null){
+        if(userPetJson == null && userPetJson== ""){
             return ItooResult.build(ItooResult.FAIL,"对不起，您当前没有宠物！");
         }
-//        // 获取当前正在使用的宠物usePet的路径给前端返回去
-//        String usePetUrl = null;
-//        // 将查询到的用户当前正在使用的宠物与枚举对比获取当前宠物地址
-//        if(PetListEnumUntil.PET_DOG.getPetName().equals(userPetJson)){
-//            usePetUrl = PetListEnumUntil.PET_DOG.getPetUrl();
-//        }
-//
-//        if (PetListEnumUntil.PET_CAT.getPetName().equals(userPetJson)){
-//            usePetUrl = PetListEnumUntil.PET_CAT.getPetUrl();
-//        }
-//         if(PetListEnumUntil.PET_RABBIT.getPetName().equals(userPetJson)){
-//             usePetUrl = PetListEnumUntil.PET_RABBIT.getPetUrl();
-//        }
-//         if(PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(userPetJson)){
-//             usePetUrl = PetListEnumUntil.PET_SUPER_RABBIT.getPetUrl();
-//        }
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",userPetJson);
     }
 
@@ -252,41 +239,22 @@ public class UserInfoController {
      * @return 购买宠物
      * @author
      * @since 2019年9月19日15:13:33
+     *
+     *  业务逻辑：
+     *          购买宠物->成功之后：
+     *             0.往E币消费记录表tn_e_expensed_record中插入一条消费记录
+     *             1.更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
+     *             2.更新数据库中的usePet和petList
+     *             3.用户在E币商城消费后，更新用户当前可用的ENowNum
+     *             购买宠物->失败之后：提示插入失败
+     *
      */
     @ApiOperation(value = "购买宠物")
     @GetMapping(value = "/buyPet/userCode/expensedENum/description/usePet")
     public ItooResult buyPet(String userCode,String expensedENum,String description,String usePet){
-
-        /*
-            购买宠物->成功之后：
-            0.往E币消费记录表tn_e_expensed_record中插入一条消费记录
-            1.更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
-            2.更新数据库中的usePet和petList
-            3.用户在E币商城消费后，更新用户当前可用的ENowNum
-            购买宠物->失败之后：提示插入失败
-        */
-
-
         // 获取userId
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008924553048065";
-//         // 购买成功之后往E币消费记录表tn_e_expensed_record中插入一条消费记录
-//       insertExpensedRecordService.InsertExpensedRecord(IdWorker.getIdStr(),userId,description,expensedENum);
-//        // 从redis中查询当前用户正在使用的宠物，如果没有从tn_user_info表中查询当前宠物，然后同步到redis中
-//        usePetService.queryUsePetByUserId();
-//
-//        // 更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
-//        UserPetListModel userPetListModel = userInfoService.qureyPetListByUserId(userId);
-//        // 用户在E币商城消费后，更新用户当前可用的ENowNum
-//        eStoreUpdateENowNumService.UpdateENum(userCode, expensedENum);
-//
-//        // 往petList的第一个位置插入刚购买的宠物
-//        String PetList = userPetListModel.getPetList();
-//        StringBuilder sb = new StringBuilder(PetList);
-//        sb.insert(0,usePet+";"); // 在执行的位置0，插入指定的字符串
-//        PetList = sb.toString();
-
-//         boolean userInfoModel=userInfoService.buyPet(userId,PetList,usePet);
+        String userId = UserUtil.getCurrentUser().getUserId();
+//        String userId = "1071008924553048065";
         boolean userInfoModel=userInfoService.buyPet(userCode,usePet,description,expensedENum);
         return ItooResult.build(ItooResult.SUCCESS,"宠物购买成功");
     }
@@ -300,9 +268,9 @@ public class UserInfoController {
     @ApiOperation(value = "更换宠物形象")
     @GetMapping(value = "/changeUsePet/userCode/usePet")
     public ItooResult changeUsePet(String userCode,String usePet){
-        String userId = "1071008933394640898";
+//        String userId = "1071008933394640898";
         // 获取userId
-//        String userId = UserUtil.getCurrentUser().getUserId();
+        String userId = UserUtil.getCurrentUser().getUserId();
         boolean userInfoModel = userInfoService.changeUsePet(userId,usePet);
 
         return ItooResult.build(ItooResult.SUCCESS,"更换宠物成功");
@@ -318,19 +286,9 @@ public class UserInfoController {
     @GetMapping(value = "/changeIntegral/userCode/expensedENum/description")
     public ItooResult changeIntegral(String userCode,String expensedENum,String description){
 
-        /*
-            购买宠物->成功之后：
-            0.往E币消费记录表tn_e_expensed_record中插入一条消费记录
-            1.更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
-            2.更新数据库中的usePet和petList
-            3.用户在E币商城消费后，更新用户当前可用的ENowNum
-            购买宠物->失败之后：提示插入失败
-        */
-
-
         // 获取userId
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008924553048065";
+        String userId = UserUtil.getCurrentUser().getUserId();
+//        String userId = "1071008924553048065";
         boolean userInfoModel=userInfoService.changeIntegral(userCode,description,expensedENum);
         return ItooResult.build(ItooResult.SUCCESS,"积分兑换成功");
     }
