@@ -25,6 +25,7 @@ import com.tfjybj.english.utils.RecordDate;
 import com.tfjybj.english.utils.cache.RedisUtil;
 import com.tfjybj.english.utils.cache.UploadPictureUntil;
 import groovy.util.logging.Slf4j;
+import org.apache.catalina.User;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.shiro.util.CollectionUtils;
 import org.springframework.beans.BeanUtils;
@@ -106,7 +107,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         if (needStudyNums < 0) {
             return  needStudyNums;
         } else {
-            long redisNums = redisUtil.lGetListSize(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo);
+            long redisNums = redisUtil.lGetListSize(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo);
             return redisNums;
         }
     }
@@ -114,27 +115,19 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
     /**
      * 进入学单词页面
      * ${base}表
-     *
      * @author 邢美玲
      * @version 1.0.0
      * @since 2019-08-16 08:47:57
      */
     @Override
-    public WordPartModel findWordsById(String userCode) {
+    public WordPartModel findWordsById(String userCode,String reviewFlag) {
         System.out.println(UserUtil.getCurrentUser().getUserId());
         //从redis中Done数据同步到数据库中
         Boolean flag = redisToDbService.doneToDB(UserUtil.getCurrentUser().getUserId());
         if (!flag) {
             return null;
         }
-        // 判断 Redis中的todo是否有数据
-        // 如果有数据，就需要return next
-//        if (redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo)) {
-//            return getNextWord();
-//        } else {
-            //获取今天要学习的单词数量：
-            //获取该用户的setting数量和今天已学单词的数量，相减(count)
-            //count:如果数值小于等于0，为setting值；如果大于0，为该数量
+        // 查询设置数量
             Boolean isExitUser = redisUtil.hasKey(EnglishRedis.Set+ UserUtil.getCurrentUser().getUserId());
             UserSetEntity userSetEntity = new UserSetEntity();
             if (!isExitUser) {
@@ -150,11 +143,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                     userSetEntity = wordDao.findUserSetById(UserUtil.getCurrentUser().getUserId());
                 }
             }
-            int needStudyNums = wordDao.findWordnumsById(UserUtil.getCurrentUser().getUserId()); //今天还需要的学习数量 = 今天设置的单词数 - 今天已学单词
+        // 是否是review状态0 不是复习 1 是复习状态
+        if (reviewFlag.equals( "0")) {
+            // 获取今天需要学习的内容入到redis
+            int needStudyNums = wordDao.findWordnumsById(UserUtil.getCurrentUser().getUserId()); // 今天还需要的学习数量 = 今天设置的单词数 - 今天已学单词
             // 判断所有单词是否全部学完
             int unStudyNums = wordDao.findOtherworsById(UserUtil.getCurrentUser().getUserId());// 未学习的单词数量 = 所有单词 - 该用户已学单词
-            List<WordPartModel> listWord = new ArrayList<>();// 当天待学习的单词ID
-            List<WordPartModel> listOldWord = new ArrayList<>();// 第一轮完成或许学过的待学习单词ID
+            List<WordPartModel> listWord = new ArrayList<>(); // 当天待学习的单词ID
+            List<WordPartModel> listOldWord = new ArrayList<>(); // 第一轮完成或许学过的待学习单词ID
             if (needStudyNums > 0) {
             } else {
                 //把设置的数量赋值给今天需要学习的needStudyNums
@@ -163,7 +159,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
             //  没有全部学完
             if (unStudyNums >= needStudyNums) {
                 listWord = wordDao.findWordIdByWordnums(UserUtil.getCurrentUser().getUserId(), needStudyNums);
-             // 已经全部学完
+                // 已经全部学完
             } else {
                 int tostudywords = needStudyNums - unStudyNums;// 取出历史学习过的单词数量
                 listWord = wordDao.findWordIdByWordnums(UserUtil.getCurrentUser().getUserId(), unStudyNums);
@@ -171,10 +167,34 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                 listWord.addAll(listOldWord);
             }
             // 把所有待学习的单词和图片放入到redis中
-            redisUtil.del(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()+day+EnglishRedis.WordToDo);
-            redisUtil.lSetAll(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo, listWord, 24 * 3600);
-            return getNextWord(userCode);//董可有修改
-//        }
+            redisUtil.del(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()+RecordDate.Date()+EnglishRedis.WordToDo);
+            redisUtil.lSetAll(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo, listWord, 24 * 3600);
+
+        } else {
+            // 判断 Redis中的Review是否有数据;并且数据数量 >= set的数量===2019年9月24日
+            Boolean flagReview = redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()  + EnglishRedis.ReviewWord);
+            long reviewWordsNum = redisUtil.lGetListSize(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + EnglishRedis.ReviewWord);
+            // 如果有数据显示Review的数据 有getNextReviewWrod()
+            if(!flagReview & reviewWordsNum < userSetEntity.getStudyNumber() ){
+                return getNextWord(userCode,reviewFlag) ;
+            }
+        }
+        return getNextWord(userCode,reviewFlag);// 董可有修改
+    }
+
+//    // TODO： + 需要有一个接口对前端
+    public WordPartModel getNextReviewWord(){
+        return null;
+    }
+
+    // TODO：接口点击跳转的时候，清空当前的Review
+    public  boolean clearnRecordWord(String reviewFlag){
+        boolean flag;
+        flag = true;
+        if (reviewFlag.equals("0") ) {
+            redisUtil.del(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()  + EnglishRedis.ReviewWord);
+        }
+      return flag;
     }
 
     /**
@@ -183,55 +203,85 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
      * @param
      * @return
      */
-    public WordPartModel getNextWord(String userCode) { //董可 添加了userCode
+    public WordPartModel getNextWord(String userCode,String reviewFlag) { //董可 添加了userCode
         System.out.println(UserUtil.getCurrentUser().getUserId());
-
-        // 判断缓存中是否有待学习的内容
-        if (!redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo)) {
+        // 判断缓存TODOwords中是否有待学习的内容
+        if (!redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo)) {
             if (redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.Done)) {
                 // 将redis的Done的单词同步到数据库中
                 redisToDbService.doneToDB(UserUtil.getCurrentUser().getUserId());
                 return null;
             }
         }
-        // 从redis中按照顺序取出需要学习的单词
-        WordPartModel wordPartModel = JSON.parseObject((String) redisUtil.leftPop(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo), WordPartModel.class);
+//        boolean istrue=reviewFlag.equals("1");
+        if(reviewFlag.equals("1") ){
+            // 复习：lefpop查询出需要学习的内容 ； rightset到redis中
+            WordPartModel wordPartModel = JSON.parseObject((String)(redisUtil.leftPop(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()  + EnglishRedis.ReviewWord)), WordPartModel.class);
+            // 取出当前的单词
+            String wordId = wordPartModel.getId();
+            redisUtil.rghitSet(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()+ EnglishRedis.ReviewWord , JSON.toJSONString(wordPartModel));
 
-        // E 币数量加1-
-        rankService.addE(UserUtil.getCurrentUser().getUserId(),userCode,1);
+            if (!redisUtil.hasKey(EnglishRedis.NewPicture + UserUtil.getCurrentUser().getUserId() + "_" + wordId)) {
+                return wordPartModel;
+            }
+            UserNewpictureModel userNewPicture = JSON.parseObject(redisUtil.get(EnglishRedis.NewPicture + UserUtil.getCurrentUser().getUserId() + "_" + wordId), UserNewpictureModel.class);
+            if (userNewPicture == null) {
+                return wordPartModel;
+            }
+            String[] pictureStr = userNewPicture.getPictureAddress().split(",");
+            List<String> pictures = new ArrayList<>();
+            for (int i = 0; i < pictureStr.length; i++) {
+                pictures.add(pictureStr[i]);
+            }
+            pictures.add(wordPartModel.getWordPicture1());
+            pictures.add(wordPartModel.getWordPicture2());
+            pictures.add(wordPartModel.getWordPicture3());
+            pictures.add(wordPartModel.getWordPicture4());
 
-        //根据当前用户的wordId把学习完的插入到doneWords
-        String wordId = wordPartModel.getId();
-        redisUtil.sSet(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.Done, wordId);
-        // 判断是否有新图，将新图表中的数据替换旧的
-        if (!redisUtil.hasKey(EnglishRedis.NewPicture + UserUtil.getCurrentUser().getUserId() + "_" + wordId)) {
+            wordPartModel.setWordPicture1(pictures.get(0));
+            wordPartModel.setWordPicture2(pictures.get(1));
+            wordPartModel.setWordPicture3(pictures.get(2));
+            wordPartModel.setWordPicture4(pictures.get(3));
+            return wordPartModel;
+        } else {
+            // 从redis中按照顺序取出需要学习的单词
+            WordPartModel wordPartModel = JSON.parseObject((String) redisUtil.leftPop(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo), WordPartModel.class);
+            // E 币数量加1
+            rankService.addE(UserUtil.getCurrentUser().getUserId(),userCode,1);
+            //根据当前用户的wordId把学习完的插入到doneWords
+            String wordId = wordPartModel.getId();
+            redisUtil.sSet(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.Done, wordId);
+            // 根据当前用户把学完的单词插入到Review中 2019年9月24日
+            redisUtil.lSet(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()  + EnglishRedis.ReviewWord, JSON.toJSONString(wordPartModel));
+            // 判断是否有新图，将新图表中的数据替换旧的
+            if (!redisUtil.hasKey(EnglishRedis.NewPicture + UserUtil.getCurrentUser().getUserId() + "_" + wordId)) {
+                return wordPartModel;
+            }
+            UserNewpictureModel userNewPicture = JSON.parseObject(redisUtil.get(EnglishRedis.NewPicture + UserUtil.getCurrentUser().getUserId() + "_" + wordId), UserNewpictureModel.class);
+            if (userNewPicture == null) {
+                return wordPartModel;
+            }
+            String[] pictureStr = userNewPicture.getPictureAddress().split(",");
+            List<String> pictures = new ArrayList<>();
+            for (int i = 0; i < pictureStr.length; i++) {
+                pictures.add(pictureStr[i]);
+            }
+            pictures.add(wordPartModel.getWordPicture1());
+            pictures.add(wordPartModel.getWordPicture2());
+            pictures.add(wordPartModel.getWordPicture3());
+            pictures.add(wordPartModel.getWordPicture4());
+
+            wordPartModel.setWordPicture1(pictures.get(0));
+            wordPartModel.setWordPicture2(pictures.get(1));
+            wordPartModel.setWordPicture3(pictures.get(2));
+            wordPartModel.setWordPicture4(pictures.get(3));
             return wordPartModel;
         }
-        UserNewpictureModel userNewPicture = JSON.parseObject(redisUtil.get(EnglishRedis.NewPicture + UserUtil.getCurrentUser().getUserId() + "_" + wordId), UserNewpictureModel.class);
-        if (userNewPicture == null) {
-            return wordPartModel;
-        }
-        String[] pictureStr = userNewPicture.getPictureAddress().split(",");
-        List<String> pictures = new ArrayList<>();
-        for (int i = 0; i < pictureStr.length; i++) {
-            pictures.add(pictureStr[i]);
-        }
-        pictures.add(wordPartModel.getWordPicture1());
-        pictures.add(wordPartModel.getWordPicture2());
-        pictures.add(wordPartModel.getWordPicture3());
-        pictures.add(wordPartModel.getWordPicture4());
-
-        wordPartModel.setWordPicture1(pictures.get(0));
-        wordPartModel.setWordPicture2(pictures.get(1));
-        wordPartModel.setWordPicture3(pictures.get(2));
-        wordPartModel.setWordPicture4(pictures.get(3));
-        return wordPartModel;
     }
 
     /**
      * 点击字母更新学习列表
      * xml
-     *
      * @param
      * @return
      */
@@ -242,39 +292,34 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         if (wordModels == null) {
             return;
         }
-        if (!redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo)) {
+        if (!redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo)) {
             return;
         }
         // redisNums今天需要学习的数量
-        long redisNums = redisUtil.lGetListSize(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo);
+        long redisNums = redisUtil.lGetListSize(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo);
         //  wordNums字母开头的所有单词数量
         long wordNums = wordModels.size();
         // 如果今日需要学习的数多(先学字母开头+今日todo学习)
         if (redisNums > wordNums) {
             long restNums = redisNums - wordNums;
-            redisUtil.lTrim(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo, 1, restNums);
-//            List<WordPartModel> wordPartModels = Lists.newArrayList();
-//            BeanUtils.copyProperties(wordModels, wordPartModels);
-            redisUtil.lLeftSetAll(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo, wordModels);
+            redisUtil.lTrim(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo, 1, restNums);
+            redisUtil.lLeftSetAll(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo, wordModels);
             return;
         }
         // 字母开头的单词多（都变成字母开头单词）
         wordModels = wordModels.subList(0, Integer.parseInt(String.valueOf(redisNums)) - 1);
-//        List<WordPartModel> wordPartModels = Lists.newArrayList();
-//        BeanUtils.copyProperties(wordModels, wordPartModels);
-        redisUtil.del(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo);
-        redisUtil.lSetAll(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + day + EnglishRedis.WordToDo, wordModels, 24 * 3600);
+        redisUtil.del(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo);
+        redisUtil.lSetAll(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + RecordDate.Date() + EnglishRedis.WordToDo, wordModels, 24 * 3600);
     }
 
     /**
      * 添加图到数据库中
      *  xml
-     *
      * @return
      */
     @Override
     public boolean insertPicture(NewPictureAddress newPictureAddress) {
-        //从所有图片的redis中查询，对应图片word的pictureaddress放入到list中
+        // 从所有图片的redis中查询，对应图片word的pictureaddress放入到list中
         System.out.println(UserUtil.getCurrentUser().getUserId());
         String userId = UserUtil.getCurrentUser().getUserId();
         // String  userId = "1";
@@ -287,20 +332,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
             // 取出这个单词下的图片 string类型转换成model类型
             UserNewpictureModel  address = JSON.parseObject(redisUtil.get(EnglishRedis.NewPicture + userId + "_" + newPictureAddress.getWordId()), UserNewpictureModel.class);
             String addresses = address.getPictureAddress();
-//            List<String> addressArraynum = Arrays.asList(addresses);
-//            if(addressArraynum.size() == 1){
-//                if (!CollectionUtils.isEmpty(addressArraynum)) {
-//                    // 不是空的，循环遍历做对比
-//                    String hashCode = SimilarImageSearch.produceFingerPrint(newPictureAddress.getPictureAddress());
-//                    String SourceCode = SimilarImageSearch.produceFingerPrint(addresses);
-//                    int difficulty = SimilarImageSearch.hammingDistance(hashCode, SourceCode);
-//                    // 如果不相似度小于10，那么不插入，直接返回
-//                    if (difficulty < 5) {
-//                        flag = false;
-//                    }
-//                }
-
-//            }else {
             String[] addressList = addresses.split(",");
             List<String> addressArray = Arrays.asList(addressList);
             // 以上是对获取的图片转格式
@@ -318,8 +349,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                         }
                     }
                 }
-//                    }
-
                 if (flag) {
                     // 带着参数，把单词插入到数据库中
                     wordDao.insertNewPicturea(IdWorker.getIdStr(), newPictureAddress.getUserId(), newPictureAddress.getWordId(), newPictureAddress.getPictureAddress());
@@ -339,7 +368,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
             }
         return flag;
     }
-
 
     // 插入fastdfs---邢美玲--2019年8月21日
     @Override

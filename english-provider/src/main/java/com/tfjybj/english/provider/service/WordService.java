@@ -19,12 +19,17 @@ import java.io.IOException;
  */
 public interface WordService extends BaseServicePlus<WordEntity> {
 
+    // 根据用户id返回reviewWords--邢美玲
+    WordPartModel getNextReviewWord();
+
+    // 清空当前的复习内容
+    boolean clearnRecordWord(String reviewFlag);
 
     //根据userid查询返回需要学习的words-邢美玲
-    WordPartModel findWordsById(String string);
+    WordPartModel findWordsById(String string,String reviewFlag);
 
     // 学单词点击下一步---邢美玲
-    WordPartModel getNextWord(String string);
+    WordPartModel getNextWord(String string,String reviewFlag);
 
     //点击字母更新学习列表---邢美玲
     void undateWordList(String word);

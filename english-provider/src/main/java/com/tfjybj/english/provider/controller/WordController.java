@@ -121,12 +121,11 @@ public class WordController {
      */
     @ApiOperation(value = "进入学单词页面初始化加载")
     @GetMapping(value = {"/queryWordNewPicture"})
-    public ItooResult findWordsById(String userCode) {
-        WordPartModel listwords = wordOtherService.findWordsById(userCode);//董可 增加了userCode
-
+    public ItooResult findWordsById(String userCode,String reviewFlag) {
+        WordPartModel listwords = wordOtherService.findWordsById(userCode,reviewFlag);//董可 增加了userCode
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", listwords);
     }
-    /**
+     /**
      * 学单词点击下一步，查询需要学习的单词的ID，audio,picture
      * @param
      * @return 根据id查找的结果
@@ -136,8 +135,8 @@ public class WordController {
      */
     @ApiOperation(value = "点击下一步，顺序查询需要学习的内容")
     @GetMapping(value = {"/getNextWord"})
-    public ItooResult getNextWord(String userCode) {
-        WordPartModel nextwords = wordOtherService.getNextWord(userCode);//董可添加userCode
+    public ItooResult getNextWord(String userCode,String reviewFlag) {
+        WordPartModel nextwords = wordOtherService.getNextWord(userCode,reviewFlag);//董可添加userCode
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", nextwords);
     }
     /**
@@ -221,6 +220,38 @@ public class WordController {
         long redisNums  = wordOtherService.queryWordNumsBar();
         return ItooResult.build(ItooResult.SUCCESS, "查询成功",redisNums);
     }
+
+    /**
+     * 回顾学习，学习下一个
+     * 邢美玲
+     * 2019年9月26日
+     */
+    @ApiOperation(value = "复习下一个单词")
+    @GetMapping(value = "/queryReviewWords")
+    public  ItooResult getNextReviewWord(){
+        WordPartModel wordPartModel = wordOtherService.getNextReviewWord();
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功", wordPartModel);
+    }
+    /*
+    * 跳出复习内容
+    * 邢美玲
+    * 2019年9月26日
+    */
+    @ApiOperation(value = "是否清空当前复习的内容")
+    @GetMapping(value = "/clearnRecordWord")
+    public  ItooResult clearnRecordWord(String reviewFlag){
+        Boolean flag = wordOtherService.clearnRecordWord(reviewFlag);
+        if (flag){
+            return  ItooResult.build(ItooResult.SUCCESS,"清空成功");
+        }
+        else {
+            return ItooResult.build(ItooResult.FAIL,"清空失败");
+        }
+    }
+
+
+
+
 
     /**
      * 分页查询所有Word

@@ -11,6 +11,7 @@ public class EnglishRedis {
     public static String NewPicture="ENGLISH:NEWPICTURE:";
     public static String Phonetic = "ENGLISH:RECORD:PHONETIC:";
     public static String ToDo=":ToDo";
+    public static String ReviewWord =":ReviewWord";
     public static String Done=":Done";
     public static String CheckWord=":CheckWord";
     public static String CheckWrong=":CheckWrong";
