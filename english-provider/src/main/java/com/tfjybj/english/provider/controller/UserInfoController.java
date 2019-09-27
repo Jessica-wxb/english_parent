@@ -268,8 +268,8 @@ public class UserInfoController {
 
 
         // 获取userId
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008924553048065";
+        String userId = UserUtil.getCurrentUser().getUserId();
+//        String userId = "1071008924553048065";
 //         // 购买成功之后往E币消费记录表tn_e_expensed_record中插入一条消费记录
 //       insertExpensedRecordService.InsertExpensedRecord(IdWorker.getIdStr(),userId,description,expensedENum);
 //        // 从redis中查询当前用户正在使用的宠物，如果没有从tn_user_info表中查询当前宠物，然后同步到redis中
@@ -300,9 +300,9 @@ public class UserInfoController {
     @ApiOperation(value = "更换宠物形象")
     @GetMapping(value = "/changeUsePet/userCode/usePet")
     public ItooResult changeUsePet(String userCode,String usePet){
-        String userId = "1071008933394640898";
+//        String userId = "1071008933394640898";
         // 获取userId
-//        String userId = UserUtil.getCurrentUser().getUserId();
+        String userId = UserUtil.getCurrentUser().getUserId();
         boolean userInfoModel = userInfoService.changeUsePet(userId,usePet);
 
         return ItooResult.build(ItooResult.SUCCESS,"更换宠物成功");
@@ -329,8 +329,8 @@ public class UserInfoController {
 
 
         // 获取userId
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008924553048065";
+        String userId = UserUtil.getCurrentUser().getUserId();
+//        String userId = "1071008924553048065";
         boolean userInfoModel=userInfoService.changeIntegral(userCode,description,expensedENum);
         return ItooResult.build(ItooResult.SUCCESS,"积分兑换成功");
     }
