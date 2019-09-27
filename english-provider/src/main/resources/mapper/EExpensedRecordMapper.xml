@@ -5,9 +5,9 @@
     <!--根据userId往E币消费记录表中插入一条数据-->
     <insert id="InsertExpensedRecord">
           INSERT INTO tn_e_expensed_record
-          (id, user_id, description, expensed_e_num)
+          (id, user_id, description, expensed_e_num,create_time)
           VALUES
-          (#{id},#{userId},#{description},#{expensedENum})
+          (#{id},#{userId},#{description},#{expensedENum},#{date})
     </insert>
 
     <!--根据EExpensedRecord用户id模糊查询EExpensedRecordEntity-->

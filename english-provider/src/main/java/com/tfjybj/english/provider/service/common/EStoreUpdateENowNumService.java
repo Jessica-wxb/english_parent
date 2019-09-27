@@ -47,8 +47,8 @@ public class EStoreUpdateENowNumService{
                3.3 将ENowNum的值减去消费的E币数=新的ENowNum,并存到redis中
          */
         // 获取userId
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008924553048065";
+        String userId = UserUtil.getCurrentUser().getUserId();
+
         boolean flag = redisUtil.hasKey(EnglishRedis.UserInfo + userCode);
         if(!flag){
             List<MineModel> mineModels = userInfoDao.queryMineByUserId(userId);

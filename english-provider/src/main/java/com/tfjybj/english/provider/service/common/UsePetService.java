@@ -2,6 +2,7 @@ package com.tfjybj.english.provider.service.common;
 
 import com.alibaba.fastjson.JSON;
 import com.dmsdbj.itoo.sso.utils.UserUtil;
+import com.dmsdbj.itoo.tool.business.ItooResult;
 import com.tfjybj.english.model.UsePetModel;
 import com.tfjybj.english.provider.dao.UserInfoDao;
 import com.tfjybj.english.utils.EnglishRedis;
@@ -42,6 +43,11 @@ public class UsePetService {
         boolean flag = redisUtil.hasKey(EnglishRedis.UsePet + userId);
         if (!flag) {
             UsePetModel usePetModels = userInfoDao.getUsePet(userId);
+            // 判断如果从数据库中查询到的数据为空，则返回，提示查询失败
+            if (usePetModels.getUsePet() == null && usePetModels.getUsePet() == ""){
+                return ItooResult.FAIL;
+
+            }
             redisUtil.set(EnglishRedis.UsePet+userId,usePetModels.getUsePet() );
         }
         String userPetJson = redisUtil.get(EnglishRedis.UsePet + userId);
