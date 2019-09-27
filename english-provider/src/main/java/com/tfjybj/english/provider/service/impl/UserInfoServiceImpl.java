@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.Date;
 
 /**
@@ -73,15 +74,15 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
      *             购买宠物->失败之后：提示插入失败
      *
      */
+    @Transactional(rollbackOn = Exception.class)
     @Override
     public boolean buyPet(String userCode, String usePet,String description,String expensedENum) {
 
-//        String userId = UserUtil.getCurrentUser().getUserId();
-        String userId = "1071008924553048065";
-
-        redisUtil.set(EnglishRedis.UsePet+ userId, usePet);
+        String userId = UserUtil.getCurrentUser().getUserId();
         // 获取当前时间
         Date date = new Date();
+
+        redisUtil.set(EnglishRedis.UsePet+ userId, usePet);
         insertExpensedRecordService.InsertExpensedRecord(IdWorker.getIdStr(),userId,description,expensedENum,date);
         // 更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
         UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
@@ -95,7 +96,6 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
         StringBuilder sb = new StringBuilder(PetList);
         sb.insert(0,usePet+";"); // 在执行的位置0，插入指定的字符串
         PetList = sb.toString();
-//        redisUtil.set(EnglishRedis.UsePet + userId, JSON.toJSONString(usePet));
 
         return userInfoDao.buyPet(userId, PetList, usePet);
     }
@@ -117,24 +117,6 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
         String userPetJson = usePetService.queryUsePetByUserId();
         // 查询出用户的宠物列表pet_list
         UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
-
-        /**
-         *  1、 截取；号前的数据
-         *  2、用用户更换的宠与用于所拥有的petList去对比，筛选出不等于usePet的值放到一个字段。
-         *  3、最后将用户更换的宠物放回到petList中的第0个位置（放置到首个）
-         */
-//        List<String> list = Arrays.asList(userPetListModel.getPetList().split(";"));
-//        List<String> petlist2=list.stream()
-//                .filter(i->!i.equals(userPetJson))
-//                .collect(Collectors.toList());
-//        String [] strings = petlist2.toArray(new String[petlist2.size()]);
-//        System.out.println(strings);
-
-        // 将查询出的pet_list和用户刚刚更换的usePet进行对比，如果相等就删掉，存到一个变量usePetSplit里面
-
-        // 将刚更换的usePet插入到usePetSplit里面的第0个位置，存到petListNew里面
-
-
         return userInfoDao.changeUsePet(userId, usePet);
     }
 
@@ -149,7 +131,7 @@ public class UserInfoServiceImpl extends BaseServicePlusImpl<UserInfoDao, UserIn
     @Override
     public boolean changeIntegral(String userCode, String description, String expensedENum) {
         String userId = UserUtil.getCurrentUser().getUserId();
-//        String userId = "1071008924553048065";
+        // 获取当前时间
         Date date = new Date();
         insertExpensedRecordService.InsertExpensedRecord(IdWorker.getIdStr(),userId,description,expensedENum,date);
         // 用户在E币商城消费后，更新用户当前可用的ENowNum

@@ -151,7 +151,6 @@ public class UserInfoController {
     @ApiOperation(value = "E币排行定位")
     @GetMapping(value = {"/UserRank/findLocal"})
     public  ItooResult findLocal(){
-//        String userId = "2";
         String userId = UserUtil.getCurrentUser().getUserId();
         List<RankLocalModel> RankModels = rankService.localRankByUserId(userId);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",RankModels);
@@ -166,7 +165,6 @@ public class UserInfoController {
     @ApiOperation(value = "从redis的Rank中查询出【我的】用户头像右侧的E币数")
     @GetMapping(value = {"/UserRank"})
     public  ItooResult findUserENum(){
-//        String userId = "2";
         String userId1 = UserUtil.getCurrentUser().getUserId();
         RankLocalModel RankModels = rankService.findRankByUserId(userId1);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",RankModels);
@@ -187,7 +185,6 @@ public class UserInfoController {
     @GetMapping(value = "/queryPetListByUserId")
     public ItooResult queryPetListByUserId(){
         String userId = UserUtil.getCurrentUser().getUserId();
-//        String userId = "1071008929686876162";
         UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
         // 截取；号前的数据
         String[] names = userPetListModel.getPetList().split(";");
@@ -208,8 +205,6 @@ public class UserInfoController {
                 list.add(PetListEnumUntil.PET_SUPER_RABBIT.getPetName());
             }
         }
-
-//        String userPetJson = usePetService.queryUsePetByUserId();
 
         // 将对比的宠物地址设置
         userPetListModel.setPetNames(list);
@@ -254,7 +249,6 @@ public class UserInfoController {
     public ItooResult buyPet(String userCode,String expensedENum,String description,String usePet){
         // 获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
-//        String userId = "1071008924553048065";
         boolean userInfoModel=userInfoService.buyPet(userCode,usePet,description,expensedENum);
         return ItooResult.build(ItooResult.SUCCESS,"宠物购买成功");
     }
@@ -268,7 +262,6 @@ public class UserInfoController {
     @ApiOperation(value = "更换宠物形象")
     @GetMapping(value = "/changeUsePet/userCode/usePet")
     public ItooResult changeUsePet(String userCode,String usePet){
-//        String userId = "1071008933394640898";
         // 获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
         boolean userInfoModel = userInfoService.changeUsePet(userId,usePet);
@@ -288,7 +281,6 @@ public class UserInfoController {
 
         // 获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
-//        String userId = "1071008924553048065";
         boolean userInfoModel=userInfoService.changeIntegral(userCode,description,expensedENum);
         return ItooResult.build(ItooResult.SUCCESS,"积分兑换成功");
     }
