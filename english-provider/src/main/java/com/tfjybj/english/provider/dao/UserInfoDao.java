@@ -2,13 +2,10 @@ package com.tfjybj.english.provider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.UserInfoEntity;
-import com.tfjybj.english.model.UserPartModel;
+import com.tfjybj.english.model.*;
 import org.springframework.stereotype.Repository;
 
-import com.tfjybj.english.model.MineModel;
-import com.tfjybj.english.model.RankModel;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -49,6 +46,27 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
     // 获取updatetime
     String selectNowDay(String userId);
 
+    // 获取createtime
+        String selectCreateDay(String userId);
+
+
+
     //获取坚持天数
     String selectInsistDays(String userId);
+
+    //获取用户当前宠物列表
+    UserPetListModel queryPetListByUserId(@Param("userId") String userId);
+
+    /**
+     * 根据userId在tn_user_info表中查询当前宠物
+     * @param  userId
+     * @return usePet
+     */
+    UsePetModel getUsePet(String userId);
+
+
+    boolean buyPet(@Param("userId") String userId, @Param("PetList") String PetList,@Param("usePet") String usePet);
+
+
+    boolean changeUsePet(@Param("userId") String userId, @Param("usePet") String usePet);
 }

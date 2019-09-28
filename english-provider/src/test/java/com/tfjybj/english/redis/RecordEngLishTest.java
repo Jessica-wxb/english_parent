@@ -108,10 +108,10 @@ public class RecordEngLishTest extends TestBaseProject {
 
     }
 
-    @Test
-    public void daoru(){
-        wordDetectionService.toWordTemplate();
-    }
+//    @Test
+//    public void daoru(){
+//        wordDetectionService.toWordTemplate();
+//    }
 
 
 

@@ -120,13 +120,13 @@ public class WordDetectionService {
      * @param checkWord 检测单词的信息
      * @return返回下一个待检测信息
      */
-    public WordModel DetectNext(CheckWord checkWord, String userId) {
+    public WordModel DetectNext(CheckWord checkWord, String userId,String userCode) {
         if (checkWord.getStatus() == 1) {
             redisUtil.sSet(EnglishRedis.Record + userId + RecordDate.Date() + EnglishRedis.CheckWrong,
                     FastJsonWrapper.toJson(checkWord.getId()));
        }
         else {
-           boolean flag = rankService.addE(userId,1);
+           boolean flag = rankService.addE(userId,userCode,1);
         }
         redisUtil.sSet(EnglishRedis.Record + userId + RecordDate.Date() + EnglishRedis.CheckWord,
                     FastJsonWrapper.toJson(checkWord));

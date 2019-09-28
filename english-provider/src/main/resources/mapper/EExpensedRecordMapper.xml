@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tfjybj.english.provider.dao.EExpensedRecordDao">
+    <!--根据userId往E币消费记录表中插入一条数据-->
+    <insert id="InsertExpensedRecord">
+          INSERT INTO tn_e_expensed_record
+          (id, user_id, description, expensed_e_num,create_time)
+          VALUES
+          (#{id},#{userId},#{description},#{expensedENum},#{date})
+    </insert>
+
+    <!--根据EExpensedRecord用户id模糊查询EExpensedRecordEntity-->
+    <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.EExpensedRecordEntity">
+        SELECT
+			*
+        FROM
+			tn_e_expensed_record f
+        WHERE
+			f.is_delete = 0
+        <if test="userId !=''">
+            <bind name="pattern" value="'%' + userId + '%'"/>
+            AND f.user_id LIKE #{pattern}
+        </if>
+        ORDER BY
+        f.create_time DESC
+    </select>
+
+</mapper>

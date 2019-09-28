@@ -100,8 +100,8 @@ public class homepageTest  extends TestBaseProject {
 
     @Test
     public void addE(){
-        boolean flag = rankService.addE("GtLTLszDDfywC2ETtrszEe",1);
-        System.out.println(flag);
+        //boolean flag = rankService.addE("GtLTLszDDfywC2ETtrszEe",1);
+        //System.out.println(flag);
     }
 
     @Test

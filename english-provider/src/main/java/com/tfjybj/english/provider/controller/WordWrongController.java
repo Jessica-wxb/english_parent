@@ -188,14 +188,14 @@ public class WordWrongController {
      */
     @ApiOperation("单词归仓待检测数据，切换下一个")
     @PostMapping(value = {"/queryNextStoreCheckWord"})
-    public ItooResult queryNextStoreCheckWord(@RequestBody WordCheckAndTypeModel model){
+    public ItooResult queryNextStoreCheckWord(@RequestBody WordCheckAndTypeModel model,String userCode){
         String userId = UserUtil.getCurrentUser().getUserId();
         String wordId = model.getId();
         Integer isCheck = model.getIsCheck();
-        WordTemplteModel wordModel = wordWrongCommonService.queryNextStoreCheckWord(userId,wordId,isCheck);
+        WordTemplteModel wordModel = wordWrongCommonService.queryNextStoreCheckWord(userId,userCode,wordId,isCheck);
         if (wordModel==null)
             {
-                redisToDbService.StoreCheckDoneToDB(model.getId());
+//                redisToDbService.StoreCheckDoneToDB(model.getId());
                 return ItooResult.build("2222","记录为空");
             }
 

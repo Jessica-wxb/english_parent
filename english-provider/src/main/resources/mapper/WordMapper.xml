@@ -88,6 +88,8 @@
         WHERE
             id IN ( SELECT word_id FROM tn_word_record WHERE user_id = #{userId} ORDER BY create_time DESC ) LIMIT #{limit}
             id IN ( SELECT min( id ) FROM tn_word GROUP BY word )
+          AND
+        (tn_word.word is NOT NULL )
     </select>
 
     <select id="queryPageAll" resultType="java.lang.String">
@@ -119,6 +121,8 @@
             tn_word
         WHERE
             id IN ( SELECT min( id ) FROM tn_word GROUP BY word )
+        AND
+        (tn_word.word is NOT NULL )
     </select>
 
     <!-- 查询所有单词的id 和四个图片-陈广晗 -->

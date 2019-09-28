@@ -122,6 +122,29 @@
 
         where id =#{userId}
     </update>
+
+    <!--根据userId去更新用户的petList-->
+    <update id="buyPet">
+        update tn_user_info
+        <set>
+            pet_list =#{PetList},
+            use_pet =#{usePet}
+        </set>
+        where id =#{userId}
+
+    </update>
+    <!--根据userId去更新用户的petList和usePet-->
+    <update id="changeUsePet">
+        update tn_user_info
+        <set>
+            use_pet =#{usePet}
+        </set>
+        where id =#{userId}
+
+    </update>
+    <!--    <update id="buyPet">-->
+<!--        -->
+<!--    </update>-->
     <!--根据userId查询当前登录用户的user_name,e_all_num-->
     <select id="queryUserIdAddE" resultMap="Base_Result_Map_ITEM_USER">
         SELECT
@@ -137,8 +160,31 @@
         SELECT  update_time FROM  tn_user_info WHERE id = #{userId}
     </select>
 
+    <!--    获取createtime-->
+    <select id="selectCreateDay" resultType="java.lang.String">
+        SELECT  create_time FROM  tn_user_info WHERE id = #{userId}
+    </select>
+
     <!--获取坚持天数-->
     <select id="selectInsistDays" resultType="java.lang.String">
         SELECT  insist_days FROM  tn_user_info WHERE id = #{userId}
+    </select>
+    <select id="getUsePet" resultType="com.tfjybj.english.model.UsePetModel">
+       SELECT
+           use_pet
+       FROM
+           tn_user_info
+        WHERE
+           id = #{userId}
+
+    </select>
+    <select id="queryPetListByUserId" resultType="com.tfjybj.english.model.UserPetListModel">
+                SELECT
+            tn_user_info.use_pet,
+            tn_user_info.pet_list
+        FROM
+            tn_user_info
+        WHERE
+             tn_user_info.id = #{userId}
     </select>
 </mapper>

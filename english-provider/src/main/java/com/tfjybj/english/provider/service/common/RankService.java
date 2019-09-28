@@ -134,7 +134,7 @@ public class RankService {
      * @param index  0:学单词；1：单词检测；2：归仓检测
      * @return
      */
-    public boolean addE(String userId, int index) {
+    public boolean addE(String userId,String userCode, int index) {
         boolean flag = redisUtil.hasKey(EnglishRedis.Rank);
         if (!flag) {//如果redis中没有数据，则从数据库中拿数据
             List<RankModel> rankModelList = userInfoDao.queryUserIdEAllNum();
@@ -144,21 +144,21 @@ public class RankService {
         //从redis中拿数据
         String userEInfoNew = redisUtil.hget(EnglishRedis.Rank, userId);
 
-        //从redis中取一条数据，ENGLISH_USERINFO，要加E币---有问题
-        //String userInfoEAllNum = redisUtil.hget(ENGLISH_USERINFO,userId);
+        //从redis中取一条数据，ENGLISH_USERINFO，要加E币---后来加的代码
+        String userInfoEAllNum = redisUtil.get(ENGLISH_USERINFO+userCode);
 
         if (!StringUtils.isEmpty(userEInfoNew)) { //判断redis中是否为空，不为空则执行以下代码
             RankModel rankModel = JSON.parseObject(userEInfoNew, RankModel.class);
 
-            //RankModel userEAllNumModel = JSONObject.parseObject(userInfoEAllNum, RankModel.class);//---有问题,保留
+            MineModel userEAllNumModel = JSON.parseObject(userInfoEAllNum, MineModel.class);//---后来加的代码
 
             rankModel.setEAllNum(String.valueOf(Integer.valueOf(rankModel.getEAllNum()) + AddEType.getENum(index)));//加分，然后存到rankModel中
 
-            //有问题
-            //rankModel.setEAllNum(String.valueOf(Integer.valueOf(userEAllNumModel.getEAllNum()) + AddEType.getENum(index)));//加分，然后存到ENGLISH_USERINFO中
+            //后来加的代码
+            userEAllNumModel.setENowNum(String.valueOf(Integer.valueOf(userEAllNumModel.getENowNum()) + AddEType.getENum(index)));//加分，然后存到ENGLISH_USERINFO中
 
             redisUtil.hset(EnglishRedis.Rank, userId, JSON.toJSONString(rankModel));//存到redis中
-            //redisUtil.hset(ENGLISH_USERINFO, userId, JSON.toJSONString(userEAllNumModel));//存到redis中--有问题
+            redisUtil.set(ENGLISH_USERINFO+ userCode, JSON.toJSONString(userEAllNumModel));//存到redis中--后来加的代码
             return true;
         }else{//为空，说明redis中没有这个人，则从数据库中拿出这个人，放到redis中
             //从数据库中拿一条数据
@@ -181,7 +181,18 @@ public class RankService {
     public MineModel Mine(String userCode){
         //从Token中获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
+        //redis中查询是否有userInfo
+        boolean flag = redisUtil.hasKey(EnglishRedis.UserInfo + userCode);
+        if (!flag) {
+            List<MineModel> mineModels = userInfoDao.queryMineByUserId(userId);
+            Map<String, Object> map = mineModels.stream().collect(Collectors.toMap(MineModel::getUserId, MineModel -> JSON.toJSONString(MineModel)));
+            redisUtil.hmset(EnglishRedis.UserInfo, map);
+        }
 
+        //从数据库中查询出用户学过的所有单词数量--为了让数据库更新
+        int allWordNum1 = wordRecordDao.queryAllWordNumByuserId(userId);
+        //先刷新一遍数据库，避免数据错误
+        int needStudyNums = wordDao.findWordnumsById(UserUtil.getCurrentUser().getUserId());
         //从数据库中查询出用户学过的所有单词数量
         int allWordNum = wordRecordDao.queryAllWordNumByuserId(userId);
         //从redis中获取
@@ -193,18 +204,9 @@ public class RankService {
         //转Json存到redis中
         redisUtil.set(EnglishRedis.UserInfo+userCode, JSON.toJSONString(allWordNumModel));
 
-        //redis中查询是否有userInfo
-        boolean flag = redisUtil.hasKey(EnglishRedis.UserInfo + userCode);
-
-        if (!flag) {
-            List<MineModel> mineModels = userInfoDao.queryMineByUserId(userId);
-            Map<String, Object> map = mineModels.stream().collect(Collectors.toMap(MineModel::getUserId, MineModel -> JSON.toJSONString(MineModel)));
-            redisUtil.hmset(EnglishRedis.UserInfo, map);
-        }
-//        addInsistDays(userCode);
+        addInsistDays(userCode);
         //MineModel mineModelnew = JSON.parseObject(redisUtil.hget(ENGLISH_USERINFO, userCode), MineModel.class);
         String json = redisUtil.get(EnglishRedis.UserInfo + userCode);
-
         MineModel mineModelnew = JSON.parseObject(json,MineModel.class);
         return mineModelnew;
     }
@@ -220,14 +222,15 @@ public class RankService {
         // 判断数据库updatetime是否是今天
         SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
         String timenow = format2.format(Calendar.getInstance().getTime());
-       String timeDate = userInfoDao.selectNowDay(userId);
+        String timeDate = userInfoDao.selectNowDay(userId);
         String[] timeDateNews = timeDate.split(" ");
         timeDate =  timeDateNews[0];
 
+        boolean time = timeDate.equals(timenow);
 
 
 
-        if (needStudyNums <= 0 && timenow != timeDate ) {//根据时间和剩余学习单词数量判断是否 坚持天数加1
+        if (needStudyNums <= 0 && !time ) {//根据时间和剩余学习单词数量判断是否 坚持天数加1
 
             // insistday +1
             userInfoDao.updateInsistDay(userId);
@@ -245,5 +248,21 @@ public class RankService {
         } else {
             return ;
         }
+    }
+
+
+    /**
+     * @param
+     * @return 从redis的Rank中查询出【我的】用户头像右侧的E币数
+     * @author 王小波
+     * @since 2019年9月8日21:17:38
+     */
+    public RankLocalModel findRankByUserId(String userId) {
+        // 从redis中取数据
+        String EAllNum = redisUtil.hget(EnglishRedis.Rank ,userId);
+        //转类型
+        RankLocalModel RankByUserIdModel = JSON.parseObject(EAllNum,RankLocalModel.class);
+        return RankByUserIdModel;
+
     }
 }

@@ -122,8 +122,9 @@ public class WordController {
      */
     @ApiOperation(value = "进入学单词页面初始化加载")
     @GetMapping(value = {"/queryWordNewPicture"})
-    public ItooResult findWordsById() {
-        WordPartModel listwords = wordOtherService.findWordsById();
+    public ItooResult findWordsById(String userCode) {
+        WordPartModel listwords = wordOtherService.findWordsById(userCode);//董可 增加了userCode
+
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", listwords);
     }
     /**
@@ -136,8 +137,8 @@ public class WordController {
      */
     @ApiOperation(value = "点击下一步，顺序查询需要学习的内容")
     @GetMapping(value = {"/getNextWord"})
-    public ItooResult getNextWord() {
-        WordPartModel nextwords = wordOtherService.getNextWord();
+    public ItooResult getNextWord(String userCode) {
+        WordPartModel nextwords = wordOtherService.getNextWord(userCode);//董可添加userCode
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", nextwords);
     }
     /**
@@ -170,8 +171,14 @@ public class WordController {
         if(newPictureAddress.getWordId() == null || newPictureAddress.getPictureAddress() == null){
             return ItooResult.build(ItooResult.FAIL, "报错了！");
         }
-        wordOtherService.insertPicture(newPictureAddress);
-        return ItooResult.build(ItooResult.SUCCESS, "添加成功");
+        boolean flag = wordOtherService.insertPicture(newPictureAddress);
+        if(flag){
+            return ItooResult.build(ItooResult.SUCCESS, "添加成功");
+        }
+        else {
+            return ItooResult.build(ItooResult.FAIL,"添加失败");
+        }
+
     }
 
     /**
