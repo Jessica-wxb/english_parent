@@ -3,9 +3,11 @@ package com.tfjybj.english.provider.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.dmsdbj.itoo.sso.utils.UserUtil;
 import com.google.common.collect.Maps;
 import com.tfjybj.english.Enum.PetListEnumUntil;
+import com.tfjybj.english.entity.EExpensedRecordEntity;
 import com.tfjybj.english.model.*;
 import com.dmsdbj.itoo.tool.business.ItooResult;
 
@@ -13,6 +15,7 @@ import com.tfjybj.english.provider.service.EExpensedRecordService;
 import com.tfjybj.english.provider.service.common.EStoreUpdateENowNumService;
 import com.tfjybj.english.provider.service.common.UsePetService;
 import com.tfjybj.english.provider.service.common.UserInfoAndSetService;
+//import com.tfjybj.english.provider.service.common.InsertExpensedRecordService;
 import com.tfjybj.english.model.MineModel;
 import com.tfjybj.english.model.RankLocalModel;
 
@@ -20,23 +23,27 @@ import com.tfjybj.english.provider.service.common.RankService;
 import com.tfjybj.english.provider.service.UserInfoService;
 import io.swagger.annotations.*;
 
+import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import sun.util.logging.PlatformLogger;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 
+
 /**
  * UserInfoController
  * userInfo表
- * <
+<
  *
  * @author 张凯超
  * @version 1.0.0
- * @since 2019-08-16 08:47:57
+ * @since  2019-08-16 08:47:57
  */
 @Api(tags = {"userInfo表接口"})
 @RequestMapping(value = "/userInfo")
@@ -65,9 +72,9 @@ public class UserInfoController {
     EExpensedRecordService eExpensedRecordService;
 
 
+
     /**
      * 用户登录
-     *
      * @return
      * @author 闫伟强
      * @since 2019-08-16 08:47:57
@@ -94,18 +101,17 @@ public class UserInfoController {
 
     /**
      * 查询E币排行
-     *
      * @return E币排行
      * @author 董可
      * @since 2019年8月16日09:40:57
      */
     @ApiOperation(value = "查询E币排行")
     @GetMapping(value = {"/queryUserIdEAllNum"})
-    public ItooResult queryUserIdEAllNum() {
+    public ItooResult queryUserIdEAllNum(){
         String userId = UserUtil.getCurrentUser().getUserId();
         List<RankLocalModel> RankModels = rankService.localRankByUserId(userId);
 //        List<RankModel> rankModel = rankService.getRanking(userId);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", RankModels);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",RankModels);
     }
 
     /**
@@ -186,24 +192,24 @@ public class UserInfoController {
         List<String> list = new ArrayList<>();
 
         // 将截取的数据于枚举对比获得宠物地址
-        for (String name : names) {
-            if (PetListEnumUntil.PET_DOG.getPetName().equals(name)) {
+        for (String name:names){
+            if (PetListEnumUntil.PET_DOG.getPetName().equals(name)){
                 list.add(PetListEnumUntil.PET_DOG.getPetName());
             }
-            if (PetListEnumUntil.PET_CAT.getPetName().equals(name)) {
+            if (PetListEnumUntil.PET_CAT.getPetName().equals(name)){
                 list.add(PetListEnumUntil.PET_CAT.getPetName());
             }
-            if (PetListEnumUntil.PET_RABBIT.getPetName().equals(name)) {
+            if (PetListEnumUntil.PET_RABBIT.getPetName().equals(name)){
                 list.add(PetListEnumUntil.PET_RABBIT.getPetName());
             }
-            if (PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(name)) {
+            if (PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(name)){
                 list.add(PetListEnumUntil.PET_SUPER_RABBIT.getPetName());
             }
         }
 
         // 将对比的宠物地址设置
         userPetListModel.setPetNames(list);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userPetListModel);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",userPetListModel);
     }
 
     /**
@@ -214,13 +220,13 @@ public class UserInfoController {
      */
     @ApiOperation(value = "查询当前正在使用的宠物")
     @GetMapping(value = "/queryUsePetByUserId")
-    public ItooResult queryUsePetByUserId() {
+    public ItooResult queryUsePetByUserId(){
         // 获取当前正在使用的宠物usePet
         String userPetJson = usePetService.queryUsePetByUserId();
-        if (userPetJson == null && userPetJson == "") {
-            return ItooResult.build(ItooResult.FAIL, "对不起，您当前没有宠物！");
+        if(userPetJson == null && userPetJson== ""){
+            return ItooResult.build(ItooResult.FAIL,"对不起，您当前没有宠物！");
         }
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", userPetJson);
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",userPetJson);
     }
 
 
@@ -229,14 +235,15 @@ public class UserInfoController {
      * @return 购买宠物
      * @author
      * @since 2019年9月19日15:13:33
-     * <p>
-     * 业务逻辑：
-     * 购买宠物->成功之后：
-     * 0.往E币消费记录表tn_e_expensed_record中插入一条消费记录
-     * 1.更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
-     * 2.更新数据库中的usePet和petList
-     * 3.用户在E币商城消费后，更新用户当前可用的ENowNum
-     * 购买宠物->失败之后：提示插入失败
+     *
+     *  业务逻辑：
+     *          购买宠物->成功之后：
+     *             0.往E币消费记录表tn_e_expensed_record中插入一条消费记录
+     *             1.更新redis中ENGLISH:USEPET:userId中的当前宠物替换成刚刚购买的宠物
+     *             2.更新数据库中的usePet和petList
+     *             3.用户在E币商城消费后，更新用户当前可用的ENowNum
+     *             购买宠物->失败之后：提示插入失败
+     *
      */
     @ApiOperation(value = "购买宠物")
     @GetMapping(value = "/buyPet/{userCode}/{expensedENum}/{description}/{usePet}")
@@ -261,7 +268,7 @@ public class UserInfoController {
 
     /**
      * @param
-     * @return 更换宠物形象
+     * @return  更换宠物形象
      * @author
      * @since 2019年9月19日15:13:33
      */
