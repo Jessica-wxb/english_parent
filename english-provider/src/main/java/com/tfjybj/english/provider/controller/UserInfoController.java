@@ -240,10 +240,10 @@ public class UserInfoController {
      */
     @ApiOperation(value = "购买宠物")
     @GetMapping(value = "/buyPet/{userCode}/{expensedENum}/{description}/{usePet}")
-    public ItooResult buyPet( String userCode,
-                              String expensedENum,
-                              String description,
-                              String usePet) {
+    public ItooResult buyPet( @RequestParam String userCode,
+                              @ApiParam(value = "消费的E币数", required = true) String expensedENum,
+                              @ApiParam(value = "描述：购买宠物", required = true) String description,
+                              @ApiParam(value = "用户购买的宠物", required = true) String usePet) {
         boolean buyPet = false;
         if (!userCode.equals("") && !expensedENum.equals("") && !description.equals("") && !usePet.equals("")) {
 
@@ -267,8 +267,8 @@ public class UserInfoController {
      */
     @ApiOperation(value = "更换宠物形象")
     @GetMapping(value = "/changeUsePet/{userCode}/{usePet}")
-    public ItooResult changeUsePet(String userCode,
-                                   String usePet) {
+    public ItooResult changeUsePet(@RequestParam String userCode,
+                                   @ApiParam(value = "用户更换的宠物", required = true) String usePet) {
         // 获取userId
         String userId = UserUtil.getCurrentUser().getUserId();
         boolean changeUsePet = false;
@@ -294,9 +294,9 @@ public class UserInfoController {
      */
     @ApiOperation(value = "兑换积分")
     @GetMapping(value = "/changeIntegral/{userCode}/{expensedENum}/{description}")
-    public ItooResult changeIntegral( String userCode,
-                                      String expensedENum,
-                                      String description) {
+    public ItooResult changeIntegral( @RequestParam String userCode,
+                                      @ApiParam(value = "消费的E币数", required = true) String expensedENum,
+                                      @ApiParam(value = "描述：兑换积分", required = true) String description) {
         boolean changeIntegral = false;
         if (!userCode.equals("") && !expensedENum.equals("") && !description.equals("")) {
             changeIntegral = userInfoService.changeIntegral(userCode, description, expensedENum);
