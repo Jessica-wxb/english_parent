@@ -10,13 +10,14 @@ import com.tfjybj.english.utils.cache.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.tfjybj.english.model.MineModel;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 
 @Service("eStoreUpdateENowNumService")
-public class EStoreUpdateENowNumService{
+public class EStoreUpdateENowNumService {
 
     @Autowired
     RedisUtil redisUtil;
@@ -26,15 +27,15 @@ public class EStoreUpdateENowNumService{
 
 
     /**
-     *@ClassName EStoreUpdateENowNumService
-     *@param  userCode, expensedENum$
-     *@Description  用户在E币商城消费后，更新用户当前可用的ENowNum
-     *@Author
-     *@Date 2019/9/20 11:18
-     *@Version 1.0
+     * @param userCode, expensedENum$
+     * @ClassName EStoreUpdateENowNumService
+     * @Description 用户在E币商城消费后，更新用户当前可用的ENowNum
+     * @Author
+     * @Date 2019/9/20 11:18
+     * @Version 1.0
      **/
 
-    public  String UpdateENum(String userCode,String expensedENum){
+    public String UpdateENum(String userCode, String expensedENum) {
         /*
           0.先从redis中查询e_now_num
             判断redis里面是否存在e_now_num
@@ -50,20 +51,19 @@ public class EStoreUpdateENowNumService{
         String userId = UserUtil.getCurrentUser().getUserId();
 
         boolean flag = redisUtil.hasKey(EnglishRedis.UserInfo + userCode);
-        if(!flag){
+        if (!flag) {
             List<MineModel> mineModels = userInfoDao.queryMineByUserId(userId);
-            Map<String,Object> map = mineModels.stream().collect(Collectors.toMap(MineModel::getUserId,MineModel -> JSON.toJSONString(MineModel)));
-            redisUtil.hmset(EnglishRedis.UserInfo,map);
+            Map<String, Object> map = mineModels.stream().collect(Collectors.toMap(MineModel::getUserId, MineModel -> JSON.toJSONString(MineModel)));
+            redisUtil.hmset(EnglishRedis.UserInfo, map);
         }
         String MineModelJson = redisUtil.get(EnglishRedis.UserInfo + userCode);
-        MineModel mineModel = JSON.parseObject(MineModelJson,MineModel.class);
+        MineModel mineModel = JSON.parseObject(MineModelJson, MineModel.class);
         String eNowNum = mineModel.getENowNum(String.valueOf(mineModel));
-        mineModel.setENowNum(String.valueOf(Integer.valueOf(mineModel.getENowNum())-Integer.valueOf(expensedENum)) );
-        redisUtil.set(EnglishRedis.UserInfo+userCode,JSON.toJSONString(mineModel));
+        mineModel.setENowNum(String.valueOf(Integer.valueOf(mineModel.getENowNum()) - Integer.valueOf(expensedENum)));
+        redisUtil.set(EnglishRedis.UserInfo + userCode, JSON.toJSONString(mineModel));
         return mineModel.getENowNum();
 
     }
-
 
 
 }

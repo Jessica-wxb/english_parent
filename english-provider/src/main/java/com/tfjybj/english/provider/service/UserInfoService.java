@@ -16,17 +16,20 @@ import com.tfjybj.english.model.UserPetListModel;
 public interface UserInfoService extends BaseServicePlus<UserInfoEntity> {
 
     /**
-     * @param  userId
+     * @param userId
      * @return 获取用户的宠物列表 petList
-     *
      */
 
     UserPetListModel queryPetListByUserId(String userId);
 
 
-    boolean buyPet(String userCode,String usePet,String description,String expensedENum);
+    boolean buyPet(String userCode, String usePet, String description, String expensedENum);
 
     boolean changeUsePet(String userId, String usePet);
 
     boolean changeIntegral(String userCode, String description, String expensedENum);
+
+    String queryUsePetByUserId();
+
+    String UpdateENum(String userCode, String expensedENum);
 }
