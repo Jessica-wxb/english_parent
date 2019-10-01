@@ -1,7 +1,7 @@
 spring:
   profiles:
  #  active: @profileActive@
-    active: dev
+    active: test
 auth-login: http://192.168.22.52:8081/auth-web/access/login
 ---
 
@@ -83,7 +83,7 @@ fdfs:
   realIp: 192.168.22.133
   #pool:
   #jmx-enabled:false
-sso-access: true
+sso-access: false
 auth-login: http://192.168.22.52:8081/auth-web/access/login
 
 logging:
@@ -93,7 +93,7 @@ logging:
 
 ---
 server:
-  port: 8090
+  port: 8099
   servlet:
     context-path: /english-web
 spring:
@@ -172,7 +172,7 @@ fdfs:
   #pool:
   #jmx-enabled:false
 sso-access: true
-auth-login: http://192.168.22.52:8081/auth-web/access/login
+auth-login: http://192.168.22.54:8081/auth-web/access/login
 
 logging:
   level:
