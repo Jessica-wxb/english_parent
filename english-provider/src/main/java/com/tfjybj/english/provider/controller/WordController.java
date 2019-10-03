@@ -221,17 +221,6 @@ public class WordController {
         return ItooResult.build(ItooResult.SUCCESS, "查询成功",redisNums);
     }
 
-    /**
-     * 回顾学习，学习下一个
-     * 邢美玲
-     * 2019年9月26日
-     */
-    @ApiOperation(value = "复习下一个单词")
-    @GetMapping(value = "/queryReviewWords")
-    public  ItooResult getNextReviewWord(){
-        WordPartModel wordPartModel = wordOtherService.getNextReviewWord();
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功", wordPartModel);
-    }
     /*
     * 跳出复习内容
     * 邢美玲
@@ -248,10 +237,6 @@ public class WordController {
             return ItooResult.build(ItooResult.FAIL,"清空失败");
         }
     }
-
-
-
-
 
     /**
      * 分页查询所有Word

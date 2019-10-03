@@ -2,7 +2,7 @@ spring:
   profiles:
    active: dev
 #auth-login: https://dmsdbj.com/auth-web/access/login
-auth-login: http://192.168.22.52:8081/auth-web/access/login
+auth-login: http://192.168.22.54:8081/auth-web/access/login
 ---
 
 server:
