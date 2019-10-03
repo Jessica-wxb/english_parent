@@ -48,5 +48,10 @@ public interface PhoneticService extends BaseServicePlus<PhoneticEntity> {
      * @since 2019-09-06 17:21:46
      */
     boolean phonePathInstert(String phonePath) throws IOException;
-
+    /**
+     * 将48个音标插入redis
+     * @author 闫伟强
+     * @since 2019年10月3日15:58:18
+     */
+    void PhoneticInsertRedis();
 }

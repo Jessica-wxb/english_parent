@@ -128,18 +128,18 @@ public class RecordEngLishTest extends TestBaseProject {
     }
 
 
-    @Test
-    public void PhoneticWordInsertRedis(){
-        phoneticWordService.PhoneticWordInsertRedis();
-    }
-    @Test
-    public void WordPhoneticInsertRedis(){
-        wordPhoneticService.WordPhoneticInsertRedis();
-    }
-    @Test
-    public void PhoneticInsertRedis(){
-        phoneticService.PhoneticInsertRedis();
-    }
+//    @Test
+//    public void PhoneticWordInsertRedis(){
+//        phoneticWordService.PhoneticWordInsertRedis();
+//    }
+//    @Test
+//    public void WordPhoneticInsertRedis(){
+//        wordPhoneticService.WordPhoneticInsertRedis();
+//    }
+//    @Test
+//    public void PhoneticInsertRedis(){
+//        phoneticService.PhoneticInsertRedis();
+//    }
     //    @Test
 //    public void daoru(){
 //        wordDetectionService.toWordTemplate();
