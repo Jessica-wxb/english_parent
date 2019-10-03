@@ -2,6 +2,7 @@ package com.tfjybj.english.provider.controller;
 
 import com.dmsdbj.itoo.sso.utils.UserUtil;
 import com.dmsdbj.itoo.tool.business.ItooResult;
+import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.tfjybj.english.model.*;
 import com.tfjybj.english.provider.service.common.RedisToDbService;
 import com.tfjybj.english.provider.service.common.WordDetectionService;
@@ -188,11 +189,11 @@ public class WordWrongController {
      */
     @ApiOperation("单词归仓待检测数据，切换下一个")
     @PostMapping(value = {"/queryNextStoreCheckWord"})
-    public ItooResult queryNextStoreCheckWord(@RequestBody WordCheckAndTypeModel model){
+    public ItooResult queryNextStoreCheckWord(@RequestBody WordCheckAndTypeModel model,String userCode){
         String userId = UserUtil.getCurrentUser().getUserId();
         String wordId = model.getId();
         Integer isCheck = model.getIsCheck();
-        WordTemplteModel wordModel = wordWrongCommonService.queryNextStoreCheckWord(userId,wordId,isCheck);
+        WordTemplteModel wordModel = wordWrongCommonService.queryNextStoreCheckWord(userId,userCode,wordId,isCheck);
         if (wordModel==null)
             {
 //                redisToDbService.StoreCheckDoneToDB(model.getId());

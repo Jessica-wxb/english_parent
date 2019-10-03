@@ -12,6 +12,19 @@
     <insert id="insertNewPicturea" >
         INSERT INTO tn_new_picture (id, user_id, word_id, picture_address)VALUES(#{id},#{userId},#{wordId},#{pictureAddress})
     </insert>
+    <!--    将不完整的单词删除-->
+    <delete id="deleteNull">
+                DELETE
+        FROM
+            tn_word
+        WHERE
+            audio IS NULL
+            OR word_picture1 IS NULL
+            OR word_picture2 IS NULL
+            OR word_picture3 IS NULL
+            OR word_picture4 IS NULL
+            OR word_picture5 IS NULL
+    </delete>
 
     <!--插入新图到新图表中;邢美玲;2019年8月18日-->
     <!--<insert id="insertNewPicturea">-->

@@ -48,6 +48,13 @@ public class UserSetEntity extends BaseEntity implements Serializable {
 	private Integer isTurnAuto;
 
 	/**
+	 * 是否显示单词0否，1是
+	 */
+	@ApiModelProperty(value = "是否显示单词0否，1是",required = true)
+	@Column(name = "is_show_word")
+	private Integer isShowWord;
+
+	/**
 	 * 跳转延迟（ms）
 	 */
 	@ApiModelProperty(value = "跳转延迟（ms）",required = true)

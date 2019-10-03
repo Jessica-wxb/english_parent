@@ -19,4 +19,8 @@ public class HomePageNumsModel {
     private int checkIsUsed;
     private int storeIsUsed;
     private int buttonIsWhat;
+
+    private Integer phoneticCheckNums;
+    //音标归仓
+    private Boolean phoneticStoreToDo;
 }

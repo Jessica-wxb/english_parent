@@ -141,31 +141,31 @@ public class RankService {
      * @param index  0:学单词；1：单词检测；2：归仓检测
      * @return
      */
-    public boolean addE(String userId, int index) {
+    public boolean addE(String userId,String userCode, int index) {
         boolean flag = redisUtil.hasKey(EnglishRedis.Rank);
         if (!flag) {//如果redis中没有数据，则从数据库中拿数据
             List<RankModel> rankModelList = userInfoDao.queryUserIdEAllNum();
-            Map<String, Object> map = rankModelList.stream().collect(Collectors.toMap(RankModel::getUserId, RankModel::toString));
+            Map<String, Object> map = rankModelList.stream().collect(Collectors.toMap(RankModel::getUserId, RankModel->JSON.toJSONString(RankModel)));
             redisUtil.hmset(EnglishRedis.Rank, map);
         }
         //从redis中拿数据
         String userEInfoNew = redisUtil.hget(EnglishRedis.Rank, userId);
 
-        //从redis中取一条数据，ENGLISH_USERINFO，要加E币---有问题
-        //String userInfoEAllNum = redisUtil.hget(ENGLISH_USERINFO,userId);
+        //从redis中取一条数据，ENGLISH_USERINFO，要加E币---后来加的代码
+        String userInfoEAllNum = redisUtil.get(ENGLISH_USERINFO+userCode);
 
         if (!StringUtils.isEmpty(userEInfoNew)) { //判断redis中是否为空，不为空则执行以下代码
             RankModel rankModel = JSON.parseObject(userEInfoNew, RankModel.class);
 
-            //RankModel userEAllNumModel = JSONObject.parseObject(userInfoEAllNum, RankModel.class);//---有问题,保留
+            MineModel userEAllNumModel = JSON.parseObject(userInfoEAllNum, MineModel.class);//---后来加的代码
 
             rankModel.setEAllNum(String.valueOf(Integer.valueOf(rankModel.getEAllNum()) + AddEType.getENum(index)));//加分，然后存到rankModel中
 
-            //有问题
-            //rankModel.setEAllNum(String.valueOf(Integer.valueOf(userEAllNumModel.getEAllNum()) + AddEType.getENum(index)));//加分，然后存到ENGLISH_USERINFO中
+            //后来加的代码
+            userEAllNumModel.setENowNum(String.valueOf(Integer.valueOf(userEAllNumModel.getENowNum()) + AddEType.getENum(index)));//加分，然后存到ENGLISH_USERINFO中
 
             redisUtil.hset(EnglishRedis.Rank, userId, JSON.toJSONString(rankModel));//存到redis中
-            //redisUtil.hset(ENGLISH_USERINFO, userId, JSON.toJSONString(userEAllNumModel));//存到redis中--有问题
+            redisUtil.set(ENGLISH_USERINFO+ userCode, JSON.toJSONString(userEAllNumModel));//存到redis中--后来加的代码
             return true;
         }else{//为空，说明redis中没有这个人，则从数据库中拿出这个人，放到redis中
             //从数据库中拿一条数据

@@ -34,7 +34,7 @@ public class UploadPictureUntil {
     // 所有文件格式
     public static String FILE_FORMAT = "WEBP、BMP、PCX、TIF、GIF、JPEG、TGA、EXIF、FPX、SVG、PSD、CDR、PCD、DXF、UFO、EPS、AI、PNG、HDRI、RAW、WMF、FLIC、EMF、ICO、JPG、JPEG、PNG、GIF";
 
-    public static String PICTURE_FORMAT = "JPG、JPEG、PNG";
+    public static String PICTURE_FORMAT = "JPG、JPEG";
     // 目前视频播放支持的格式为wev
     public static String VIDEO_FORMAT = "WEBM";
 
@@ -42,19 +42,20 @@ public class UploadPictureUntil {
         boolean flag = false;
         try {
             // 判断是否为图片
-            if (PICTURE_FORMAT.contains(file.getName().substring(file.getName().indexOf('.') + 1).toUpperCase())) {
-                flag = true;
-                // 把图片进行压缩,大小为300×300的图片并且命名为rose.jpg存放到项目的根目录下面
-                Thumbnails.of(file).size(300, 300).toFile("../rose.jpg");
-                file = new File("../rose.jpg");
-            }
-            // 通过路径转换成文件流picture
+//            if (PICTURE_FORMAT.contains(file.getName().substring(file.getName().indexOf('.') + 1).toUpperCase())) {
+//                flag = true;
+//                // 把图片进行压缩,大小为300×300的图片并且命名为rose.jpg存放到项目的根目录下面
+//                Thumbnails.of(file).size(300, 300).toFile("../rose.jpg");
+//                file = new File("../rose.jpg");
+//            }
+            //通过路径转换成文件流picture
             FileInputStream wordStrm = new FileInputStream(file);
             MultipartFile multipartFile = new MockMultipartFile(file.getName(), file.getName(), "text/plain", wordStrm);
             // 图片上传到fastdfs
             StorePath storePath = fastFileStorageClient.uploadFile(group,multipartFile.getInputStream(), multipartFile.getSize(), FilenameUtils.getExtension(multipartFile.getOriginalFilename()));
             // 获取图片的完整地址
-            String imagePath = "http://" + realIp + "/" + storePath.getFullPath();
+
+            String imagePath = "http://" + realIp + storePath.getPath();
             if (flag) {
                 // 删除根目录下面的图片
                 file.delete();

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.tfjybj.english.provider.dao.PhoneticWrongDao">
+
+    <!--根据userId批量插入record表中-陈广晗-->
+    <insert id="insertBatch">
+        INSERT INTO tn_phonetic_wrong
+        (id,user_id,phonetic,is_store,false_type,create_time)
+        VALUES
+        <foreach collection ="list" item="phoneticList" separator =",">
+            (#{phoneticList.id}, #{phoneticList.userId}, #{phoneticList.phonetic},#{phoneticList.isStore},#{phoneticList.falseType},now())
+        </foreach >
+    </insert>
+
+</mapper>

@@ -9,21 +9,6 @@
         <result property="pictures" column="pictures" jdbcType="VARCHAR"/>
     </resultMap>
 
-	<!--根据NewPicture用户id模糊查询NewPictureEntity-->
-    <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.NewPictureEntity">
-        SELECT
-			*
-        FROM
-			tn_new_picture f
-        WHERE
-			f.is_delete = 0
-        <if test="userId !=''">
-            <bind name="pattern" value="'%' + userId + '%'"/>
-            AND f.user_id LIKE #{pattern}
-        </if>
-        ORDER BY
-        f.create_time DESC
-    </select>
 
     <select id="newPictureInsertRedis" resultMap="Base_Result_Map_ITEMTYPE">
       	SELECT

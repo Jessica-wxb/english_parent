@@ -18,21 +18,7 @@
         <result property="otherPicture2" column="other_picture2" jdbcType="VARCHAR"/>
         <result property="otherPicture3" column="other_picture3" jdbcType="VARCHAR"/>
     </resultMap>
-	<!--根据WordRecord用户id模糊查询WordRecordEntity-->
-    <select id="queryLikeUserId" resultType="com.tfjybj.english.entity.WordRecordEntity">
-        SELECT
-			*
-        FROM
-			tn_word_record f
-        WHERE
-			f.is_delete = 0
-        <if test="userId !=''">
-            <bind name="pattern" value="'%' + userId + '%'"/>
-            AND f.user_id LIKE #{pattern}
-        </if>
-        ORDER BY
-        f.create_time DESC
-    </select>
+
 
     <!--根据userId批量插入record表中-陈广晗-->
     <insert id="insertBatch">

@@ -37,7 +37,6 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
     //查询“我的”--董可
     List<MineModel> queryMineByUserId(@Param("userId")String userId);
 
-
     //循环更新用户的E币
     void modflyEB(List<RankModel> rankModel);
     //根据登录的userId查询此用户的user_name，e_all_num

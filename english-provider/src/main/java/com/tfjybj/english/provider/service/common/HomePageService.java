@@ -3,10 +3,12 @@ package com.tfjybj.english.provider.service.common;
 import com.dmsdbj.itoo.sso.utils.UserUtil;
 import com.tfjybj.english.model.HomePageNumsModel;
 import com.tfjybj.english.model.WordModel;
+import com.tfjybj.english.provider.dao.PhoneticRecordDao;
 import com.tfjybj.english.provider.dao.UserSetDao;
 import com.tfjybj.english.provider.dao.WordRecordDao;
 import com.tfjybj.english.provider.dao.WordWrongDao;
 import com.tfjybj.english.provider.service.*;
+import com.tfjybj.english.provider.service.impl.PhoneticWrongServiceImpl;
 import com.tfjybj.english.utils.EnglishRedis;
 import com.tfjybj.english.utils.RecordDate;
 import com.tfjybj.english.utils.cache.RedisUtil;
@@ -40,6 +42,12 @@ public class HomePageService  {
 
     @Autowired
     RedisUtil redisUtil;
+
+    @Autowired
+    PhoneticRecordDao phoneticRecordDao;
+
+    @Autowired
+    PhoneticWrongServiceImpl phoneticWrongService;
 //    private RedisUtil<Object> redisUtil;
 @Autowired
 WordWrongDao wordWrongDao;
@@ -130,6 +138,12 @@ WordWrongDao wordWrongDao;
                 homePageNumsModel.setStoreIsUsed(0);
             }
         }
+
+        // 将已经检测完的音标同步到DB
+        redisToDbService.PhoneticCheckDoneToDB(userId);
+        redisToDbService.PhoneticToDoToDB(userId, RecordDate.Date());
+        homePageNumsModel.setPhoneticCheckNums(phoneticRecordDao.checkPhoneticNums(userId));
+        homePageNumsModel.setPhoneticStoreToDo(phoneticWrongService.FindStoreNums());
         return homePageNumsModel;
     }
 
