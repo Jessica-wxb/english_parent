@@ -146,4 +146,10 @@
     <select id="selectInsistDays" resultType="java.lang.String">
         SELECT  insist_days FROM  tn_user_info WHERE id = #{userId}
     </select>
+    <select id="selectAllWordNum" resultType="java.lang.String">
+        SELECT COUNT(DISTING id)
+        AS number
+        FROM
+        tn_word
+    </select>
 </mapper>

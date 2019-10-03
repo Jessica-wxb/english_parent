@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dmsdbj.itoo.sso.utils.UserUtil;
 import com.google.common.collect.Lists;
+import com.rabbitmq.client.Return;
 import com.tfjybj.english.model.*;
 import com.tfjybj.english.provider.dao.UserInfoDao;
 import com.tfjybj.english.provider.dao.UserSetDao;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.json.Json;
+import javax.print.DocFlavor;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -27,7 +29,9 @@ public class RankService {
 
     private String ENGLISH_RANK = "English:Rank";
     private String ENGLISH_USERINFO = "ENGLISH:USERINFO:";
+    private String ENGLISH_WORD = "ENGLISH:WORD:";
     private Integer MAX_WORDS = 500;
+
 
     @Autowired
     RedisUtil redisUtil;
@@ -42,6 +46,9 @@ public class RankService {
     WordRecordDao wordRecordDao;
     @Autowired
      WordDao wordDao;
+
+    @Autowired
+    WordListService wordListService;
 
     /**
      * 获取排行榜--董可
@@ -209,6 +216,24 @@ public class RankService {
         String json = redisUtil.get(EnglishRedis.UserInfo + userCode);
         MineModel mineModelnew = JSON.parseObject(json,MineModel.class);
         return mineModelnew;
+    }
+
+    /**
+     * 查询所有单词数量--董可
+     * @return
+     */
+    public Integer AllWordsNum(){
+        boolean flag = redisUtil.hasKey(EnglishRedis.Word + "Violin");
+        if (!flag) {
+            wordListService.wordInsertRedis();
+            Set<String> keys = redisUtil.keys(EnglishRedis.Word  + "*" );
+            int allWordsNum = keys.size();
+            return allWordsNum;
+        }
+        //获取redis中所有单词的数量
+        Set<String> keys = redisUtil.keys(EnglishRedis.Word  + "*" );
+        int allWordsNum = keys.size();
+        return allWordsNum;
     }
 
     /**

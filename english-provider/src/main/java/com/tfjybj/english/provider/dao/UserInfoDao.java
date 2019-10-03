@@ -50,10 +50,13 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
     String selectNowDay(String userId);
 
     // 获取createtime
-        String selectCreateDay(String userId);
+    String selectCreateDay(String userId);
 
 
 
     //获取坚持天数
     String selectInsistDays(String userId);
+
+    //获取所有单词的单词数量
+    String selectAllWordNum();
 }

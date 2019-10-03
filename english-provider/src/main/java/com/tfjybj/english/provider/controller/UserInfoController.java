@@ -103,6 +103,19 @@ public class UserInfoController {
 
     /**
      * @param
+     * @return 我的-界面
+     * @author 董可
+     * @since 2019年8月16日10:09:53
+     */
+    @ApiOperation(value = "查询-[我的]界面-所有单词数量")
+    @GetMapping(value = {"/findWordAllNum"})
+    public  ItooResult queryAllWordsNum(){
+        int allWordsNum = rankService.AllWordsNum();
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",allWordsNum);
+    }
+
+    /**
+     * @param
      * @return 坚持天数加一
      * @author 董可
      * @since 2019年8月16日10:09:53
