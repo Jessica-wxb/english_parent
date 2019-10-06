@@ -21,4 +21,10 @@ public interface PhoneticWordService extends BaseServicePlus<PhoneticWordEntity>
      * @return
      */
     boolean insertPhoneticWordTable(String phoneWordPath);
+    /**
+     * 将音标选单词插入redis
+     * @author 闫伟强
+     * @since 2019年10月3日16:12:37
+     */
+    void PhoneticWordInsertRedis();
 }
