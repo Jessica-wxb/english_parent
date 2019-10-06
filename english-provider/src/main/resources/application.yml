@@ -4,7 +4,6 @@ spring:
 #auth-login: https://dmsdbj.com/auth-web/access/login
 auth-login: http://192.168.22.54:8081/auth-web/access/login
 ---
-
 server:
   port: 8090
   servlet:

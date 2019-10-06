@@ -182,7 +182,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         return getNextWord(userCode,reviewFlag);// 董可有修改
     }
 
-
     // TODO：接口点击跳转的时候，清空当前的Review
     public  boolean clearnRecordWord(String reviewFlag){
         boolean flag;
