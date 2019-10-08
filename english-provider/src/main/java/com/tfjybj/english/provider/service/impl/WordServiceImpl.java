@@ -173,10 +173,10 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         } else {
             // 判断 Redis中的Review是否有数据;并且数据数量 >= set的数量===2019年9月24日
             Boolean flagReview = redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()  + EnglishRedis.ReviewWord);
-            long reviewWordsNum = redisUtil.lGetListSize(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + EnglishRedis.ReviewWord);
+            // long reviewWordsNum = redisUtil.lGetListSize(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + EnglishRedis.ReviewWord);
             // 如果有数据显示Review的数据 有getNextReviewWrod()
-            if(!flagReview & reviewWordsNum < userSetEntity.getStudyNumber() ){
-                return getNextWord(userCode,reviewFlag) ;
+            if(!flagReview){
+                return null;
             }
         }
         return getNextWord(userCode,reviewFlag);// 董可有修改
@@ -208,7 +208,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                 return null;
             }
         }
-//        boolean istrue=reviewFlag.equals("1");
         if(reviewFlag.equals("1") ){
             // 复习：lefpop查询出需要学习的内容 ； rightset到redis中
             WordPartModel wordPartModel = JSON.parseObject((String)(redisUtil.leftPop(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()  + EnglishRedis.ReviewWord)), WordPartModel.class);

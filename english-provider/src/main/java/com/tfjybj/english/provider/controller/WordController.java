@@ -123,6 +123,9 @@ public class WordController {
     @GetMapping(value = {"/queryWordNewPicture"})
     public ItooResult findWordsById(String userCode,String reviewFlag) {
         WordPartModel listwords = wordOtherService.findWordsById(userCode,reviewFlag);//董可 增加了userCode
+        if (listwords == null){
+            return ItooResult.build(ItooResult.FAIL,"查询失败",listwords);
+        }
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", listwords);
     }
      /**
