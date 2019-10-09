@@ -207,6 +207,7 @@ public class PhoneticServiceImpl extends BaseServicePlusImpl<PhoneticDao, Phonet
      * @author 闫伟强
      * @since 2019年9月7日10:21:24
      */
+    @Override
     public void  PhoneticInsertRedis() {
         List<PhoneticEntity> phoneticEntities = phoneticDao.PhoneticInsertRedis();
         for (int i = 0; i < phoneticEntities.size(); i++) {

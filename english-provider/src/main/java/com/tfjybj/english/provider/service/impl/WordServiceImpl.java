@@ -143,7 +143,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                     userSetEntity = wordDao.findUserSetById(UserUtil.getCurrentUser().getUserId());
                 }
             }
-        // 是否是review状态0 不是复习 1 是复习状态
+        // 是否是review状态0 不是复习 ； 1 是复习状态
         if (reviewFlag.equals( "0")) {
             // 获取今天需要学习的内容入到redis
             int needStudyNums = wordDao.findWordnumsById(UserUtil.getCurrentUser().getUserId()); // 今天还需要的学习数量 = 今天设置的单词数 - 今天已学单词
@@ -173,18 +173,13 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
         } else {
             // 判断 Redis中的Review是否有数据;并且数据数量 >= set的数量===2019年9月24日
             Boolean flagReview = redisUtil.hasKey(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()  + EnglishRedis.ReviewWord);
-            long reviewWordsNum = redisUtil.lGetListSize(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + EnglishRedis.ReviewWord);
+            // long reviewWordsNum = redisUtil.lGetListSize(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId() + EnglishRedis.ReviewWord);
             // 如果有数据显示Review的数据 有getNextReviewWrod()
-            if(!flagReview & reviewWordsNum < userSetEntity.getStudyNumber() ){
-                return getNextWord(userCode,reviewFlag) ;
+            if(!flagReview){
+                return null;
             }
         }
         return getNextWord(userCode,reviewFlag);// 董可有修改
-    }
-
-//    // TODO： + 需要有一个接口对前端
-    public WordPartModel getNextReviewWord(){
-        return null;
     }
 
     // TODO：接口点击跳转的时候，清空当前的Review
@@ -213,7 +208,6 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
                 return null;
             }
         }
-//        boolean istrue=reviewFlag.equals("1");
         if(reviewFlag.equals("1") ){
             // 复习：lefpop查询出需要学习的内容 ； rightset到redis中
             WordPartModel wordPartModel = JSON.parseObject((String)(redisUtil.leftPop(EnglishRedis.Record + UserUtil.getCurrentUser().getUserId()  + EnglishRedis.ReviewWord)), WordPartModel.class);

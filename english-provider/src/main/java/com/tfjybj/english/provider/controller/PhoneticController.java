@@ -32,108 +32,6 @@ public class PhoneticController {
     @Resource
     private PhoneticService phoneticService;
 
-    //region 模板生成：基本增删改
-
-    /**
-     * 添加
-     *
-     * @param model PhoneticModel
-     * @return 添加的结果
-     * @author 白靖
-     * @since ${version} 2019-09-05 17:36:14
-     */
-    @ApiOperation(value = "添加")
-    @PostMapping(value = {"/create"})
-    public ItooResult create(@RequestBody PhoneticModel model) {
-        PhoneticEntity phoneticEntity = new PhoneticEntity();
-        BeanUtils.copyProperties(model, phoneticEntity);
-        phoneticService.save(phoneticEntity);
-        return ItooResult.build(ItooResult.SUCCESS, "添加成功");
-    }
-
-    /**
-     * 删除
-     *
-     * @param id 主键id
-     * @return ItooResult 是否删除成功          
-     * @author 白靖
-     * @since ${version} 2019-09-05 17:36:14
-     */
-    @ApiOperation(value = "根据id删除（单个）")
-    @DeleteMapping(value = {"/delete/{id}"})
-    public ItooResult delete(@ApiParam(value = "主键id", required = true) @PathVariable String id) {
-        phoneticService.removeById(id);
-        return ItooResult.build(ItooResult.SUCCESS, "删除成功");
-    }
-
-    /**
-     * 批量删除
-     *
-     * @param ids ids
-     * @return ItooResult 批量删除是否成功结果
-     * @author 白靖
-     * @since ${version} 2019-09-05 17:36:14
-     */
-    @ApiOperation(value = "根据id批量删除")
-    @DeleteMapping(value = {"/deleteByIds"})
-    @ApiImplicitParam(name = "ids", value = "ids", dataType = "List<String>", required = true)
-    public ItooResult deleteByIds(@RequestBody List<String> ids) {
-        phoneticService.removeByIds(ids);
-        return ItooResult.build(ItooResult.SUCCESS, "批量删除成功");
-    }
-
-    /**
-     * 修改
-     *
-     * @param model PhoneticModel
-     * @return 修改后的结果
-     * @author 白靖
-     * @since ${version} 2019-09-05 17:36:14
-     */
-    @ApiOperation(value = "根据id修改phonetic")
-    @PutMapping(value = {"/modify"})
-    public ItooResult modify(@RequestBody PhoneticModel model) {
-        PhoneticEntity phoneticEntity = new PhoneticEntity();
-        BeanUtils.copyProperties(model, phoneticEntity);
-        phoneticService.updateById(phoneticEntity);
-        return ItooResult.build(ItooResult.SUCCESS, "修改成功");
-    }
-
-    /**
-     * 根据id查找Phonetic
-     *
-     * @param id 主键id
-     * @return 根据id查找的结果
-     * @author 白靖
-     * @since ${version} 2019-09-05 17:36:14
-     */
-    @ApiOperation(value = "根据id查询")
-    @GetMapping(value = {"/findById/{id}"})
-    public ItooResult findById(@ApiParam(value = "主键id", required = true) @PathVariable String id) {
-        PhoneticEntity phoneticEntity = phoneticService.getById(id);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phoneticEntity);
-    }
-
-    /**
-     * 分页查询所有Phonetic
-     *
-     * @param pageNo   页码
-     * @param pageSize 每页条数
-     * @return 分页查询的结果
-     * @author 白靖
-     * @since ${version} 2019-09-05 17:36:14
-     */
-    @ApiOperation(value = "分页查询所有Phonetic")
-    @GetMapping(value = {"/queryPageAll/{pageNo}/{pageSize}"})
-    public ItooResult queryPageAll(@ApiParam(name = "pageNo",value = "页码",required = true,example = "1")@PathVariable Integer pageNo, 
-								   @ApiParam(name = "pageSize",value = "页数",required = true,example = "10")@PathVariable Integer pageSize) {
-        PageInfo<PhoneticEntity> phonetics = phoneticService.queryPageAll(pageNo, pageSize);
-        return ItooResult.build(ItooResult.SUCCESS, "查询成功", phonetics);
-    }
-	
-    //endregion
-
-    /* **********************************以下为非模板生成的内容********************************* */
 
     /**
      * 查询要学习的音标
@@ -187,7 +85,7 @@ public class PhoneticController {
             return ItooResult.build(ItooResult.SUCCESS, "查询成功", queryPhonetic);
         }
         catch (Exception e){
-            return ItooResult.build(ItooResult.FAIL, "侧边点击音标进行查询");
+            return ItooResult.build(ItooResult.FAIL, "侧边点击音标进行查询失败");
         }
     }
 
@@ -210,6 +108,19 @@ public class PhoneticController {
 //            log.error("错误" + e);
             return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
         }
+    }
+
+    /**
+     * 将48个音标插入redis
+     * @author 闫伟强
+     * @since 2019年10月3日15:58:18
+     */
+    @ApiOperation(value = "将48个音标插入redis")
+    @GetMapping(value = "/PhoneticInsertRedis")
+    public ItooResult PhoneticInsertRedis() {
+        phoneticService.PhoneticInsertRedis();
+        return ItooResult.build(ItooResult.SUCCESS, "插入成功");
+
     }
 }
 
