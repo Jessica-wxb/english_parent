@@ -40,7 +40,7 @@ public class DingTalkLoginController {
      */
     @ApiOperation("获取钉钉token")
     @GetMapping(value = "/loginByCode/{code}")
-    public ItooResult GetDingToken(@ApiParam(value = "免密登录临时授权码", required = true) @PathVariable String code) {
+    public AllUserModel GetDingToken(@ApiParam(value = "免密登录临时授权码", required = true) @PathVariable String code) {
         String param = "corpid=" + corpid + "&corpsecret=" + corpsecret;
         String accessToken = HTTPUtils.sendGet(DingTalkEnumUntil.DING_TALK_ENUM_UNTIL_GETTOKEN.getMessage(), param);
         AccessTokenModel accessTokenModel = JSON.parseObject(accessToken, AccessTokenModel.class);
@@ -49,7 +49,7 @@ public class DingTalkLoginController {
         // 根据token和临时code获取userid
         String dingId = this.GetUserInfo(access_token, code);
         AllUserModel allUserModel = this.DingIdLogin(dingId);
-        return ItooResult.build(ItooResult.SUCCESS, "登录成功", allUserModel.getData());
+        return allUserModel;
     }
 
 
