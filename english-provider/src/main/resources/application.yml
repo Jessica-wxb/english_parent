@@ -4,9 +4,11 @@ spring:
 #auth-login: https://dmsdbj.com/auth-web/access/login
 #ding_corpid: ding646963f5cae91b1335c2f4657eb6378f
 #ding_corpsecret: qbhEqLC0KNTYCfFf6bhNDRPL-opJOVUwB5u1eat2uVEB4I-jeBFkgLl17NFvAJ9l
-ding_corpsecret: HojvOyIB0eVdmLurfK4d8RNkxO_2JviKyT4MsKkpWVt81NkKRiP0Q0X_gXQlCKR-
 #ding_corpid: ding22b125a2c7cb0a8e 不合法
-ding_corpid: dingt452prfmxlwv9dsx
+#ding_corpsecret: HojvOyIB0eVdmLurfK4d8RNkxO_2JviKyT4MsKkpWVt81NkKRiP0Q0X_gXQlCKR-
+#ding_corpid: dingt452prfmxlwv9dsx
+ding_corpsecret: 1cnY4oIRM0VydnO3YHb8wNa2CDL70jxxlbUfush-iVWTT1bU1njaEpqdM1hdSNMV
+ding_corpid: dingzw47c9opljqayjdc
 auth-login: http://192.168.22.52:8081/auth-web/access/login
 ---
 server:
