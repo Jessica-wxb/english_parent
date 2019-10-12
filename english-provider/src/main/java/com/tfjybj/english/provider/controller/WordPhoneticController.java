@@ -152,4 +152,15 @@ public class WordPhoneticController {
             return ItooResult.build(ItooResult.FAIL, "文件插入失败!");
         }
     }
+    /**
+     * 将单词选音标插入redis
+     * @author 闫伟强
+     * @since 2019年10月3日15:58:18
+     */
+    @ApiOperation(value = "将单词选音标插入redis")
+    @GetMapping(value = "/WordPhoneticInsertRedis")
+    public ItooResult WordPhoneticInsertRedis() {
+        wordPhoneticService.WordPhoneticInsertRedis();
+        return ItooResult.build(ItooResult.SUCCESS, "插入成功");
+    }
 }    

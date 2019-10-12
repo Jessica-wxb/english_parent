@@ -112,6 +112,7 @@ public class PhoneticWordServiceImpl extends BaseServicePlusImpl<PhoneticWordDao
      * @author 闫伟强
      * @since 2019年9月7日10:13:21
      */
+    @Override
     public void PhoneticWordInsertRedis(){
         List<PhoneticWordEntity> phoneticWordEntity = phoneticWordDao.PhoneticWordInsertRedis();
         for (int i = 0; i < phoneticWordEntity.size(); i++) {

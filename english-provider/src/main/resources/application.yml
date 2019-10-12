@@ -1,8 +1,9 @@
 spring:
   profiles:
-    active: @profileActive@
+   active: @profileActive@
+ding_corpid: dingzw47c9opljqayjdc
+ding_corpsecret: 1cnY4oIRM0VydnO3YHb8wNa2CDL70jxxlbUfush-iVWTT1bU1njaEpqdM1hdSNMV
 ---
-
 server:
   port: 8090
   servlet:

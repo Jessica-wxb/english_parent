@@ -19,8 +19,6 @@ import java.io.IOException;
  */
 public interface WordService extends BaseServicePlus<WordEntity> {
 
-    // 根据用户id返回reviewWords--邢美玲
-    WordPartModel getNextReviewWord();
 
     // 清空当前的复习内容
     boolean clearnRecordWord(String reviewFlag);
