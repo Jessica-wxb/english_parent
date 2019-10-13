@@ -204,7 +204,7 @@ public class WordController {
             String s = wordOtherService.upLoadPicture(multfile);
             return ItooResult.build("0000","上传成功",s);
         } catch (Exception e) {
-            return ItooResult.build("1111", "上传失败");
+            return ItooResult.build("1111", "网络传输错误,上传失败");
         }
     }
 

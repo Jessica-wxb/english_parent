@@ -371,13 +371,14 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
             StorePath storePath =  fastFileStorageClient.uploadFile(GROUP_NAME,file.getInputStream(), file.getSize(),FilenameUtils.getExtension(file.getOriginalFilename()));
             String serverPath = trackerClient.getStoreStorage().getIp();
             imagePath = "http://" + serverPath + "/" + storePath.getFullPath();
+            System.out.println("上传成功");
             //插入图片数据库
            // newPictureAddress.setPictureAddress(imagePath);
             //insertPicture(newPictureAddress);
             //  返回插入的图片途径
-            return imagePath;}else{
-                return null;
-            }
+            return imagePath;}else {
+            return "格式不符请重新上传";
+        }
     }
 
     /**
