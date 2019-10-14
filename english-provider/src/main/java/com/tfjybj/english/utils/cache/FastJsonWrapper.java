@@ -65,7 +65,7 @@ public class FastJsonWrapper {
                 } else if (context.getFieldClass() == float.class) {
                     return 0f;
                 } else if (context.getFieldClass() == long.class) {
-                    return 0l;
+                    return 0L;
                 } else if (context.getFieldClass() == double.class) {
                     return 0d;
                 } else if (context.getFieldClass() == Byte[].class) {

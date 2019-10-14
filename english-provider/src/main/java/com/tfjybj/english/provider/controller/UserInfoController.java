@@ -26,9 +26,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 
 
 /**
@@ -181,26 +182,11 @@ public class UserInfoController {
         String userId = UserUtil.getCurrentUser().getUserId();
         UserPetListModel userPetListModel = userInfoService.queryPetListByUserId(userId);
         // 截取；号前的数据
-        String[] names = userPetListModel.getPetList().split(";");
-        List<String> list = new ArrayList<>();
-
-        // 将截取的数据于枚举对比获得宠物地址
-        for (String name:names){
-            if (PetListEnumUntil.PET_DOG.getPetName().equals(name)){
-                list.add(PetListEnumUntil.PET_DOG.getPetName());
-            }
-            if (PetListEnumUntil.PET_CAT.getPetName().equals(name)){
-                list.add(PetListEnumUntil.PET_CAT.getPetName());
-            }
-            if (PetListEnumUntil.PET_RABBIT.getPetName().equals(name)){
-                list.add(PetListEnumUntil.PET_RABBIT.getPetName());
-            }
-            if (PetListEnumUntil.PET_SUPER_RABBIT.getPetName().equals(name)){
-                list.add(PetListEnumUntil.PET_SUPER_RABBIT.getPetName());
-            }
-        }
-
-        // 将对比的宠物地址设置
+        List<String> list = Arrays.asList(userPetListModel.getPetList().split(";"));
+        // 过滤掉当前使用的宠物
+        list= list.stream().filter(s -> !s.equals(userPetListModel.getUsePet()) ).collect(Collectors.toList());
+        // 把当前使用的宠物放到list首位
+        list.add(0, userPetListModel.getUsePet());
         userPetListModel.setPetNames(list);
         return ItooResult.build(ItooResult.SUCCESS,"查询成功",userPetListModel);
     }
