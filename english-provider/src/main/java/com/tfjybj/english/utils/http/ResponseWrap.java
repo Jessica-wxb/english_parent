@@ -142,7 +142,9 @@ public class ResponseWrap {
      */
     public Charset getCharset() {
         ContentType contentType = ContentType.get(entity);
-        if (contentType == null) return null;
+        if (contentType == null) {
+            return null;
+        }
         return contentType.getCharset();
     }
 

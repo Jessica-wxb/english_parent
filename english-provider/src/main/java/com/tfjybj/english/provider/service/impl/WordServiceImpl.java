@@ -98,6 +98,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
 
     /* **********************************以下为非模板生成的内容********************************* */
 
+    @Override
     public long queryWordNumsBar() {
         // 首先要判断今天待学习的学习数量<0?
         //  小于0 直接返回
@@ -183,6 +184,7 @@ public class WordServiceImpl extends BaseServicePlusImpl<WordDao, WordEntity> im
      * @param
      * @return
      */
+    @Override
     public WordPartModel getNextWord(String userCode) { //董可 添加了userCode
         System.out.println(UserUtil.getCurrentUser().getUserId());
 

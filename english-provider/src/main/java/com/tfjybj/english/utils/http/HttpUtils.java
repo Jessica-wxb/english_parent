@@ -530,7 +530,9 @@ public class HttpUtils {
      * @date 2015年7月17日
      */
     public HttpUtils setContentEncoding(final String encoding) {
-        if (builder != null) builder.setContentEncoding(encoding);
+        if (builder != null) {
+            builder.setContentEncoding(encoding);
+        }
         return this;
     }
 
@@ -543,7 +545,9 @@ public class HttpUtils {
      * @date 2015年7月17日
      */
     public HttpUtils setContentType(ContentType contentType) {
-        if (builder != null) builder.setContentType(contentType);
+        if (builder != null) {
+            builder.setContentType(contentType);
+        }
         return this;
     }
 
@@ -557,7 +561,9 @@ public class HttpUtils {
      * @date 2015年7月17日
      */
     public HttpUtils setContentType(final String mimeType, final Charset charset) {
-        if (builder != null) builder.setContentType(ContentType.create(mimeType, charset));
+        if (builder != null) {
+            builder.setContentType(ContentType.create(mimeType, charset));
+        }
         return this;
     }
 
@@ -764,7 +770,9 @@ public class HttpUtils {
      * @date 2015年7月18日
      */
     public HttpUtils SetCookieStore(CookieStore cookieStore) {
-        if (cookieStore == null) return this;
+        if (cookieStore == null) {
+            return this;
+        }
         this.cookieStore = cookieStore;
         return this;
     }
@@ -778,7 +786,9 @@ public class HttpUtils {
      * @date 2015年7月18日
      */
     public HttpUtils addCookie(Cookie... cookies) {
-        if (cookies == null) return this;
+        if (cookies == null) {
+            return this;
+        }
 
         for (int i = 0; i < cookies.length; i++) {
             cookieStore.addCookie(cookies[i]);
@@ -1025,7 +1035,9 @@ public class HttpUtils {
      */
     public <T> T execute(final ResponseHandler<? extends T> responseHandler) {
         settingRequest();
-        if (httpClient == null) httpClient = clientBuilder.build();
+        if (httpClient == null) {
+            httpClient = clientBuilder.build();
+        }
 
         try {
             return httpClient.execute(request, responseHandler);
@@ -1057,6 +1069,7 @@ public class HttpUtils {
         try {
             SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
                 // 信任所有
+                @Override
                 public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
                     return true;
                 }
@@ -1085,22 +1098,30 @@ public class HttpUtils {
         switch (type) {
             case 1:
                 httpEntity = builder.build();
-                if (httpEntity.getContentLength() > 0) ((HttpPost) request).setEntity(builder.build());
+                if (httpEntity.getContentLength() > 0) {
+                    ((HttpPost) request).setEntity(builder.build());
+                }
                 break;
 
             case 2:
                 HttpGet get = ((HttpGet) request);
-                if (uri != null) get.setURI(uri);
+                if (uri != null) {
+                    get.setURI(uri);
+                }
                 break;
 
             case 3:
                 httpEntity = builder.build();
-                if (httpEntity.getContentLength() > 0) ((HttpPut) request).setEntity(httpEntity);
+                if (httpEntity.getContentLength() > 0) {
+                    ((HttpPut) request).setEntity(httpEntity);
+                }
                 break;
 
             case 4:
                 HttpDelete delete = ((HttpDelete) request);
-                if (uri != null) delete.setURI(uri);
+                if (uri != null) {
+                    delete.setURI(uri);
+                }
 
                 break;
         }
