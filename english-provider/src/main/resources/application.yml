@@ -91,7 +91,7 @@ fdfs:
   realIp: 192.168.22.133
   #pool:
   #jmx-enabled:false
-sso-access: false
+sso-access: true
 auth-login: http://192.168.22.52:8081/auth-web/access/login
 
 logging:
@@ -101,7 +101,7 @@ logging:
 
 ---
 server:
-  port: 8099
+  port: 8090
   servlet:
     context-path: /english-web
 spring:
