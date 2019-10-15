@@ -20,11 +20,14 @@ import java.io.IOException;
 public interface WordService extends BaseServicePlus<WordEntity> {
 
 
+    // 清空当前的复习内容
+    boolean clearnRecordWord(String reviewFlag);
+
     //根据userid查询返回需要学习的words-邢美玲
-    WordPartModel findWordsById(String userCode);//董可增加了userCode
+    WordPartModel findWordsById(String string,String reviewFlag);
 
     // 学单词点击下一步---邢美玲
-    WordPartModel getNextWord(String userCode);
+    WordPartModel getNextWord(String string,String reviewFlag);
 
     //点击字母更新学习列表---邢美玲
     void undateWordList(String word);
@@ -40,4 +43,7 @@ public interface WordService extends BaseServicePlus<WordEntity> {
 
     // 将文件导入数据库
     boolean batchInsert(String path) throws IOException;
+
+    // 将文件导入数据库
+    boolean deleteNull()throws IOException;
 }

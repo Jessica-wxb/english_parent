@@ -10,22 +10,28 @@ import java.io.Serializable;
 import javax.persistence.Column;
 
 /**
- * PhoneficWrong实体
- * 音标错题
+ * PhoneticRecord实体
+ * 音标学习记录
  *
- * @author 张凯超 
+ * @author 闫伟强
  * @version 1.0.0
- * @since 2019-08-16 08:47:57
+ * @since 1.0.0 2019-09-06 11:10:13
  */
-@ApiModel(value = "PhoneficWrongEntity:音标错题")
+@ApiModel(value = "PhoneticRecordEntity:音标学习记录")
 @Data
 @NoArgsConstructor
 @Accessors(chain = true)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@TableName(value = "tn_phonefic_wrong")
-public class PhoneficWrongEntity extends BaseEntity implements Serializable {
+@TableName(value = "tn_phonetic_record")
+public class PhoneticRecordEntity extends BaseEntity implements Serializable {
 
+	public PhoneticRecordEntity(String id,String userId,String phonetic,Integer isCheck ){
+		this.id=id;
+		this.userId=userId;
+		this.phonetic=phonetic;
+		this.isCheck=isCheck;
+	}
 	/**
 	 * 用户id
 	 */
@@ -37,15 +43,15 @@ public class PhoneficWrongEntity extends BaseEntity implements Serializable {
 	 * 音标
 	 */
     @ApiModelProperty(value = "音标")
-	@Column(name = "phonefic")
-	private String phonefic;
+	@Column(name = "phonetic")
+	private String phonetic;
 
 	/**
 	 * 是否检测过，未检出0 错误1 正确2
 	 */
     @ApiModelProperty(value = "是否检测过，未检出0 错误1 正确2")
-	@Column(name = "status")
-	private Integer status;
+	@Column(name = "is_check")
+	private Integer isCheck;
 
 
 }

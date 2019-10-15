@@ -31,21 +31,6 @@
         <result property="studyNumber" column="study_number" jdbcType="INTEGER"/>
     </resultMap>
 
-    <!--根据UserInfo用户code模糊查询UserInfoEntity-->
-    <select id="queryLikeUserCode" resultType="com.tfjybj.english.entity.UserInfoEntity">
-        SELECT
-			*
-        FROM
-			tn_user_info f
-        WHERE
-			f.is_delete = 0
-        <if test="userCode !=''">
-            <bind name="pattern" value="'%' + userCode + '%'"/>
-            AND f.user_code LIKE #{pattern}
-        </if>
-        ORDER BY
-        f.create_time DESC
-    </select>
 
     <!--根据userId查询所有用户、E币数量、排名-董可-邱慕夏-2019年8月15日20:08:48-->
     <select id="queryUserIdEAllNum" resultMap="Base_Result_Map_ITEM_USER">
@@ -168,6 +153,12 @@
     <!--获取坚持天数-->
     <select id="selectInsistDays" resultType="java.lang.String">
         SELECT  insist_days FROM  tn_user_info WHERE id = #{userId}
+    </select>
+    <select id="selectAllWordNum" resultType="java.lang.String">
+        SELECT COUNT(DISTING id)
+        AS number
+        FROM
+        tn_word
     </select>
     <select id="getUsePet" resultType="com.tfjybj.english.model.UsePetModel">
        SELECT

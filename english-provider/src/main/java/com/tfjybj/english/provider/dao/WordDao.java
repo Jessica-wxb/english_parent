@@ -94,4 +94,6 @@ public interface WordDao extends BaseMapper<WordEntity> {
      * 根据id批量插入
      */
     long insertBatch(List<WordEntity> list);
+
+    boolean deleteNull();
 }

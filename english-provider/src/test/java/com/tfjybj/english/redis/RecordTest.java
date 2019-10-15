@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 public class RecordTest extends TestBaseProject {
 
-    private String ENGLISH_RANK = "English:Rank";
+    private String ENGLISH_RANK = "ENGLISH:RANK:";
     private String ENGLISH_USERINFO = "English:UserInfo";
     private String ENGLISH_RECORD = "English:Record:";
 

@@ -449,20 +449,20 @@ public final class RedisUtil<V> {
 //        }
 //    }
 //
-//    /**
-//     * 获取set缓存的长度
-//     *
-//     * @param key 键
-//     * @return 值
-//     */
-//    public long sGetSetSize(String key) {
-//        try {
-//            return redisTemplate.opsForSet().size(key);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return 0;
-//        }
-//    }
+    /**
+     * 获取set缓存的长度
+     *
+     * @param key 键
+     * @return 值
+     */
+    public long sGetSetSize(String key) {
+        try {
+            return redisTemplate.opsForSet().size(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 //
 //    /**
 //     * 移除值为value的
@@ -601,6 +601,23 @@ public final class RedisUtil<V> {
     public boolean rghitSet(String key, String value) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 向队列右侧放入缓存
+     *
+     * @param key   键
+     * @param value 值
+     * @return
+     */
+    public boolean leftSet(String key, String value) {
+        try {
+            redisTemplate.opsForList().leftPush(key, value);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

@@ -31,15 +31,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 /**
  * UserInfoController
  * userInfo表
-<
+ * <
  *
  * @author 张凯超
  * @version 1.0.0
- * @since  2019-08-16 08:47:57
+ * @since 2019-08-16 08:47:57
  */
 @Api(tags = {"userInfo表接口"})
 @RequestMapping(value = "/userInfo")
@@ -76,20 +75,31 @@ public class UserInfoController {
     @ApiOperation(value = "用户登录")
     @PostMapping(value = {"/login"})
     public ItooResult login(@RequestBody UserInfoModel userInfoModel) {
-
-        UserPartModel userPartModel = userInfoAndSetService.login(userInfoModel.getUserCode());
-
-        if (userPartModel != null) {
-            Map<String, String> userInfo = Maps.newHashMap();
-            userInfo.put("userCode", userInfoModel.getUserCode());
-            userInfo.put("password", userInfoModel.getUserCode());
-            String authentication = userInfoAndSetService.authentication(JSON.toJSONString(userInfo));
-            Object parse = JSONObject.parse(authentication);
-            JSONObject object = (JSONObject) parse;
-            String token = object.getJSONObject("data").getString("token");
-            return ItooResult.build(ItooResult.SUCCESS, "登录成功!", token);
+        Map<String, String> userInfo = Maps.newHashMap();
+        userInfo.put("userCode", userInfoModel.getUserCode());
+        userInfo.put("password", userInfoModel.getUserCode());
+        String authentication = userInfoAndSetService.authentication(JSON.toJSONString(userInfo));
+        Object parse = JSONObject.parse(authentication);
+        JSONObject object = (JSONObject) parse;
+        String code = object.getString("code");
+        String falsecode=new String("1111");
+        if (code.equals(falsecode)) {
+            return ItooResult.build("401", "登录失败,请重新登录!");
         }
-        return ItooResult.build("401", "登录失败,请重新登录!");
+        String token = object.getJSONObject("data").getString("token");
+        UserPartModel userPartModel = userInfoAndSetService.login(userInfoModel.getUserCode());
+        return ItooResult.build(ItooResult.SUCCESS, "登录成功!", token);
+//        if (userPartModel!=null) {
+////            Map<String,String> userInfo = Maps.newHashMap();
+////            userInfo.put("userCode",userInfoModel.getUserCode());
+////            userInfo.put("password",userInfoModel.getUserCode());
+////            String authentication = userInfoAndSetService.authentication(JSON.toJSONString(userInfo));
+////            Object parse = JSONObject.parse(authentication);
+////            JSONObject object=(JSONObject) parse;
+////            String token = object.getJSONObject("data").getString("token");
+//            return ItooResult.build(ItooResult.SUCCESS, "登录成功!",token);
+//        }
+//        return ItooResult.build("401", "登录失败,请重新登录!");
     }
 
 
@@ -101,11 +111,11 @@ public class UserInfoController {
      */
     @ApiOperation(value = "查询E币排行")
     @GetMapping(value = {"/queryUserIdEAllNum"})
-    public ItooResult queryUserIdEAllNum(){
+    public ItooResult queryUserIdEAllNum() {
         String userId = UserUtil.getCurrentUser().getUserId();
         List<RankLocalModel> RankModels = rankService.localRankByUserId(userId);
 //        List<RankModel> rankModel = rankService.getRanking(userId);
-        return ItooResult.build(ItooResult.SUCCESS,"查询成功",RankModels);
+        return ItooResult.build(ItooResult.SUCCESS, "查询成功", RankModels);
     }
 
     /**
@@ -117,10 +127,24 @@ public class UserInfoController {
     @ApiOperation(value = "查询-我的")
     @GetMapping(value = {"/findById"})
     public ItooResult queryMineByUserId(@RequestParam String userCode) {
+        String userId = UserUtil.getCurrentUser().getUserId();
 
         MineModel mineModel = rankService.Mine(userCode);
         mineModel.setUserId(null);
         return ItooResult.build(ItooResult.SUCCESS, "查询成功", mineModel);
+    }
+
+    /**
+     * @param
+     * @return 我的-界面
+     * @author 董可
+     * @since 2019年8月16日10:09:53
+     */
+    @ApiOperation(value = "查询-[我的]界面-所有单词数量")
+    @GetMapping(value = {"/findWordAllNum"})
+    public  ItooResult queryAllWordsNum(){
+        int allWordsNum = rankService.AllWordsNum();
+        return ItooResult.build(ItooResult.SUCCESS,"查询成功",allWordsNum);
     }
 
     /**
@@ -152,9 +176,9 @@ public class UserInfoController {
 
     /**
      * @param
-     * @return 从redis的Rank中查询出【我的】用户头像右侧的E币数
+     * @return 从redis的Rank中查询出【我的】用户
      * @author 王小波
-     * @since 2019年9月8日21:17:38
+     * @since 2019年9月8日21:17:38头像右侧的E币数
      */
     @ApiOperation(value = "从redis的Rank中查询出【我的】用户头像右侧的E币数")
     @GetMapping(value = {"/UserRank"})

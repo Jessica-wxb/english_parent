@@ -33,27 +33,28 @@ public class UserSetServiceImpl extends BaseServicePlusImpl<UserSetDao, UserSetE
     private RedisUtil redisUtil;
 
 
+
+
     /**
      * 通过userid查询用户的设置信息
-     *
-     * @return
      * @author 闫伟强
+     * @return
      */
     @Override
     public UserSetEntity findUserSetById() {
         System.out.println(UserUtil.getCurrentUser().getUserId());
-        boolean flag = redisUtil.hasKey(EnglishRedis.Set + UserUtil.getCurrentUser().getUserId());
+        boolean flag = redisUtil.hasKey(EnglishRedis.Set+UserUtil.getCurrentUser().getUserId());
 
         if (!flag) {
             UserSetEntity userSet = userSetDao.findUserSetById(UserUtil.getCurrentUser().getUserId());
             String json = JSON.toJSONString(userSet);
-            redisUtil.set(EnglishRedis.Set + UserUtil.getCurrentUser().getUserId(), json);
+            redisUtil.set(EnglishRedis.Set+UserUtil.getCurrentUser().getUserId(),json);
             return userSet;
 
         }
-        String usersetjson = redisUtil.get(EnglishRedis.Set + UserUtil.getCurrentUser().getUserId());
+        String usersetjson=redisUtil.get(EnglishRedis.Set+UserUtil.getCurrentUser().getUserId());
 
-        UserSetEntity userSetEntity = JSON.parseObject(usersetjson, UserSetEntity.class);
+        UserSetEntity userSetEntity = JSON.parseObject(usersetjson,UserSetEntity.class);
 
         return userSetEntity;
     }
@@ -61,20 +62,20 @@ public class UserSetServiceImpl extends BaseServicePlusImpl<UserSetDao, UserSetE
 
     /**
      * 通过userid修改用户的设置信息
-     *
-     * @return
      * @author 闫伟强
+     * @return
      */
     @Override
-    public UserSetEntity modifyById(Integer palyNums, Integer isTurnAuto, Integer tuenDelayTime, Integer studyNumber) {
-        userSetDao.modifyById(UserUtil.getCurrentUser().getUserId(), palyNums, isTurnAuto, tuenDelayTime, studyNumber);
+    public UserSetEntity modifyById(Integer palyNums, Integer isTurnAuto, Integer tuenDelayTime, Integer studyNumber, Integer isShowWord) {
+        userSetDao.modifyById(UserUtil.getCurrentUser().getUserId(),palyNums, isTurnAuto, tuenDelayTime, studyNumber,isShowWord);
         UserSetEntity userSetEntity = new UserSetEntity();
         userSetEntity.setPlayNums(palyNums);
         userSetEntity.setIsTurnAuto(isTurnAuto);
         userSetEntity.setTurnDelayTime(tuenDelayTime);
         userSetEntity.setStudyNumber(studyNumber);
+        userSetEntity.setIsShowWord(isShowWord);
         String json = JSON.toJSONString(userSetEntity);
-        redisUtil.set(EnglishRedis.Set + UserUtil.getCurrentUser().getUserId(), json);
+        redisUtil.set(EnglishRedis.Set+UserUtil.getCurrentUser().getUserId(),json);
         return userSetEntity;
     }
 }

@@ -2,12 +2,16 @@ package com.tfjybj.english.provider.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tfjybj.english.entity.UserInfoEntity;
-import com.tfjybj.english.model.*;
+import com.tfjybj.english.model.UserPartModel;
 import org.springframework.stereotype.Repository;
-
+import com.tfjybj.english.model.MineModel;
+import com.tfjybj.english.model.RankModel;
 import org.apache.ibatis.annotations.Param;
-
+import org.springframework.stereotype.Repository;
 import java.util.List;
+
+import com.tfjybj.english.model.*;
+
 
 /**
  * UserInfoDao接口
@@ -34,7 +38,6 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
     //查询“我的”--董可
     List<MineModel> queryMineByUserId(@Param("userId")String userId);
 
-
     //循环更新用户的E币
     void modflyEB(List<RankModel> rankModel);
     //根据登录的userId查询此用户的user_name，e_all_num
@@ -47,12 +50,15 @@ public interface UserInfoDao extends BaseMapper<UserInfoEntity> {
     String selectNowDay(String userId);
 
     // 获取createtime
-        String selectCreateDay(String userId);
+    String selectCreateDay(String userId);
 
 
 
     //获取坚持天数
     String selectInsistDays(String userId);
+
+    //获取所有单词的单词数量
+    String selectAllWordNum();
 
     //获取用户当前宠物列表
     UserPetListModel queryPetListByUserId(@Param("userId") String userId);

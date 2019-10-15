@@ -12,6 +12,19 @@
     <insert id="insertNewPicturea" >
         INSERT INTO tn_new_picture (id, user_id, word_id, picture_address)VALUES(#{id},#{userId},#{wordId},#{pictureAddress})
     </insert>
+    <!--    将不完整的单词删除-->
+    <delete id="deleteNull">
+                DELETE
+        FROM
+            tn_word
+        WHERE
+            audio IS NULL
+            OR word_picture1 IS NULL
+            OR word_picture2 IS NULL
+            OR word_picture3 IS NULL
+            OR word_picture4 IS NULL
+            OR word_picture5 IS NULL
+    </delete>
 
     <!--插入新图到新图表中;邢美玲;2019年8月18日-->
     <!--<insert id="insertNewPicturea">-->
@@ -87,9 +100,6 @@
             tn_word
         WHERE
             id IN ( SELECT word_id FROM tn_word_record WHERE user_id = #{userId} ORDER BY create_time DESC ) LIMIT #{limit}
-            id IN ( SELECT min( id ) FROM tn_word GROUP BY word )
-          AND
-        (tn_word.word is NOT NULL )
     </select>
 
     <select id="queryPageAll" resultType="java.lang.String">
